@@ -14,9 +14,12 @@ public:
 	GLfloat getR();
 	GLfloat getG();
 	GLfloat getB();
+	void setVisible(bool pVisible);
+	bool getVisible();
 protected:
 	GLfloat R, G, B;
 	GLint X, Y;
+	bool visible;
 };
 
 class Square : public Object

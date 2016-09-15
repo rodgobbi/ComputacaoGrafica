@@ -5,6 +5,8 @@ void drawColor(Object pObject) {
 }
 
 void draw(Square pSquare, GLsizei pW, GLsizei pH) {
+	if (!pSquare.getVisible())
+		return;
 	GLfloat lHalfWidth = (GLfloat) pSquare.getSize()/(pW*2);
 	GLfloat lHalfHeight = (GLfloat) pSquare.getSize()/(pH*2);
 	GLfloat lX = (GLfloat) pSquare.getX()/pW;

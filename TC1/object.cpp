@@ -24,3 +24,9 @@ GLfloat Object::getG() {
 GLfloat Object::getB() {
 	return B;
 }
+void Object::setVisible(bool pVisible) {
+	visible = pVisible;
+}
+bool Object::getVisible() {
+	return visible;
+}
