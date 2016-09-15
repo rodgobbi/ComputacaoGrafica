@@ -4,17 +4,17 @@ using namespace std;
 #include <GL/glut.h>
 #include "tinyxml.h"
 #include "classes.h"
+#include "drawlib.h"
 
-void createWindow(const TiXmlDocument pDoc, GLsizei& windowWidth, GLsizei& windowHeight);
+void createWindow(const TiXmlDocument pDoc, GLsizei& pWindowWidth, GLsizei& pWindowHeight);
 GLfloat ExtractColorFromNode(const TiXmlNode* pNode, const char* pAttribName);
-Square createSquare(const TiXmlDocument pDoc, GLsizei windowWidth, GLsizei windowHeight);
+Square createSquare(const TiXmlDocument pDoc);
 void display(void);
 Square gSquare;
+GLsizei gWindowWidth, gWindowHeight;
 
 int main(int argc, char** argv)
 {
-	GLsizei windowWidth; 
-	GLsizei windowHeight;
 	try {
 		if (argc != 2) {
 			throw runtime_error("Número de argumentos inválido. É necessário informar o diretório do arquivo config.xml, e apenas este argumento.");
@@ -28,9 +28,9 @@ int main(int argc, char** argv)
 
 		glutInit(&argc,argv);
 		glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-		createWindow(doc, windowWidth, windowHeight);
-		gSquare = createSquare(doc, windowWidth, windowHeight);
-		gSquare.setPosition(0.5, 0.5);
+		createWindow(doc, gWindowWidth, gWindowHeight);
+		gSquare = createSquare(doc);
+		gSquare.setPosition(250, 250);
 		glutDisplayFunc(display);
 		glutMainLoop();
 
@@ -46,17 +46,17 @@ int main(int argc, char** argv)
 	}	
 }
 
-void createWindow(const TiXmlDocument pDoc, GLsizei& windowWidth, GLsizei& windowHeight) {
-	// Create Window and assign the size to the input parameters windowWidth and windowHeight
+void createWindow(const TiXmlDocument pDoc, GLsizei& pWindowWidth, GLsizei& pWindowHeight) {
+	// Create Window and assign the size to the input parameters pWindowWidth and pWindowHeight
 	const TiXmlNode* lWindowNode = pDoc.FirstChild()->FirstChild("janela");
-	windowWidth = (GLsizei) atoi(lWindowNode->FirstChild("largura")->FirstChild()->ToText()->Value());
-	windowHeight = (GLsizei) atoi(lWindowNode->FirstChild("altura")->FirstChild()->ToText()->Value());
+	pWindowWidth = (GLsizei) atoi(lWindowNode->FirstChild("largura")->FirstChild()->ToText()->Value());
+	pWindowHeight = (GLsizei) atoi(lWindowNode->FirstChild("altura")->FirstChild()->ToText()->Value());
 	GLfloat R = ExtractColorFromNode(lWindowNode->FirstChild("fundo"), "corR");
 	GLfloat G = ExtractColorFromNode(lWindowNode->FirstChild("fundo"), "corG");
 	GLfloat B = ExtractColorFromNode(lWindowNode->FirstChild("fundo"), "corB");
 	string title = lWindowNode->FirstChild("titulo")->FirstChild()->ToText()->Value();
 	
-	glutInitWindowSize(windowWidth,windowHeight);
+	glutInitWindowSize(pWindowWidth,pWindowHeight);
 	glutInitWindowPosition(100,100);
 	glutCreateWindow(title.c_str());
 	glClearColor(R,G,B,0.0);
@@ -75,7 +75,7 @@ GLfloat ExtractColorFromNode(const TiXmlNode* pNode, const char* pAttribName) {
 		throw runtime_error("Erro ao ler o atributo " + string(pAttribName) + ".");
 }
 
-Square createSquare(const TiXmlDocument pDoc, GLsizei windowWidth, GLsizei windowHeight) {
+Square createSquare(const TiXmlDocument pDoc) {
 	Square outSquare;
 	const TiXmlNode* lSquareNode = pDoc.FirstChild()->FirstChild("quadrado");
 	GLfloat R = ExtractColorFromNode(lSquareNode, "corR");
@@ -84,13 +84,13 @@ Square createSquare(const TiXmlDocument pDoc, GLsizei windowWidth, GLsizei windo
 	int lSize;
 	if ( !(lSquareNode->ToElement()->QueryIntAttribute("tamanho",&lSize) == TIXML_SUCCESS) )
 		throw runtime_error("Erro ao ler o atributo tamanho.");
-	outSquare.setSize( (GLfloat) lSize/windowWidth );
+	outSquare.setSize( lSize );
 	outSquare.setRGB(R, G, B);
 	return outSquare;
 }
 
 void display(void){
 	glClear(GL_COLOR_BUFFER_BIT);   
-	draw(gSquare);
+	draw(gSquare, gWindowWidth, gWindowHeight);
 	glutSwapBuffers();
 }

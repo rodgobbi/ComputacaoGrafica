@@ -3,11 +3,9 @@
 #include <GL/glut.h>
 #include "classes.h"
 
-class Object;
-class Square;
 
 void drawColor(Object pObject);
 
-void draw(Square pSquare);
+void draw(Square pSquare, GLsizei pW, GLsizei pH);
 
 #endif
