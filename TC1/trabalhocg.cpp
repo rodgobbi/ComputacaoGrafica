@@ -3,16 +3,16 @@
 using namespace std;
 #include <GL/glut.h>
 #include "tinyxml.h"
-#include "classes.h"
+#include "classlib.h"
 #include "drawlib.h"
+#include "callbacklib.h"
 
 void createWindow(const TiXmlDocument pDoc, GLsizei& pWindowWidth, GLsizei& pWindowHeight);
 GLfloat ExtractColorFromNode(const TiXmlNode* pNode, const char* pAttribName);
 Square createSquare(const TiXmlDocument pDoc);
-void display(void);
-void mouseClick(int button, int state, int x, int y);
 Square gSquare;
 GLsizei gWindowWidth, gWindowHeight;
+bool gLeftClickInside;
 
 int main(int argc, char** argv)
 {
@@ -32,8 +32,10 @@ int main(int argc, char** argv)
 		createWindow(doc, gWindowWidth, gWindowHeight);
 		gSquare = createSquare(doc);
 		gSquare.setVisible(false);
+		gLeftClickInside = false;
 		glutDisplayFunc(display);
 		glutMouseFunc(mouseClick);
+		glutMotionFunc(mouseMotion);
 		glutMainLoop();
 
 		return 0;
@@ -91,14 +93,3 @@ Square createSquare(const TiXmlDocument pDoc) {
 	return outSquare;
 }
 
-void display(void){
-	glClear(GL_COLOR_BUFFER_BIT);   
-	draw(gSquare, gWindowWidth, gWindowHeight);
-	glutSwapBuffers();
-}
-
-void mouseClick(int button, int state, int x, int y){
-	gSquare.setVisible( !gSquare.getVisible() );
-	gSquare.setPosition(x, gWindowHeight - y);
-	glutPostRedisplay();
-}

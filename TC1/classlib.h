@@ -1,5 +1,5 @@
-#ifndef CLASSES
-#define CLASSES
+#ifndef CLASSLIB
+#define CLASSLIB
 #include <GL/glut.h>
 
 class Object
@@ -29,6 +29,7 @@ public:
 	// ~Square();
 	void setSize(GLsizei pSize);
 	GLsizei getSize();
+	bool pointIsInside(GLint pX, GLint pY);
 protected:
 	GLsizei size;
 };

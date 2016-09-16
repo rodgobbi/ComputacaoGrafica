@@ -1,8 +1,7 @@
 #ifndef DRAWLIB
 #define DRAWLIB
 #include <GL/glut.h>
-#include "classes.h"
-
+#include "classlib.h"
 
 void drawColor(Object pObject);
 

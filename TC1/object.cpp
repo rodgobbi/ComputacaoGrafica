@@ -1,4 +1,4 @@
-#include "classes.h"
+#include "classlib.h"
 
 void Object::setRGB(GLfloat pR, GLfloat pG, GLfloat pB) {
 	R = pR;

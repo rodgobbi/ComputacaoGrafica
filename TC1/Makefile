@@ -90,7 +90,7 @@ all: ${OUTPUT}
 #****************************************************************************
 
 #SRCS := tinyxml.cpp tinyxmlparser.cpp xmltest.cpp tinyxmlerror.cpp tinystr.cpp
-SRCS := trabalhocg.cpp tinyxml.cpp tinyxmlparser.cpp tinyxmlerror.cpp object.cpp square.cpp drawlib.cpp
+SRCS := trabalhocg.cpp tinyxml.cpp tinyxmlparser.cpp tinyxmlerror.cpp object.cpp square.cpp drawlib.cpp callbacklib.cpp
 
 # Add on the sources for libraries
 SRCS := ${SRCS}
@@ -130,13 +130,3 @@ teste2:
 	g++ -c aula2.cpp -o aula2.o
 	g++ -o teste aula2.o ${LIBS}
 	-rm -f aula2.o
-
-depend:
-	#makedepend ${INCS} ${SRCS}
-
-tinyxml.o: tinyxml.h
-tinyxmlparser.o: tinyxml.h
-tinyxmlerror.o: tinyxml.h
-object.o: classes.h
-square.o : classes.h
-trabalhocg.o: classes.h tinyxml.h
