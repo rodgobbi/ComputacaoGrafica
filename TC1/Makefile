@@ -120,13 +120,3 @@ dist:
 
 clean:
 	-rm -f core ${OBJS} ${OUTPUT}
-
-teste1:
-	g++ -c aula1.cpp -o aula1.o
-	g++ -o teste aula1.o ${LIBS}
-	-rm -f aula1.o
-
-teste2:
-	g++ -c aula2.cpp -o aula2.o
-	g++ -o teste aula2.o ${LIBS}
-	-rm -f aula2.o
