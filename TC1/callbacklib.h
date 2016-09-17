@@ -5,7 +5,8 @@
 #include "drawlib.h"
 
 extern Square gSquare;
-extern GLsizei gWindowWidth, gWindowHeight, gLastPointerX, gLastPointerY;
+extern GLsizei gWindowWidth, gWindowHeight;
+extern GLint gLastPointerX, gLastPointerY;
 extern bool gLeftClickInside;
 
 void display(void);

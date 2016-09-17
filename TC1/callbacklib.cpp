@@ -32,12 +32,12 @@ void mouseClick(int button, int state, int x, int y){
 
 void mouseMotion(int x, int y) {
 	if (gLeftClickInside) {
-		GLsizei lNewPointerX = x;
-		GLsizei lNewPointerY = gWindowHeight - y;
+		GLint lNewPointerX = x;
+		GLint lNewPointerY = gWindowHeight - y;
 		gSquare.setPosition( gSquare.getX() + (lNewPointerX - gLastPointerX) , 
 													gSquare.getY() + (lNewPointerY - gLastPointerY) );
 		gLastPointerX = lNewPointerX;
-		gLastPointerY = lNewPointerY;										
+		gLastPointerY = lNewPointerY;
 		glutPostRedisplay();
 	}
 }
