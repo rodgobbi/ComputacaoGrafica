@@ -13,14 +13,18 @@ void mouseClick(int button, int state, int x, int y){
 				gSquare.setVisible( true );
 				gSquare.setPosition(x, gWindowHeight - y);
 			}
-			if (gSquare.getVisible() and gSquare.pointIsInside(x,gWindowHeight - y) )
+			if (gSquare.getVisible() and gSquare.pointIsInside(x,gWindowHeight - y) ) {
 				gLeftClickInside = true;
+				gLastPointerX = x;
+				gLastPointerY = gWindowHeight - y;
+			}
 		}
 		else if (state == GLUT_UP)
 			gLeftClickInside = false;
 	} 
 	else if (( button == GLUT_RIGHT_BUTTON) and (state == GLUT_DOWN)) {
-		gSquare.setVisible(false);
+		if (gSquare.pointIsInside(x,gWindowHeight - y))
+			gSquare.setVisible(false);
 	}
 
 	glutPostRedisplay();
@@ -28,7 +32,12 @@ void mouseClick(int button, int state, int x, int y){
 
 void mouseMotion(int x, int y) {
 	if (gLeftClickInside) {
-		gSquare.setPosition(x, gWindowHeight - y);	
+		GLsizei lNewPointerX = x;
+		GLsizei lNewPointerY = gWindowHeight - y;
+		gSquare.setPosition( gSquare.getX() + (lNewPointerX - gLastPointerX) , 
+													gSquare.getY() + (lNewPointerY - gLastPointerY) );
+		gLastPointerX = lNewPointerX;
+		gLastPointerY = lNewPointerY;										
 		glutPostRedisplay();
 	}
 }

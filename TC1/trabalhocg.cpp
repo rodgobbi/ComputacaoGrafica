@@ -11,7 +11,7 @@ void createWindow(const TiXmlDocument pDoc, GLsizei& pWindowWidth, GLsizei& pWin
 GLfloat ExtractColorFromNode(const TiXmlNode* pNode, const char* pAttribName);
 Square createSquare(const TiXmlDocument pDoc);
 Square gSquare;
-GLsizei gWindowWidth, gWindowHeight;
+GLsizei gWindowWidth, gWindowHeight, gLastPointerX, gLastPointerY;
 bool gLeftClickInside;
 
 int main(int argc, char** argv)
