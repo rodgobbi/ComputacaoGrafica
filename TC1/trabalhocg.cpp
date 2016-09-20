@@ -19,13 +19,13 @@ int main(int argc, char** argv)
 {
 	try {
 		if (argc != 2) {
-			throw runtime_error("Número de argumentos inválido. É necessário informar o diretório do arquivo config.xml, e apenas este argumento.");
+			throw string("Número de argumentos inválido. É necessário informar o diretório do arquivo config.xml, e apenas este argumento.");
 		}
 
 		string filePath = string(argv[1]) + "config.xml";
 		TiXmlDocument doc(filePath);
 		if (!doc.LoadFile()) {
-			throw runtime_error("Erro ao tentar abrir o arquivo.");
+			throw string("Erro ao tentar abrir o arquivo.");
 		}
 
 		glutInit(&argc,argv);
@@ -45,6 +45,10 @@ int main(int argc, char** argv)
 		cerr << e.what() << endl;
 		return 1;
 	} 	
+	catch(string& msg) {
+		cerr << msg << endl;
+		return 1;
+	}	
 	catch(const char* msg) {
 		cerr << msg << endl;
 		return 1;
@@ -77,7 +81,7 @@ GLfloat ExtractColorFromNode(const TiXmlNode* pNode, const char* pAttribName) {
 	if (lElement->QueryDoubleAttribute(pAttribName, &lValue)==TIXML_SUCCESS)
 		return (GLfloat) lValue;
 	else 
-		throw runtime_error("Erro ao ler o atributo " + string(pAttribName) + ".");
+		throw string("Erro ao ler o atributo " + string(pAttribName) + ".");
 }
 
 Square createSquare(const TiXmlDocument pDoc) {
@@ -88,7 +92,7 @@ Square createSquare(const TiXmlDocument pDoc) {
 	GLfloat B = ExtractColorFromNode(lSquareNode, "corB");
 	int lSize;
 	if ( !(lSquareNode->ToElement()->QueryIntAttribute("tamanho",&lSize) == TIXML_SUCCESS) )
-		throw runtime_error("Erro ao ler o atributo tamanho.");
+		throw string("Erro ao ler o atributo tamanho.");
 	outSquare.setSize( lSize );
 	outSquare.setRGB(R, G, B);
 	return outSquare;

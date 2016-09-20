@@ -114,7 +114,7 @@ unsigned char ExtractColorFromNode(TiXmlNode* pNode, const char* pAttribName) {
 	if (lElement->QueryIntAttribute(pAttribName, &lValor)==TIXML_SUCCESS)
 		return (unsigned char) lValor;
 	else 
-		throw runtime_error("Erro ao ler o atributo " + string(pAttribName) + ".");
+		throw string("Erro ao ler o atributo " + string(pAttribName) + ".");
 }
 
 typedef struct {
@@ -136,7 +136,7 @@ Aplicacao ExtractAppConfig(string fileDir) {
 	string filePath = fileDir + "config.xml";
 	TiXmlDocument doc(filePath);
 	if (!doc.LoadFile()) {
-		throw runtime_error("Erro ao tentar abrir o arquivo.");
+		throw string("Erro ao tentar abrir o arquivo.");
 	}
 	TiXmlNode* lNodeAplicacao = doc.FirstChild();
 	TiXmlNode* lNodeJanela = lNodeAplicacao->FirstChild("janela");
@@ -160,7 +160,7 @@ int main(int argc, char const *argv[])
 {
 	try {
 		if (argc != 2) {
-			throw runtime_error("Número de argumentos inválido. É necessário informar o diretório do arquivo config.xml, e apenas este argumento.");
+			throw string("Número de argumentos inválido. É necessário informar o diretório do arquivo config.xml, e apenas este argumento.");
 		}
 		Aplicacao app = ExtractAppConfig(argv[1]);
 		return 0;
@@ -169,6 +169,10 @@ int main(int argc, char const *argv[])
 		cerr << e.what() << endl;
 		return 1;
 	} 	
+	catch(string& msg) {
+		cerr << msg << endl;
+		return 1;
+	}	
 	catch(const char* msg) {
 		cerr << msg << endl;
 		return 1;
