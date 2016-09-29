@@ -1,0 +1,11 @@
+clean:
+	-rm -f core *.o main
+
+aula1:
+	g++ -o main aula1.cpp   -lGL -lGLU -lglut
+
+aula2:
+	g++ -o main aula2.cpp   -lGL -lGLU -lglut
+
+aula3:
+	g++ -o main aula3.cpp  -lGL -lGLU -lglut
