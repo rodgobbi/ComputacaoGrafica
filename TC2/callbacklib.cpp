@@ -2,13 +2,13 @@
 
 void display(void){
 	glClear(GL_COLOR_BUFFER_BIT);   
-	draw(gOuterCircle, gWindowWidth, gWindowHeight);
-	draw(gInnerCircle, gWindowWidth, gWindowHeight);
-	draw(gStripeRect, gWindowWidth, gWindowHeight);
-	draw(gEnemyCircle1, gWindowWidth, gWindowHeight);
-	draw(gEnemyCircle2, gWindowWidth, gWindowHeight);
-	draw(gEnemyCircle3, gWindowWidth, gWindowHeight);
-	draw(gPlayerCircle, gWindowWidth, gWindowHeight);
+	draw(gOuterCircle);
+	draw(gInnerCircle);
+	draw(gStripeRect);
+	draw(gEnemyCircle1);
+	draw(gEnemyCircle2);
+	draw(gEnemyCircle3);
+	draw(gPlayerCircle);
 	glutSwapBuffers();
 }
 

@@ -93,8 +93,8 @@ void CreateWindow(string pFilePath, GLsizei& pWindowWidth, GLsizei& pWindowHeigh
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho( (GLfloat) (lX - lR)/ gWindowWidth,(GLfloat) (lX + lR)/ gWindowWidth,
-						 (GLfloat) (lY - lR)/ gWindowHeight,(GLfloat) (lY + lR)/ gWindowHeight,-1.0,1.0);
+	glOrtho( (GLfloat) (lX - lR),(GLfloat) (lX + lR),
+						 (GLfloat) (lY - lR),(GLfloat) (lY + lR),-1.0,1.0);
 
 	lNode = lNode->NextSibling();
 	lNode->ToElement()->QueryIntAttribute("cx",&lX);

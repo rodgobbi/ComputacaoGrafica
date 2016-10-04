@@ -4,7 +4,6 @@
 #include "classlib.h"
 #include "drawlib.h"
 
-extern GLsizei gWindowWidth, gWindowHeight;
 extern Circle gOuterCircle, gInnerCircle, gEnemyCircle1, gEnemyCircle2, gEnemyCircle3, gPlayerCircle;
 extern Rectangle gStripeRect;
 extern bool gKeyboardDown[4];

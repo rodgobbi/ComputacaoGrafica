@@ -10,19 +10,18 @@ class Object
 public:
 	void setRGB(GLfloat pR, GLfloat pG, GLfloat pB);
 	void setColor(string pColor);
-	void setPosition(GLint pX, GLint pY);
-	void incX(GLint pX);
-	void incY(GLint pY);
-	GLint getX();
-	GLint getY();
+	void setPosition(GLfloat pX, GLfloat pY);
+	void incX(GLfloat pX);
+	void incY(GLfloat pY);
+	GLfloat getX();
+	GLfloat getY();
 	GLfloat getR();
 	GLfloat getG();
 	GLfloat getB();
 	void setVisible(bool pVisible);
 	bool getVisible();
 protected:
-	GLfloat R, G, B;
-	GLint X, Y;
+	GLfloat R, G, B, X, Y;
 	bool visible;
 };
 

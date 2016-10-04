@@ -19,20 +19,20 @@ void Object::setColor(string pColor) {
 		this->setRGB(0,1,0);
 }
 
-void Object::setPosition(GLint pX, GLint pY){
+void Object::setPosition(GLfloat pX, GLfloat pY){
 	X = pX;
 	Y = pY;
 }
-void Object::incX(GLint pX) {
+void Object::incX(GLfloat pX) {
 	X = X + pX;
 }
-void Object::incY(GLint pY) {
+void Object::incY(GLfloat pY) {
 	Y = Y + pY;
 }
-GLint Object::getX() {
+GLfloat Object::getX() {
 	return X;
 }
-GLint Object::getY() {
+GLfloat Object::getY() {
 	return Y;
 }
 GLfloat Object::getR() {

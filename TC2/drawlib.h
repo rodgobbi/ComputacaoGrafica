@@ -5,8 +5,8 @@
 
 void drawColor(Object pObject);
 
-void draw(Rectangle pRectangle, GLsizei pWindowW, GLsizei pWindowH);
+void draw(Rectangle pRectangle);
 
-void draw(Circle pCircle, GLsizei pWindowW, GLsizei pWindowH);
+void draw(Circle pCircle);
 
 #endif
