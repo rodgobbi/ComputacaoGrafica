@@ -9,3 +9,6 @@ aula2:
 
 aula3:
 	g++ -o main aula3.cpp  -lGL -lGLU -lglut
+
+pong:
+	g++ -o main pong.cpp  -lGL -lGLU -lglut
