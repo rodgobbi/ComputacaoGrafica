@@ -65,7 +65,7 @@ void drawRobot(int x, int y, float tetaR, float teta1,  float teta2, float teta3
 
   glPushMatrix();
 
-  glTranslatef(gx,gy,1);
+  glTranslatef(gx,gy,0);
 
   drawRect(baseWidth, baseHeight, 1.0, 0.0, 0.0 );
 
