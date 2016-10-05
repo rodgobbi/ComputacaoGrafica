@@ -13,23 +13,23 @@ void display(void){
 }
 
 void keyPress(unsigned char key, int x, int y){
-	switch (key)
+switch (key)
 	{
 		case 'w':
 		case 'W':
-			gKeyboardDown[0] = true;
+			gKeyboardStatus[(int)('w')] = true;
 			break;
 		case 's':
 		case 'S':
-			gKeyboardDown[1] = true;
+			gKeyboardStatus[(int)('s')] = true;
 			break;
 		case 'a':
 		case 'A':
-			gKeyboardDown[2] = true;
+			gKeyboardStatus[(int)('a')] = true;
 			break;
 		case 'd':
 		case 'D':
-			gKeyboardDown[3] = true;
+			gKeyboardStatus[(int)('d')] = true;
 			break;
 	}
 }
@@ -39,32 +39,53 @@ void keyUp(unsigned char key, int x, int y){
 	{
 		case 'w':
 		case 'W':
-			gKeyboardDown[0] = false;
+			gKeyboardStatus[(int)('w')] = false;
 			break;
 		case 's':
 		case 'S':
-			gKeyboardDown[1] = false;
+			gKeyboardStatus[(int)('s')] = false;
 			break;
 		case 'a':
 		case 'A':
-			gKeyboardDown[2] = false;
+			gKeyboardStatus[(int)('a')] = false;
 			break;
 		case 'd':
 		case 'D':
-			gKeyboardDown[3] = false;
+			gKeyboardStatus[(int)('d')] = false;
 			break;
 	}
 }
 
 void idle(void){
-	if (gKeyboardDown[0])
-		gPlayerCircle.incY(1);
-	if (gKeyboardDown[1])
-		gPlayerCircle.incY(-1);
-	if (gKeyboardDown[2])
-		gPlayerCircle.incX(-1);
-	if (gKeyboardDown[3])
-		gPlayerCircle.incX(1);
+	Circle lNewCircle = gPlayerCircle;
+	if (gKeyboardStatus[(int)('w')])
+		lNewCircle.incY(2);
+	if (gKeyboardStatus[(int)('s')])
+		lNewCircle.incY(-2);
+	if (gKeyboardStatus[(int)('a')])
+		lNewCircle.incX(-2);
+	if (gKeyboardStatus[(int)('d')])
+		lNewCircle.incX(2);
 
+	if( CirclesColliding(lNewCircle,gInnerCircle) or CirclesColliding(lNewCircle,gEnemyCircle1) 
+			or CirclesColliding(lNewCircle,gEnemyCircle2) or CirclesColliding(lNewCircle,gEnemyCircle3)
+			or !CircleCovered(lNewCircle, gOuterCircle) )
+		return;
+
+	gPlayerCircle = lNewCircle;
 	glutPostRedisplay();
+}
+
+bool CirclesColliding (Circle pCircle1, Circle pCircle2) {
+	GLfloat lDeltaX = pCircle1.getX() - pCircle2.getX();
+	GLfloat lDeltaY = pCircle1.getY() - pCircle2.getY();
+	GLfloat lRadiusSum = pCircle1.getRadius() + pCircle2.getRadius();
+	return (lRadiusSum > sqrt(lDeltaX*lDeltaX + lDeltaY*lDeltaY));
+}
+
+bool CircleCovered(Circle pInnerCircle, Circle pOuterCircle) {
+	GLfloat lDeltaX = pInnerCircle.getX() - pOuterCircle.getX();
+	GLfloat lDeltaY = pInnerCircle.getY() - pOuterCircle.getY();
+	GLfloat lMaximumDistance = pOuterCircle.getRadius() - pInnerCircle.getRadius();
+	return (lMaximumDistance > sqrt(lDeltaX*lDeltaX + lDeltaY*lDeltaY));
 }

@@ -29,11 +29,11 @@ class Circle : public Object
 {
 public:
 	Circle();
-	void setRadius(GLsizei pRadius);
-	GLsizei getRadius();
+	void setRadius(GLfloat pRadius);
+	GLfloat getRadius();
 	// bool pointIsInside(GLint pX, GLint pY);
 protected:
-	GLsizei radius;
+	GLfloat radius;
 };
 
 class Rectangle : public Object

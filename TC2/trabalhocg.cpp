@@ -12,7 +12,7 @@ void CreateWindow(string pFilePath, GLsizei& pWindowWidth, GLsizei& pWindowHeigh
 GLsizei gWindowWidth, gWindowHeight; 
 Circle gOuterCircle, gInnerCircle, gEnemyCircle1, gEnemyCircle2, gEnemyCircle3, gPlayerCircle;
 Rectangle gStripeRect;
-bool gKeyboardDown[4];
+bool gKeyboardStatus[256];
 
 int main(int argc, char** argv)
 {
@@ -21,8 +21,8 @@ int main(int argc, char** argv)
 			throw string("Número de argumentos inválido. É necessário informar o diretório do arquivo config.xml, e apenas este argumento.");
 		}
 		int i;
-		for ( i = 0; i < 4; ++i) {
-			gKeyboardDown[i] = false;
+		for ( i = 0; i < 256; ++i) {
+			gKeyboardStatus[i] = false;
 		}
 
 		string lFilePath = ExtractFilePath(string(argv[1]) + "config.xml");

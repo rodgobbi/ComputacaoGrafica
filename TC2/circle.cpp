@@ -4,10 +4,10 @@ Circle::Circle() {
 	visible = true;
 }
 
-void Circle::setRadius(GLsizei pRadius) {
+void Circle::setRadius(GLfloat pRadius) {
 	radius = pRadius;
 }
 
-GLsizei Circle::getRadius() {
+GLfloat Circle::getRadius() {
 	return radius;
 }
