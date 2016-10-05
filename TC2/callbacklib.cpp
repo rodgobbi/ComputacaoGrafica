@@ -1,4 +1,6 @@
 #include "callbacklib.h"
+#include <iostream>
+using namespace std;
 
 void display(void){
 	glClear(GL_COLOR_BUFFER_BIT);   
@@ -57,22 +59,22 @@ void keyUp(unsigned char key, int x, int y){
 }
 
 void idle(void){
-	Circle lNewCircle = gPlayerCircle;
-	if (gKeyboardStatus[(int)('w')])
-		lNewCircle.incY(2);
-	if (gKeyboardStatus[(int)('s')])
-		lNewCircle.incY(-2);
-	if (gKeyboardStatus[(int)('a')])
-		lNewCircle.incX(-2);
-	if (gKeyboardStatus[(int)('d')])
-		lNewCircle.incX(2);
+	static GLdouble lPreviousTime = 0;
+	GLdouble lCurrentTime;
+	GLdouble lTimeDifference;
 
-	if( CirclesColliding(lNewCircle,gInnerCircle) or CirclesColliding(lNewCircle,gEnemyCircle1) 
-			or CirclesColliding(lNewCircle,gEnemyCircle2) or CirclesColliding(lNewCircle,gEnemyCircle3)
-			or !CircleCovered(lNewCircle, gOuterCircle) )
-		return;
+	// Elapsed time from the initiation of the game.
+	lCurrentTime = glutGet(GLUT_ELAPSED_TIME);
+	lTimeDifference = lCurrentTime - lPreviousTime; // Elapsed time from the previous frame.
+	lPreviousTime = lCurrentTime; //Update previous time
+		
+	Circle lNewCircle = MoveCircle(gPlayerCircle, lTimeDifference, gSpeed);
 
-	gPlayerCircle = lNewCircle;
+	if( !(CirclesColliding(lNewCircle,gInnerCircle) or CirclesColliding(lNewCircle,gEnemyCircle1) 
+				or CirclesColliding(lNewCircle,gEnemyCircle2) or CirclesColliding(lNewCircle,gEnemyCircle3)
+				or !CircleCovered(lNewCircle, gOuterCircle)) )
+		gPlayerCircle = lNewCircle;
+
 	glutPostRedisplay();
 }
 
@@ -88,4 +90,16 @@ bool CircleCovered(Circle pInnerCircle, Circle pOuterCircle) {
 	GLfloat lDeltaY = pInnerCircle.getY() - pOuterCircle.getY();
 	GLfloat lMaximumDistance = pOuterCircle.getRadius() - pInnerCircle.getRadius();
 	return (lMaximumDistance > sqrt(lDeltaX*lDeltaX + lDeltaY*lDeltaY));
+}
+
+Circle MoveCircle(Circle pCircle, GLdouble timeDiff , GLdouble pSpeed ) {
+	if (gKeyboardStatus[(int)('w')])
+		pCircle.incY(pSpeed * timeDiff);
+	if (gKeyboardStatus[(int)('s')])
+		pCircle.incY(-pSpeed * timeDiff);
+	if (gKeyboardStatus[(int)('a')])
+		pCircle.incX(-pSpeed * timeDiff);
+	if (gKeyboardStatus[(int)('d')])
+		pCircle.incX(pSpeed * timeDiff);
+	return pCircle;
 }

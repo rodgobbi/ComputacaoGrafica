@@ -13,6 +13,7 @@ GLsizei gWindowWidth, gWindowHeight;
 Circle gOuterCircle, gInnerCircle, gEnemyCircle1, gEnemyCircle2, gEnemyCircle3, gPlayerCircle;
 Rectangle gStripeRect;
 bool gKeyboardStatus[256];
+GLfloat gSpeed = 0.1;
 
 int main(int argc, char** argv)
 {
