@@ -2,6 +2,7 @@
 
 Circle::Circle() {
 	visible = true;
+	radius = 0;
 }
 
 void Circle::setRadius(GLfloat pRadius) {

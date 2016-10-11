@@ -1,13 +1,12 @@
 #include "callbacklib.h"
 
 void display(void){
-	glClear(GL_COLOR_BUFFER_BIT);   
+	glClear(GL_COLOR_BUFFER_BIT);
 	draw(gOuterCircle);
 	draw(gInnerCircle);
 	draw(gStripeRect);
-	draw(gEnemyCircle1);
-	draw(gEnemyCircle2);
-	draw(gEnemyCircle3);
+	for (list<Circle>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
+		draw( (Circle) *it );
 	draw(gPlayerCar);
 	glutSwapBuffers();
 }
@@ -67,12 +66,11 @@ void idle(void){
 	lPreviousTime = lCurrentTime; //Update previous time
 
 	gPlayerCar = RotateCar(gPlayerCar, lTimeDifference, gRotationSpeed);
-		
+
 	Car lNewCar = MoveCar(gPlayerCar, lTimeDifference, gMovementSpeed);
 
-	if( !(CirclesColliding(lNewCar,gInnerCircle) or CirclesColliding(lNewCar,gEnemyCircle1) 
-				or CirclesColliding(lNewCar,gEnemyCircle2) or CirclesColliding(lNewCar,gEnemyCircle3)
-				or !CircleCovered(lNewCar, gOuterCircle)) )
+	// True if not colliding with anything
+	if( !(CirclesColliding(lNewCar,gInnerCircle) or CirclesColliding(lNewCar,gEnemiesList) or !CircleCovered(lNewCar, gOuterCircle)) )
 		gPlayerCar = lNewCar;
 
 	glutPostRedisplay();
@@ -83,6 +81,13 @@ bool CirclesColliding (Circle pCircle1, Circle pCircle2) {
 	GLfloat lDeltaY = pCircle1.getY() - pCircle2.getY();
 	GLfloat lRadiusSum = pCircle1.getRadius() + pCircle2.getRadius();
 	return (lRadiusSum > sqrt(lDeltaX*lDeltaX + lDeltaY*lDeltaY));
+}
+
+bool CirclesColliding (Circle pCircle1, list<Circle> pCirclesList) {
+	for (list<Circle>::iterator it = pCirclesList.begin(); it != pCirclesList.end(); it++)
+		if ( CirclesColliding ( pCircle1, (Circle) *it) )
+			return true;
+	return false;
 }
 
 bool CircleCovered(Circle pInnerCircle, Circle pOuterCircle) {
@@ -118,10 +123,10 @@ Car MoveCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
 }
 
 Car RotateCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
-	if (gKeyboardStatus[(int)('a')]) 
+	if (gKeyboardStatus[(int)('a')])
 		pCar.incAngleDirection(pSpeed * timeDiff * M_PI );
-	
-	if (gKeyboardStatus[(int)('d')]) 
+
+	if (gKeyboardStatus[(int)('d')])
 		pCar.incAngleDirection(-pSpeed * timeDiff * M_PI);
 
 	return pCar;

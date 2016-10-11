@@ -1,5 +1,6 @@
 #include <string.h>
 #include <iostream>
+#include <list>
 using namespace std;
 #include <GL/glut.h>
 #include "tinyxml.h"
@@ -12,11 +13,14 @@ void CreateWindow(string pFilePath, GLsizei& pWindowWidth, GLsizei& pWindowHeigh
 Circle ExtractCircleData(TiXmlElement* pElement);
 Car ExtractCarData(TiXmlElement* pElement);
 Rectangle ExtractRectData(TiXmlElement* pElement);
+void ExtractCircuitData(TiXmlElement* pElement);
+void ExtractNodeData(TiXmlNode* pNode);
 
 GLsizei gWindowWidth, gWindowHeight;
-Circle gOuterCircle, gInnerCircle, gEnemyCircle1, gEnemyCircle2, gEnemyCircle3;
+Circle gOuterCircle, gInnerCircle;
 Car gPlayerCar;
 Rectangle gStripeRect;
+list<Circle> gEnemiesList;
 bool gKeyboardStatus[256];
 GLfloat gMovementSpeed = 0.1, gRotationSpeed = 0.001;
 
@@ -43,7 +47,7 @@ int main(int argc, char** argv)
 		glutKeyboardUpFunc(keyUp);
 		glutIdleFunc(idle);
 		glutMainLoop();
-
+		gEnemiesList.clear();
 		return 0;
 	}
 	catch(exception& e){
@@ -79,14 +83,17 @@ void CreateWindow(string pFilePath, GLsizei& pWindowWidth, GLsizei& pWindowHeigh
 	}
 	TiXmlNode* lNode = doc.FirstChild()->FirstChild();
 
-	gOuterCircle = ExtractCircleData(lNode->ToElement());
+	while (lNode) {
+		ExtractNodeData(lNode);
+		lNode = lNode->NextSibling();
+	}
 
 	pWindowWidth = (GLsizei) gOuterCircle.getRadius() * 2;
 	pWindowHeight = (GLsizei) gOuterCircle.getRadius() * 2;
 
 	glutInitWindowSize(pWindowWidth,pWindowHeight);
 	glutInitWindowPosition(50,50);
-	glutCreateWindow("TC2");
+	glutCreateWindow("TC3");
 	glClearColor(1.0,1.0,1.0,0.0);
 
 	glMatrixMode(GL_PROJECTION);
@@ -94,35 +101,35 @@ void CreateWindow(string pFilePath, GLsizei& pWindowWidth, GLsizei& pWindowHeigh
 	glOrtho( 	gOuterCircle.getX() - gOuterCircle.getRadius(),gOuterCircle.getX() + gOuterCircle.getRadius(),
 						 gOuterCircle.getY() - gOuterCircle.getRadius(), gOuterCircle.getY() + gOuterCircle.getRadius(),
 						 -1.0,1.0);
-
-	lNode = lNode->NextSibling();
-	gInnerCircle = ExtractCircleData(lNode->ToElement());
-
-	lNode = lNode->NextSibling();
-	gStripeRect = ExtractRectData(lNode->ToElement());
-
-	lNode = lNode->NextSibling();
-	gEnemyCircle1 = ExtractCircleData(lNode->ToElement());
-
-	lNode = lNode->NextSibling();
-	gEnemyCircle2 = ExtractCircleData(lNode->ToElement());
-
-	lNode = lNode->NextSibling();
-	gEnemyCircle3 = ExtractCircleData(lNode->ToElement());
-
-	lNode = lNode->NextSibling();
-	gPlayerCar = ExtractCarData(lNode->ToElement());
 }
 
 // Uses global variables inside de function
-// void ExtractNodeData(TiXmlNode* pNode) {
-// 	TiXmlElement* lElement = pNode->ToElement();
-// 	string lID = lElement->Attribute("id");
-// 	if ()
-//
-// 	else if ("LargadaChegada")
-// 		gStripeRect = ExtractRectData(lElement);
-// }
+void ExtractNodeData(TiXmlNode* pNode) {
+	TiXmlElement* lElement = pNode->ToElement();
+	string lID = lElement->Attribute("id");
+	if (lID == "Pista")
+		ExtractCircuitData(lElement);
+	else if (lID == "LargadaChegada")
+		gStripeRect = ExtractRectData(lElement);
+	else if (lID == "Inimigo")
+		gEnemiesList.push_back( ExtractCircleData(lElement) );
+	else if (lID == "Jogador")
+		gPlayerCar = ExtractCarData(lElement);
+	else
+		throw string("Tag de ID " + lID + " não é reconhecida pelo programa.");
+}
+
+// Uses global variables for the inner and outer circles of the circuit
+void ExtractCircuitData(TiXmlElement* pElement) {
+	Circle auxCircle = ExtractCircleData(pElement);
+	if (auxCircle.getRadius() >  gOuterCircle.getRadius()) {
+		gInnerCircle = gOuterCircle;
+		gOuterCircle = auxCircle;
+	}
+	else {
+		gInnerCircle = auxCircle;
+	}
+}
 
 Circle ExtractCircleData(TiXmlElement* pElement) {
 	GLint lX, lY, lR;
