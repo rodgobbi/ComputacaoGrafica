@@ -3,7 +3,7 @@
 #include <GL/glut.h>
 #include "classlib.h"
 #include "drawlib.h"
-#include <cmath>
+#include "enginelib.h"
 #include <list>
 using namespace std;
 
@@ -18,11 +18,5 @@ void display(void);
 void keyPress(unsigned char key, int x, int y);
 void keyUp(unsigned char key, int x, int y);
 void idle(void);
-bool CirclesColliding (Circle pCircle1, Circle pCircle2);
-bool CirclesColliding (Circle pCircle1, list<Circle> pCirclesList);
-bool CircleCovered(Circle pInnerCircle, Circle pOuterCircle);
-Circle MoveCircle(Circle pCircle, GLdouble timeDiff , GLdouble pSpeed );
-Car MoveCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed );
-Car RotateCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed );
 
 #endif
