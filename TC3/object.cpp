@@ -50,3 +50,15 @@ void Object::setVisible(bool pVisible) {
 bool Object::getVisible() {
 	return visible;
 }
+void Object::setDirection(GLfloat pAngleDirection) {
+	direction = fmod(pAngleDirection, 360.0);
+}
+GLfloat Object::getRadianDirection() {
+	return direction * M_PI / 180;
+}
+GLfloat Object::getDegreeDirection() {
+	return direction;
+}
+void Object::incDirectionAngle(GLfloat pAngle) {
+	direction = fmod((direction + pAngle), 360.0);
+}

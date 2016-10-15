@@ -9,7 +9,7 @@ bool CirclesColliding (Circle pCircle1, Circle pCircle2) {
 
 bool CirclesColliding (Circle pCircle1, list<Circle> pCirclesList) {
 	for (list<Circle>::iterator it = pCirclesList.begin(); it != pCirclesList.end(); it++)
-		if ( CirclesColliding ( pCircle1, (Circle) *it) )
+		if ( CirclesColliding ( pCircle1, *it) )
 			return true;
 	return false;
 }
@@ -20,18 +20,25 @@ bool CircleCovered(Circle pInnerCircle, Circle pOuterCircle) {
 	GLfloat lMaximumDistance = pOuterCircle.getRadius() - pInnerCircle.getRadius();
 	return (lMaximumDistance > sqrt(lDeltaX*lDeltaX + lDeltaY*lDeltaY));
 }
-
+template<class tObject>
+tObject MoveObject(tObject pObject, GLdouble timeDiff , GLdouble pSpeed) {
+	GLfloat lDirection = pObject.getRadianDirection();
+	pObject.incX(pSpeed * timeDiff * cos(lDirection) );
+	pObject.incY(pSpeed * timeDiff * sin(lDirection) );
+	return pObject;
+}
+void MoveShots(list<Circle> gShotsList, GLdouble timeDiff , GLdouble pSpeed) {
+	for (list<Circle>::iterator it = gShotsList.begin(); it != gShotsList.end(); it++)
+		*it = MoveObject(*it, timeDiff, pSpeed);
+	// Destruir objetos nessa lista que após movidos estão fora da janela
+}
 Car MoveCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
-	GLfloat lDirection = pCar.getRadianDirection();
-	if (gKeyboardStatus[(int)('w')]) {
-		pCar.incX(pSpeed * timeDiff * cos(lDirection) );
-		pCar.incY(pSpeed * timeDiff * sin(lDirection) );
-	}
-	if (gKeyboardStatus[(int)('s')]) {
-		pCar.incX(-pSpeed * timeDiff * cos(lDirection) );
-		pCar.incY(-pSpeed * timeDiff * sin(lDirection) );
-	}
-	return pCar;
+	if (gKeyboardStatus[(int)('w')] and !gKeyboardStatus[(int)('s')])
+		return MoveObject(pCar, timeDiff, pSpeed);
+	else if (gKeyboardStatus[(int)('s')] and !gKeyboardStatus[(int)('w')])
+		return MoveObject(pCar, timeDiff, -pSpeed);
+	else
+		return pCar;
 }
 
 Car RotateCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
@@ -50,7 +57,6 @@ Car RotateCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
 
 	return pCar;
 }
-
 Car SteerCarWheels(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
 	if (gKeyboardStatus[(int)('a')] and !gKeyboardStatus[(int)('d')])
 		pCar.setSteeringAngle(pSpeed * timeDiff * 10);

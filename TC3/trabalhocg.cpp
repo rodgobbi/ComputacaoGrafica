@@ -23,6 +23,7 @@ Circle gOuterCircle, gInnerCircle;
 Car gPlayerCar;
 Rectangle gStripeRect;
 list<Circle> gEnemiesList;
+list<Circle> gShotsList;
 bool gKeyboardStatus[256];
 GLfloat gMovementSpeed = 0.1, gRotationSpeed = 0.1;
 
@@ -52,6 +53,7 @@ int main(int argc, char** argv)
 		glutPassiveMotionFunc(mouseMotion);
 		glutMainLoop();
 		gEnemiesList.clear();
+		gShotsList.clear();
 		return 0;
 	}
 	catch(exception& e){

@@ -80,25 +80,11 @@ void idle(void){
 }
 
 void mouseClick(int button, int state, int x, int y){
-	// if (( button == GLUT_LEFT_BUTTON) ) {
-	// 	if (state == GLUT_DOWN) {
-	// 		if (!gSquare.getVisible()) {
-	// 			gSquare.setVisible( true );
-	// 			gSquare.setPosition(x, gWindowHeight - y);
-	// 		}
-	// 		if (gSquare.getVisible() and gSquare.pointIsInside(x,gWindowHeight - y) ) {
-	// 			gLeftClickInside = true;
-	// 			gLastPointerX = x;
-	// 			gLastPointerY = gWindowHeight - y;
-	// 		}
-	// 	}
-	// 	else if (state == GLUT_UP)
-	// 		gLeftClickInside = false;
-	// } 
-	// else if (( button == GLUT_RIGHT_BUTTON) and (state == GLUT_DOWN)) {
-	// 	if (gSquare.pointIsInside(x,gWindowHeight - y))
-	// 		gSquare.setVisible(false);
-	// }
+	if (( button == GLUT_LEFT_BUTTON) ) {
+		if (state == GLUT_DOWN) {
+			
+		}
+	} 
 
 	glutPostRedisplay();
 }

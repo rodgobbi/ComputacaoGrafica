@@ -21,8 +21,12 @@ public:
 	GLfloat getB();
 	void setVisible(bool pVisible);
 	bool getVisible();
+	void setDirection(GLfloat pAngleDirection);
+	GLfloat getRadianDirection();
+  GLfloat getDegreeDirection();
+	void incDirectionAngle(GLfloat pAngle);
 protected:
-	GLfloat R, G, B, X, Y;
+	GLfloat R, G, B, X, Y, direction;
 	bool visible;
 };
 
@@ -55,10 +59,6 @@ class Car : public Circle
 public:
   Rectangle body, gun, hub, wheel;
 	Car();
-	void setDirection(GLfloat pAngleDirection);
-	GLfloat getRadianDirection();
-  GLfloat getDegreeDirection();
-	void incDirectionAngle(GLfloat pAngle);
 	void setGunDirection(GLfloat pAngleDirection);
   GLfloat getDegreeGunDirection();
 	void incGunDirectionAngle(GLfloat pAngle);
@@ -66,7 +66,7 @@ public:
 	void setSteeringAngle(GLfloat pAngle);
 	GLfloat getDegreeSteeringAngle();
 protected:
-	GLfloat direction, gunDirection, steeringAngle;
+	GLfloat gunDirection, steeringAngle;
 };
 
 #endif

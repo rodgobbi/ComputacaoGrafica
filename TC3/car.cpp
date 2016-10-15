@@ -5,18 +5,6 @@ Car::Car() {
 	X = 0;
 	Y = 0;
 }
-void Car::setDirection(GLfloat pAngleDirection) {
-	direction = fmod(pAngleDirection, 360.0);
-}
-GLfloat Car::getRadianDirection() {
-	return direction * M_PI / 180;
-}
-GLfloat Car::getDegreeDirection() {
-	return direction;
-}
-void Car::incDirectionAngle(GLfloat pAngle) {
-	direction = fmod((direction + pAngle), 360.0);
-}
 void Car::setGunDirection(GLfloat pAngleDirection) {
 	if (pAngleDirection > 45)
 		gunDirection = 45;

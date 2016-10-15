@@ -15,6 +15,7 @@ extern Rectangle gStripeRect;
 extern bool gKeyboardStatus[256];
 extern GLfloat gMovementSpeed, gRotationSpeed;
 extern list<Circle> gEnemiesList;
+extern list<Circle> gShotsList;
 
 void display(void);
 void keyPress(unsigned char key, int x, int y);
