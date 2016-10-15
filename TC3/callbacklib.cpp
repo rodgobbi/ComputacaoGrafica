@@ -7,6 +7,7 @@ void display(void){
 	draw(gStripeRect);
 	for (list<Circle>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
 		draw( (Circle) *it );
+	draw( (Circle) gPlayerCar);
 	draw(gPlayerCar);
 	glutSwapBuffers();
 }
@@ -65,6 +66,8 @@ void idle(void){
 	lTimeDifference = lCurrentTime - lPreviousTime; // Elapsed time from the previous frame.
 	lPreviousTime = lCurrentTime; //Update previous time
 
+	gPlayerCar = SteerCarWheels(gPlayerCar, lTimeDifference, gRotationSpeed);
+
 	gPlayerCar = RotateCar(gPlayerCar, lTimeDifference, gRotationSpeed);
 
 	Car lNewCar = MoveCar(gPlayerCar, lTimeDifference, gMovementSpeed);
@@ -73,5 +76,38 @@ void idle(void){
 	if( !(CirclesColliding(lNewCar,gInnerCircle) or CirclesColliding(lNewCar,gEnemiesList) or !CircleCovered(lNewCar, gOuterCircle)) )
 		gPlayerCar = lNewCar;
 
+	glutPostRedisplay();
+}
+
+void mouseClick(int button, int state, int x, int y){
+	// if (( button == GLUT_LEFT_BUTTON) ) {
+	// 	if (state == GLUT_DOWN) {
+	// 		if (!gSquare.getVisible()) {
+	// 			gSquare.setVisible( true );
+	// 			gSquare.setPosition(x, gWindowHeight - y);
+	// 		}
+	// 		if (gSquare.getVisible() and gSquare.pointIsInside(x,gWindowHeight - y) ) {
+	// 			gLeftClickInside = true;
+	// 			gLastPointerX = x;
+	// 			gLastPointerY = gWindowHeight - y;
+	// 		}
+	// 	}
+	// 	else if (state == GLUT_UP)
+	// 		gLeftClickInside = false;
+	// } 
+	// else if (( button == GLUT_RIGHT_BUTTON) and (state == GLUT_DOWN)) {
+	// 	if (gSquare.pointIsInside(x,gWindowHeight - y))
+	// 		gSquare.setVisible(false);
+	// }
+
+	glutPostRedisplay();
+}
+
+void mouseMotion(int x, int y) {
+	GLint lNewPointerX = x;
+	GLint lNewPointerY = gWindowHeight - y;
+	gPlayerCar.incGunDirectionAngle( gLastPointerX - lNewPointerX);
+	gLastPointerX = lNewPointerX;
+	gLastPointerY = lNewPointerY;
 	glutPostRedisplay();
 }

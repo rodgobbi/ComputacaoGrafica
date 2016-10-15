@@ -9,4 +9,10 @@ void draw(Rectangle pRectangle);
 
 void draw(Circle pCircle);
 
+void draw(Car pCar);
+
+void drawWheels(Car pCar);
+
+void drawGun(Car pCar);
+
 #endif

@@ -4,6 +4,7 @@
 #include <string.h>
 #include <iostream>
 using namespace std;
+#include <cmath>
 
 class Object
 {
@@ -52,12 +53,20 @@ protected:
 class Car : public Circle
 {
 public:
+  Rectangle body, gun, hub, wheel;
 	Car();
 	void setDirection(GLfloat pAngleDirection);
-	GLfloat getDirection();
-	void incAngleDirection(GLfloat pAngle);
+	GLfloat getRadianDirection();
+  GLfloat getDegreeDirection();
+	void incDirectionAngle(GLfloat pAngle);
+	void setGunDirection(GLfloat pAngleDirection);
+  GLfloat getDegreeGunDirection();
+	void incGunDirectionAngle(GLfloat pAngle);
+  void setRadius(GLfloat pRadius);  
+	void setSteeringAngle(GLfloat pAngle);
+	GLfloat getDegreeSteeringAngle();
 protected:
-	GLfloat direction;	
+	GLfloat direction, gunDirection, steeringAngle;
 };
 
 #endif

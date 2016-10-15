@@ -22,7 +22,7 @@ bool CircleCovered(Circle pInnerCircle, Circle pOuterCircle) {
 }
 
 Car MoveCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
-	GLfloat lDirection = pCar.getDirection();
+	GLfloat lDirection = pCar.getRadianDirection();
 	if (gKeyboardStatus[(int)('w')]) {
 		pCar.incX(pSpeed * timeDiff * cos(lDirection) );
 		pCar.incY(pSpeed * timeDiff * sin(lDirection) );
@@ -36,10 +36,21 @@ Car MoveCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
 
 Car RotateCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
 	if (gKeyboardStatus[(int)('a')])
-		pCar.incAngleDirection(pSpeed * timeDiff * M_PI );
+		pCar.incDirectionAngle(pSpeed * timeDiff);
 
 	if (gKeyboardStatus[(int)('d')])
-		pCar.incAngleDirection(-pSpeed * timeDiff * M_PI);
+		pCar.incDirectionAngle(-pSpeed * timeDiff);
+
+	return pCar;
+}
+
+Car SteerCarWheels(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
+	if (gKeyboardStatus[(int)('a')] and !gKeyboardStatus[(int)('d')])
+		pCar.setSteeringAngle(pSpeed * timeDiff * 10);
+	else if (gKeyboardStatus[(int)('d')] and !gKeyboardStatus[(int)('a')])
+		pCar.setSteeringAngle(-pSpeed * timeDiff * 10);
+	else
+		pCar.setSteeringAngle(0);
 
 	return pCar;
 }

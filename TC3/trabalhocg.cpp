@@ -15,14 +15,16 @@ Car ExtractCarData(TiXmlElement* pElement);
 Rectangle ExtractRectData(TiXmlElement* pElement);
 void ExtractCircuitData(TiXmlElement* pElement);
 void ExtractNodeData(TiXmlNode* pNode);
+void PaintPlayerCar();
 
 GLsizei gWindowWidth, gWindowHeight;
+GLint gLastPointerX, gLastPointerY;
 Circle gOuterCircle, gInnerCircle;
 Car gPlayerCar;
 Rectangle gStripeRect;
 list<Circle> gEnemiesList;
 bool gKeyboardStatus[256];
-GLfloat gMovementSpeed = 0.1, gRotationSpeed = 0.001;
+GLfloat gMovementSpeed = 0.1, gRotationSpeed = 0.1;
 
 int main(int argc, char** argv)
 {
@@ -46,6 +48,8 @@ int main(int argc, char** argv)
 		glutKeyboardFunc(keyPress);
 		glutKeyboardUpFunc(keyUp);
 		glutIdleFunc(idle);
+		glutMouseFunc(mouseClick);
+		glutPassiveMotionFunc(mouseMotion);
 		glutMainLoop();
 		gEnemiesList.clear();
 		return 0;
@@ -87,6 +91,8 @@ void CreateWindow(string pFilePath, GLsizei& pWindowWidth, GLsizei& pWindowHeigh
 		ExtractNodeData(lNode);
 		lNode = lNode->NextSibling();
 	}
+
+	PaintPlayerCar();
 
 	pWindowWidth = (GLsizei) gOuterCircle.getRadius() * 2;
 	pWindowHeight = (GLsizei) gOuterCircle.getRadius() * 2;
@@ -158,7 +164,6 @@ Car ExtractCarData(TiXmlElement* pElement) {
 	lCar.setPosition(lX, lY);
 	lCar.setRadius(lR);
 	lCar.setColor(lColor);
-	lCar.setDirection( M_PI/2 );
 	return lCar;
 }
 
@@ -177,4 +182,12 @@ Rectangle ExtractRectData(TiXmlElement* pElement) {
 	lRect.setHeight(lH);
 	lRect.setColor(lColor);
 	return lRect;
+}
+
+void PaintPlayerCar() {
+	gPlayerCar.gun.setColor("red");
+	gPlayerCar.body.setColor("red");
+	gPlayerCar.hub.setColor("red");
+	gPlayerCar.wheel.setColor("red");
+	gPlayerCar.setDirection( 90 );
 }

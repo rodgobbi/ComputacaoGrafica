@@ -7,6 +7,8 @@
 #include <list>
 using namespace std;
 
+extern GLsizei gWindowWidth, gWindowHeight;
+extern GLint gLastPointerX, gLastPointerY;
 extern Circle gOuterCircle, gInnerCircle;
 extern Car gPlayerCar;
 extern Rectangle gStripeRect;
@@ -18,5 +20,7 @@ void display(void);
 void keyPress(unsigned char key, int x, int y);
 void keyUp(unsigned char key, int x, int y);
 void idle(void);
+void mouseClick(int button, int state, int x, int y);
+void mouseMotion(int x, int y);
 
 #endif

@@ -49,3 +49,65 @@ void draw(Circle pCircle) {
 	glEnd();
 	glPopMatrix();
 }
+
+void draw(Car pCar) {
+	if (!pCar.getVisible())
+		return;	
+	GLfloat lX = (GLfloat) pCar.getX();
+	GLfloat lY = (GLfloat) pCar.getY();
+
+	glPushMatrix();
+		glTranslatef(lX,lY,0);
+	  glRotatef(pCar.getDegreeDirection(),0,0,1);
+	  draw(pCar.body);
+	  drawWheels(pCar);
+	  drawGun(pCar);
+	glPopMatrix();
+}
+
+void drawWheels(Car pCar) {
+	GLfloat lHubX = (pCar.body.getWidth()/2)*0.7;
+	GLfloat lHubY = (pCar.body.getHeight()/2) + (pCar.hub.getHeight()/2);
+	GLfloat lWheelX = lHubX;
+	GLfloat lWheelY = lHubY + (pCar.hub.getHeight()/2) + (pCar.wheel.getHeight()/2);
+
+	// front
+	pCar.hub.setPosition(lHubX,lHubY);
+	draw(pCar.hub);
+
+	glPushMatrix();
+		glTranslatef(lWheelX,lWheelY,0);
+		glRotatef(pCar.getDegreeSteeringAngle(),0,0,1);
+		pCar.wheel.setPosition(0,0);
+		draw(pCar.wheel);
+	glPopMatrix();
+
+	pCar.hub.setPosition(lHubX,-lHubY);
+	draw(pCar.hub);	
+
+	glPushMatrix();
+		glTranslatef(lWheelX,-lWheelY,0);
+		glRotatef(pCar.getDegreeSteeringAngle(),0,0,1);
+		pCar.wheel.setPosition(0,0);
+		draw(pCar.wheel);
+	glPopMatrix();
+
+	// rear
+	pCar.hub.setPosition(-lHubX,lHubY);
+	pCar.wheel.setPosition(-lWheelX,lWheelY);
+	draw(pCar.hub);
+	draw(pCar.wheel);
+	pCar.hub.setPosition(-lHubX,-lHubY);
+	pCar.wheel.setPosition(-lWheelX,-lWheelY);
+	draw(pCar.hub);
+	draw(pCar.wheel);
+}
+
+void drawGun(Car pCar) {
+	glPushMatrix();
+		glTranslatef(pCar.body.getWidth()/2,0,0);
+	  glRotatef(pCar.getDegreeGunDirection(),0,0,1);
+		glTranslatef(pCar.gun.getWidth()/2,0,0);
+		draw(pCar.gun);
+	glPopMatrix();
+}
