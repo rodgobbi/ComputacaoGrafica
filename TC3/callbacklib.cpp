@@ -68,9 +68,9 @@ void idle(void){
 
 	gPlayerCar = SteerCarWheels(gPlayerCar, lTimeDifference, gRotationSpeed);
 
-	gPlayerCar = RotateCar(gPlayerCar, lTimeDifference, gRotationSpeed);
+	Car lNewCar = RotateCar(gPlayerCar, lTimeDifference, gRotationSpeed);
 
-	Car lNewCar = MoveCar(gPlayerCar, lTimeDifference, gMovementSpeed);
+	lNewCar = MoveCar(lNewCar, lTimeDifference, gMovementSpeed);
 
 	// True if not colliding with anything
 	if( !(CirclesColliding(lNewCar,gInnerCircle) or CirclesColliding(lNewCar,gEnemiesList) or !CircleCovered(lNewCar, gOuterCircle)) )

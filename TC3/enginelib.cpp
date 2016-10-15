@@ -35,11 +35,18 @@ Car MoveCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
 }
 
 Car RotateCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
-	if (gKeyboardStatus[(int)('a')])
-		pCar.incDirectionAngle(pSpeed * timeDiff);
-
-	if (gKeyboardStatus[(int)('d')])
-		pCar.incDirectionAngle(-pSpeed * timeDiff);
+	if (gKeyboardStatus[(int)('w')] and !gKeyboardStatus[(int)('s')]) {
+		if (gKeyboardStatus[(int)('a')] and !gKeyboardStatus[(int)('d')])
+			pCar.incDirectionAngle(pSpeed * timeDiff);
+		else if (gKeyboardStatus[(int)('d')] and !gKeyboardStatus[(int)('a')])
+			pCar.incDirectionAngle(-pSpeed * timeDiff);
+	}
+	else if (gKeyboardStatus[(int)('s')] and !gKeyboardStatus[(int)('w')]) {
+		if (gKeyboardStatus[(int)('a')] and !gKeyboardStatus[(int)('d')])
+			pCar.incDirectionAngle(-pSpeed * timeDiff);
+		else if (gKeyboardStatus[(int)('d')] and !gKeyboardStatus[(int)('a')])
+			pCar.incDirectionAngle(pSpeed * timeDiff);
+	}
 
 	return pCar;
 }
