@@ -13,7 +13,7 @@ extern Circle gOuterCircle, gInnerCircle;
 extern Car gPlayerCar;
 extern Rectangle gStripeRect;
 extern bool gKeyboardStatus[256];
-extern GLfloat gMovementSpeed, gRotationSpeed;
+extern GLfloat gMovementSpeed, gRotationSpeed, gShotSpeed;
 extern list<Circle> gEnemiesList;
 extern list<Circle> gShotsList;
 

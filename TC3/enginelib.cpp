@@ -7,7 +7,7 @@ bool CirclesColliding (Circle pCircle1, Circle pCircle2) {
 	return (lRadiusSum > sqrt(lDeltaX*lDeltaX + lDeltaY*lDeltaY));
 }
 
-bool CirclesColliding (Circle pCircle1, list<Circle> pCirclesList) {
+bool CirclesColliding (Circle pCircle1, list<Circle> &pCirclesList) {
 	for (list<Circle>::iterator it = pCirclesList.begin(); it != pCirclesList.end(); it++)
 		if ( CirclesColliding ( pCircle1, *it) )
 			return true;
@@ -27,10 +27,15 @@ tObject MoveObject(tObject pObject, GLdouble timeDiff , GLdouble pSpeed) {
 	pObject.incY(pSpeed * timeDiff * sin(lDirection) );
 	return pObject;
 }
-void MoveShots(list<Circle> gShotsList, GLdouble timeDiff , GLdouble pSpeed) {
-	for (list<Circle>::iterator it = gShotsList.begin(); it != gShotsList.end(); it++)
+void MoveShots(list<Circle> &pShotsList, GLdouble timeDiff , GLdouble pSpeed, Circle pOuterCircle) {
+	list<Circle>::iterator it = pShotsList.begin();
+	while	(it != pShotsList.end()) {
 		*it = MoveObject(*it, timeDiff, pSpeed);
-	// Destruir objetos nessa lista que após movidos estão fora da janela
+		if ( PointOutOfWindow(*it, pOuterCircle) )
+			it = pShotsList.erase(it);
+		else
+			it++;	
+	}
 }
 Car MoveCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
 	if (gKeyboardStatus[(int)('w')] and !gKeyboardStatus[(int)('s')])
@@ -66,4 +71,26 @@ Car SteerCarWheels(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
 		pCar.setSteeringAngle(0);
 
 	return pCar;
+}
+Circle CarShot(Car pCar) {
+	Circle lShot;
+	lShot.setRadius(3);
+	lShot.setRGB(0,0,0);
+	lShot.setPosition(pCar.getX(),pCar.getY());
+	lShot.setDirection(pCar.getDegreeDirection());
+	lShot = MoveObject(lShot, 1, pCar.body.getWidth()/2);
+	lShot.incDirectionAngle(pCar.getDegreeGunDirection());
+	lShot = MoveObject(lShot, 1, pCar.gun.getWidth());
+	return lShot;
+}
+bool PointOutOfWindow(Object pObject, Circle pOuterCircle) {
+	if ( pObject.getX() <  (pOuterCircle.getX() - pOuterCircle.getRadius()))
+		return true;
+	if ( pObject.getX() > (pOuterCircle.getX() + pOuterCircle.getRadius()))
+		return true;
+	if ( pObject.getY() <  (pOuterCircle.getY() - pOuterCircle.getRadius()))
+		return true;
+	if ( pObject.getY() > (pOuterCircle.getY() + pOuterCircle.getRadius()))
+		return true;
+	return false;
 }

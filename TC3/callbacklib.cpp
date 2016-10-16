@@ -6,8 +6,10 @@ void display(void){
 	draw(gInnerCircle);
 	draw(gStripeRect);
 	for (list<Circle>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
-		draw( (Circle) *it );
+		draw( *it );
 	draw( (Circle) gPlayerCar);
+	for (list<Circle>::iterator it = gShotsList.begin(); it != gShotsList.end(); it++)
+		draw( *it );
 	draw(gPlayerCar);
 	glutSwapBuffers();
 }
@@ -55,7 +57,6 @@ void keyUp(unsigned char key, int x, int y){
 			break;
 	}
 }
-
 void idle(void){
 	static GLdouble lPreviousTime = 0;
 	GLdouble lCurrentTime;
@@ -76,13 +77,15 @@ void idle(void){
 	if( !(CirclesColliding(lNewCar,gInnerCircle) or CirclesColliding(lNewCar,gEnemiesList) or !CircleCovered(lNewCar, gOuterCircle)) )
 		gPlayerCar = lNewCar;
 
+	MoveShots(gShotsList, lTimeDifference, gShotSpeed, gOuterCircle);
+
 	glutPostRedisplay();
 }
 
 void mouseClick(int button, int state, int x, int y){
 	if (( button == GLUT_LEFT_BUTTON) ) {
 		if (state == GLUT_DOWN) {
-			
+			gShotsList.push_back( CarShot(gPlayerCar) );
 		}
 	} 
 
