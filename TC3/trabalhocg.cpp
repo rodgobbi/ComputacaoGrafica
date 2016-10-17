@@ -8,7 +8,7 @@ using namespace std;
 #include "drawlib.h"
 #include "callbacklib.h"
 
-string ExtractFilePath(string pConfigFilePath);
+string ExtractConfigData(string pConfigFilePath, GLfloat &pCarSpeed, GLfloat &pShotSpeed);
 void CreateWindow(string pFilePath, GLsizei& pWindowWidth, GLsizei& pWindowHeight);
 Circle ExtractCircleData(TiXmlElement* pElement);
 Car ExtractCarData(TiXmlElement* pElement);
@@ -25,7 +25,7 @@ Rectangle gStripeRect;
 list<Circle> gEnemiesList;
 list<Circle> gShotsList;
 bool gKeyboardStatus[256];
-GLfloat gMovementSpeed = 0.1, gRotationSpeed = 0.1, gShotSpeed = 0.5;
+GLfloat gMovementSpeed = 0, gRotationSpeed = 0.1, gShotSpeed = 0;
 
 int main(int argc, char** argv)
 {
@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 			gKeyboardStatus[i] = false;
 		}
 
-		string lFilePath = ExtractFilePath(string(argv[1]) + "config.xml");
+		string lFilePath = ExtractConfigData(string(argv[1]) + "config.xml", gMovementSpeed, gShotSpeed);
 
 		glutInit(&argc,argv);
 		glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
@@ -70,7 +70,7 @@ int main(int argc, char** argv)
 	}
 }
 
-string ExtractFilePath(string pConfigFilePath) {
+string ExtractConfigData(string pConfigFilePath, GLfloat &pCarSpeed, GLfloat &pShotSpeed) {
 	TiXmlDocument doc(pConfigFilePath);
 	if (!doc.LoadFile()) {
 		throw string("Erro ao tentar abrir o arquivo.");
@@ -79,6 +79,9 @@ string ExtractFilePath(string pConfigFilePath) {
 	string lDirPath = lXMLElement->Attribute("caminho");
 	string lFileName = lXMLElement->Attribute("nome");
 	string lFileExtension = lXMLElement->Attribute("tipo");
+	lXMLElement = doc.FirstChild()->FirstChild("carro")->ToElement();
+	pCarSpeed = atof( lXMLElement->Attribute("velCarro") );
+	pShotSpeed = atof( lXMLElement->Attribute("velTiro") );
 	return lDirPath + lFileName + "." + lFileExtension;
 }
 
@@ -187,9 +190,11 @@ Rectangle ExtractRectData(TiXmlElement* pElement) {
 }
 
 void PaintPlayerCar() {
-	gPlayerCar.gun.setColor("red");
-	gPlayerCar.body.setColor("red");
-	gPlayerCar.hub.setColor("red");
-	gPlayerCar.wheel.setColor("red");
+	gPlayerCar.gun.setColor("darkmoss");
+	gPlayerCar.body.setColor("moss");
+	gPlayerCar.hub.setColor("grayblue");
+	gPlayerCar.wheel.setColor("grayblue");
+	gPlayerCar.wheelStripe.setColor("black");
 	gPlayerCar.setDirection( 90 );
+	gPlayerCar.setWheelStripePosition(0.5);
 }

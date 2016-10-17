@@ -38,10 +38,14 @@ void MoveShots(list<Circle> &pShotsList, GLdouble timeDiff , GLdouble pSpeed, Ci
 	}
 }
 Car MoveCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
-	if (gKeyboardStatus[(int)('w')] and !gKeyboardStatus[(int)('s')])
+	if (gKeyboardStatus[(int)('w')] and !gKeyboardStatus[(int)('s')]){
+		pCar.incWheelStripePosition(timeDiff * pSpeed/25);
 		return MoveObject(pCar, timeDiff, pSpeed);
-	else if (gKeyboardStatus[(int)('s')] and !gKeyboardStatus[(int)('w')])
+	}
+	else if (gKeyboardStatus[(int)('s')] and !gKeyboardStatus[(int)('w')]){
+		pCar.incWheelStripePosition(-timeDiff * pSpeed/25);
 		return MoveObject(pCar, timeDiff, -pSpeed);
+	}
 	else
 		return pCar;
 }
@@ -75,7 +79,7 @@ Car SteerCarWheels(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
 Circle CarShot(Car pCar) {
 	Circle lShot;
 	lShot.setRadius(3);
-	lShot.setRGB(0,0,0);
+	lShot.setRGB(1,1,0);
 	lShot.setPosition(pCar.getX(),pCar.getY());
 	lShot.setDirection(pCar.getDegreeDirection());
 	lShot = MoveObject(lShot, 1, pCar.body.getWidth()/2);

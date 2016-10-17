@@ -7,7 +7,6 @@ void display(void){
 	draw(gStripeRect);
 	for (list<Circle>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
 		draw( *it );
-	draw( (Circle) gPlayerCar);
 	for (list<Circle>::iterator it = gShotsList.begin(); it != gShotsList.end(); it++)
 		draw( *it );
 	draw(gPlayerCar);

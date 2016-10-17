@@ -60,6 +60,8 @@ void draw(Car pCar) {
 		glTranslatef(lX,lY,0);
 	  glRotatef(pCar.getDegreeDirection(),0,0,1);
 	  draw(pCar.body);
+	  drawColor(pCar.gun);
+	  drawEllipse(pCar.body.getWidth()/4, pCar.body.getHeight()/4);
 	  drawWheels(pCar);
 	  drawGun(pCar);
 	glPopMatrix();
@@ -70,6 +72,7 @@ void drawWheels(Car pCar) {
 	GLfloat lHubY = (pCar.body.getHeight()/2) + (pCar.hub.getHeight()/2);
 	GLfloat lWheelX = lHubX;
 	GLfloat lWheelY = lHubY + (pCar.hub.getHeight()/2) + (pCar.wheel.getHeight()/2);
+	GLfloat lWheelStripeXPosition = (pCar.getWheelStripePosition() - 0.5)*pCar.wheel.getWidth();
 
 	// front
 	pCar.hub.setPosition(lHubX,lHubY);
@@ -80,6 +83,8 @@ void drawWheels(Car pCar) {
 		glRotatef(pCar.getDegreeSteeringAngle(),0,0,1);
 		pCar.wheel.setPosition(0,0);
 		draw(pCar.wheel);
+		pCar.wheelStripe.setPosition(lWheelStripeXPosition,0);
+		draw(pCar.wheelStripe);
 	glPopMatrix();
 
 	pCar.hub.setPosition(lHubX,-lHubY);
@@ -90,17 +95,23 @@ void drawWheels(Car pCar) {
 		glRotatef(pCar.getDegreeSteeringAngle(),0,0,1);
 		pCar.wheel.setPosition(0,0);
 		draw(pCar.wheel);
+		pCar.wheelStripe.setPosition(lWheelStripeXPosition,0);
+		draw(pCar.wheelStripe);
 	glPopMatrix();
 
 	// rear
 	pCar.hub.setPosition(-lHubX,lHubY);
 	pCar.wheel.setPosition(-lWheelX,lWheelY);
+	pCar.wheelStripe.setPosition(-lWheelX + lWheelStripeXPosition, lWheelY);
 	draw(pCar.hub);
 	draw(pCar.wheel);
+	draw(pCar.wheelStripe);
 	pCar.hub.setPosition(-lHubX,-lHubY);
 	pCar.wheel.setPosition(-lWheelX,-lWheelY);
+	pCar.wheelStripe.setPosition(-lWheelX + lWheelStripeXPosition,-lWheelY);
 	draw(pCar.hub);
 	draw(pCar.wheel);
+	draw(pCar.wheelStripe);
 }
 
 void drawGun(Car pCar) {
@@ -110,4 +121,17 @@ void drawGun(Car pCar) {
 		glTranslatef(pCar.gun.getWidth()/2,0,0);
 		draw(pCar.gun);
 	glPopMatrix();
+}
+
+void drawEllipse(GLfloat radiusX, GLfloat radiusY) {
+	int i;
+
+	glBegin(GL_TRIANGLE_FAN);		
+		glVertex2f(0, 0); 	
+		for(i=0;i<360;i++) {
+		  GLfloat rad = i*M_PI/180;
+		  glVertex2f(cos(rad)*radiusX,
+		              sin(rad)*radiusY);
+		}
+	glEnd();
 }

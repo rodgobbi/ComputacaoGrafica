@@ -32,6 +32,8 @@ void Car::setRadius(GLfloat pRadius) {
 	hub.setHeight(pRadius/4);
 	wheel.setWidth(pRadius*0.4);
 	wheel.setHeight(pRadius/4);
+	wheelStripe.setWidth(pRadius*0.05);
+	wheelStripe.setHeight(pRadius/4);
 	gun.setWidth(pRadius*0.3);
 	gun.setHeight(pRadius/10);
 }
@@ -45,4 +47,22 @@ void Car::setSteeringAngle(GLfloat pAngle) {
 }
 GLfloat Car::getDegreeSteeringAngle() {
 	return steeringAngle;
+}
+void Car::setWheelStripePosition(GLfloat pPercentage){
+	if (pPercentage > 1)
+		wheelStripePosition = 1;
+	else if (pPercentage < 0)
+		wheelStripePosition = 0;
+	else
+		wheelStripePosition = pPercentage;	
+}
+GLfloat Car::getWheelStripePosition() {
+	return wheelStripePosition;
+}
+void Car::incWheelStripePosition(GLfloat pPercentage) {
+	GLfloat lDecimal = fmod(pPercentage,1.0);
+	if ( (wheelStripePosition + lDecimal) < 0.0)
+		wheelStripePosition = 1 + (wheelStripePosition + lDecimal);
+	else
+		wheelStripePosition = fmod(wheelStripePosition + lDecimal, 1.0);
 }

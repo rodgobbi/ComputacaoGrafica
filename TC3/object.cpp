@@ -17,6 +17,12 @@ void Object::setColor(string pColor) {
 		this->setRGB(1,0,0);
 	else if (pColor == "green")
 		this->setRGB(0,1,0);
+	else if (pColor == "grayblue")
+		this->setRGB(0.6,0.6,0.8);
+	else if (pColor == "moss")
+		this->setRGB(0,0.6,0);
+	else if (pColor == "darkmoss")
+		this->setRGB(0,0.2,0);
 }
 
 void Object::setPosition(GLfloat pX, GLfloat pY){

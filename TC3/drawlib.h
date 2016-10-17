@@ -15,4 +15,6 @@ void drawWheels(Car pCar);
 
 void drawGun(Car pCar);
 
+void drawEllipse(GLfloat radiusX, GLfloat radiusY);
+
 #endif
