@@ -5,6 +5,7 @@
 #include "drawlib.h"
 #include "enginelib.h"
 #include <list>
+#include <stdio.h>
 using namespace std;
 
 extern GLsizei gWindowWidth, gWindowHeight;
@@ -23,5 +24,6 @@ void keyUp(unsigned char key, int x, int y);
 void idle(void);
 void mouseClick(int button, int state, int x, int y);
 void mouseMotion(int x, int y);
+void drawTime(GLdouble pMilisecTime);
 
 #endif
