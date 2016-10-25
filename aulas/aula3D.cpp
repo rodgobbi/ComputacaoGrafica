@@ -22,8 +22,8 @@ void DrawObj(double size) {
   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
   glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
   glColor3f(1,0,0);
-  glutSolidSphere(size, 100, 16);
-  // glutSolidCube(size);
+  // glutSolidSphere(size, 100, 16);
+  glutSolidCube(size);
 }
 
 void DrawAxes(double size) {
