@@ -12,3 +12,6 @@ aula3:
 
 pong:
 	g++ -o main pong.cpp  -lGL -lGLU -lglut
+
+aula3D:
+	g++ -o main aula3D.cpp  -lGL -lGLU -lglut
