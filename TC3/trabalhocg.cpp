@@ -16,6 +16,7 @@ Rectangle ExtractRectData(TiXmlElement* pElement);
 void ExtractCircuitData(TiXmlElement* pElement);
 void ExtractNodeData(TiXmlNode* pNode);
 void PaintPlayerCar();
+void ConvertCoordinates(Circle pReferenceCircle);
 
 GLsizei gWindowWidth, gWindowHeight;
 GLint gLastPointerX, gLastPointerY;
@@ -98,6 +99,8 @@ void CreateWindow(string pFilePath, GLsizei& pWindowWidth, GLsizei& pWindowHeigh
 	}
 
 	PaintPlayerCar();
+
+	ConvertCoordinates(gOuterCircle);
 
 	pWindowWidth = (GLsizei) gOuterCircle.getRadius() * 2;
 	pWindowHeight = (GLsizei) gOuterCircle.getRadius() * 2;
@@ -197,4 +200,16 @@ void PaintPlayerCar() {
 	gPlayerCar.wheelStripe.setColor("black");
 	gPlayerCar.setDirection( 90 );
 	gPlayerCar.setWheelStripePosition(0.5);
+}
+
+// Uses global variables for the inner and outer circles of the circuit
+// Convert all coordinates from the objects from SVG to the virtual world
+void ConvertCoordinates(Circle pReferenceCircle) {
+	GLfloat lMaxSvgY = pReferenceCircle.getY() + pReferenceCircle.getRadius();
+	gOuterCircle.setPosition( gOuterCircle.getX(), lMaxSvgY - gOuterCircle.getY() );
+	gInnerCircle.setPosition( gInnerCircle.getX(), lMaxSvgY - gInnerCircle.getY() );
+	gStripeRect.setPosition( gStripeRect.getX(), lMaxSvgY - gStripeRect.getY() );
+	gPlayerCar.setPosition( gPlayerCar.getX(), lMaxSvgY - gPlayerCar.getY() );
+	for (list<Circle>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
+		(*it).setPosition( (*it).getX(), lMaxSvgY - (*it).getY() );
 }
