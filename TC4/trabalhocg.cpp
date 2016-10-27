@@ -27,6 +27,7 @@ list<Circle> gEnemiesList;
 list<Circle> gShotsList;
 bool gKeyboardStatus[256];
 GLfloat gMovementSpeed = 0, gRotationSpeed = 0.1, gShotSpeed = 0, gEnemyMovementSpeed = 0, gEnemyRotationSpeed = 0.1, gEnemyShotSpeed = 0, gEnemyShotFrequency = 0;
+GLdouble gStartTime = 0;
 
 int main(int argc, char** argv)
 {

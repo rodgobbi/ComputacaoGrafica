@@ -14,9 +14,10 @@ extern Circle gOuterCircle, gInnerCircle;
 extern Car gPlayerCar;
 extern Rectangle gStripeRect;
 extern bool gKeyboardStatus[256];
-extern GLfloat gMovementSpeed, gRotationSpeed, gShotSpeed;
+extern GLfloat gMovementSpeed, gRotationSpeed, gShotSpeed, gEnemyMovementSpeed, gEnemyRotationSpeed, gEnemyShotSpeed, gEnemyShotFrequency;
 extern list<Circle> gEnemiesList;
 extern list<Circle> gShotsList;
+extern GLdouble gStartTime;
 
 void display(void);
 void keyPress(unsigned char key, int x, int y);

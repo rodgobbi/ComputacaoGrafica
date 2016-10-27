@@ -10,7 +10,8 @@ void display(void){
 	for (list<Circle>::iterator it = gShotsList.begin(); it != gShotsList.end(); it++)
 		draw( *it );
 	draw(gPlayerCar);
-	drawTime(glutGet(GLUT_ELAPSED_TIME));
+	if (gStartTime > 0)
+		drawTime(glutGet(GLUT_ELAPSED_TIME) - gStartTime);
 	glutSwapBuffers();
 }
 
@@ -20,10 +21,14 @@ switch (key)
 		case 'w':
 		case 'W':
 			gKeyboardStatus[(int)('w')] = true;
+			if (gStartTime == 0)
+				gStartTime = glutGet(GLUT_ELAPSED_TIME);
 			break;
 		case 's':
 		case 'S':
 			gKeyboardStatus[(int)('s')] = true;
+			if (gStartTime == 0)
+				gStartTime = glutGet(GLUT_ELAPSED_TIME);
 			break;
 		case 'a':
 		case 'A':
