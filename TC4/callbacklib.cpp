@@ -5,9 +5,11 @@ void display(void){
 	draw(gOuterCircle);
 	draw(gInnerCircle);
 	draw(gStripeRect);
-	for (list<Circle>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
+	for (list<Car>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
 		draw( *it );
 	for (list<Circle>::iterator it = gShotsList.begin(); it != gShotsList.end(); it++)
+		draw( *it );
+	for (list<Circle>::iterator it = gEnemyShotsList.begin(); it != gEnemyShotsList.end(); it++)
 		draw( *it );
 	draw(gPlayerCar);
 	if (gStartTime > 0)
@@ -83,6 +85,10 @@ void idle(void){
 		gPlayerCar = lNewCar;
 
 	MoveShots(gShotsList, lTimeDifference, gShotSpeed, gOuterCircle);
+
+	MoveShots(gEnemyShotsList, lTimeDifference, gShotSpeed, gOuterCircle);
+
+	EnemyCarsShot(gEnemiesList, gEnemyShotsList, lTimeDifference, gEnemyShotFrequency);
 
 	glutPostRedisplay();
 }

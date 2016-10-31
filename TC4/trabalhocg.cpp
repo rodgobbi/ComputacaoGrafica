@@ -15,7 +15,8 @@ Car ExtractCarData(TiXmlElement* pElement);
 Rectangle ExtractRectData(TiXmlElement* pElement);
 void ExtractCircuitData(TiXmlElement* pElement);
 void ExtractNodeData(TiXmlNode* pNode);
-void PaintPlayerCar();
+Car PaintPlayerCar(Car pCar);
+Car PaintEnemyCar(Car pCar);
 void ConvertCoordinates(Circle pReferenceCircle);
 
 GLsizei gWindowWidth, gWindowHeight;
@@ -23,8 +24,8 @@ GLint gLastPointerX, gLastPointerY;
 Circle gOuterCircle, gInnerCircle;
 Car gPlayerCar;
 Rectangle gStripeRect;
-list<Circle> gEnemiesList;
-list<Circle> gShotsList;
+list<Car> gEnemiesList;
+list<Circle> gShotsList, gEnemyShotsList;
 bool gKeyboardStatus[256];
 GLfloat gMovementSpeed = 0, gRotationSpeed = 0.1, gShotSpeed = 0, gEnemyMovementSpeed = 0, gEnemyRotationSpeed = 0.1, gEnemyShotSpeed = 0, gEnemyShotFrequency = 0;
 GLdouble gStartTime = 0;
@@ -104,7 +105,9 @@ void CreateWindow(string pFilePath, GLsizei& pWindowWidth, GLsizei& pWindowHeigh
 		lNode = lNode->NextSibling();
 	}
 
-	PaintPlayerCar();
+	gPlayerCar = PaintPlayerCar(gPlayerCar);
+	for (list<Car>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
+		(*it) = PaintEnemyCar(*it);
 
 	ConvertCoordinates(gOuterCircle);
 
@@ -132,7 +135,7 @@ void ExtractNodeData(TiXmlNode* pNode) {
 	else if (lID == "LargadaChegada")
 		gStripeRect = ExtractRectData(lElement);
 	else if (lID == "Inimigo")
-		gEnemiesList.push_back( ExtractCircleData(lElement) );
+		gEnemiesList.push_back( ExtractCarData(lElement) );
 	else if (lID == "Jogador")
 		gPlayerCar = ExtractCarData(lElement);
 	else
@@ -198,14 +201,27 @@ Rectangle ExtractRectData(TiXmlElement* pElement) {
 	return lRect;
 }
 
-void PaintPlayerCar() {
-	gPlayerCar.gun.setColor("darkmoss");
-	gPlayerCar.body.setColor("moss");
-	gPlayerCar.hub.setColor("grayblue");
-	gPlayerCar.wheel.setColor("grayblue");
-	gPlayerCar.wheelStripe.setColor("black");
-	gPlayerCar.setDirection( 90 );
-	gPlayerCar.setWheelStripePosition(0.5);
+Car PaintPlayerCar(Car pCar) {
+	pCar.gun.setColor("darkmoss");
+	pCar.body.setColor("moss");
+	pCar.hub.setColor("grayblue");
+	pCar.wheel.setColor("grayblue");
+	pCar.wheelStripe.setColor("black");
+	pCar.setDirection( 90 );
+	pCar.setWheelStripePosition(0.5);
+	return pCar;
+}
+
+Car PaintEnemyCar(Car pCar) {
+	pCar.gun.setColor("black");
+	pCar.body.setColor("red");
+	pCar.hub.setColor("grayblue");
+	pCar.wheel.setColor("grayblue");
+	pCar.wheelStripe.setColor("black");
+	pCar.setDirection( 90 );
+	pCar.setWheelStripePosition(0.5);
+	pCar.setSteeringAngle(0);
+	return pCar;
 }
 
 // Uses global variables for the inner and outer circles of the circuit
@@ -217,6 +233,6 @@ void ConvertCoordinates(Circle pReferenceCircle) {
 	gInnerCircle.setPosition( gInnerCircle.getX() - lMinSvgX, lMaxSvgY - gInnerCircle.getY() );
 	gStripeRect.setPosition( gStripeRect.getX() - lMinSvgX, lMaxSvgY - gStripeRect.getY() );
 	gPlayerCar.setPosition( gPlayerCar.getX() - lMinSvgX, lMaxSvgY - gPlayerCar.getY() );
-	for (list<Circle>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
+	for (list<Car>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
 		(*it).setPosition( (*it).getX() - lMinSvgX, lMaxSvgY - (*it).getY() );
 }

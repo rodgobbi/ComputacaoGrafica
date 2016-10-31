@@ -14,8 +14,8 @@ extern Car gPlayerCar;
 extern Rectangle gStripeRect;
 extern bool gKeyboardStatus[256];
 extern GLfloat gMovementSpeed, gRotationSpeed, gShotSpeed, gEnemyMovementSpeed, gEnemyRotationSpeed, gEnemyShotSpeed, gEnemyShotFrequency;
-extern list<Circle> gEnemiesList;
-extern list<Circle> gShotsList;
+extern list<Car> gEnemiesList;
+extern list<Circle> gShotsList, gEnemyShotsList;
 extern GLdouble gStartTime;
 
 void display(void);

@@ -14,6 +14,13 @@ bool CirclesColliding (Circle pCircle1, list<Circle> &pCirclesList) {
 	return false;
 }
 
+bool CirclesColliding (Circle pCircle1, list<Car> &pCarsList) {
+	for (list<Car>::iterator it = pCarsList.begin(); it != pCarsList.end(); it++)
+		if ( CirclesColliding ( pCircle1, *it) )
+			return true;
+	return false;
+}
+
 bool CircleCovered(Circle pInnerCircle, Circle pOuterCircle) {
 	GLfloat lDeltaX = pInnerCircle.getX() - pOuterCircle.getX();
 	GLfloat lDeltaY = pInnerCircle.getY() - pOuterCircle.getY();
@@ -97,4 +104,14 @@ bool PointOutOfWindow(Object pObject, Circle pOuterCircle) {
 	if ( pObject.getY() > (pOuterCircle.getY() + pOuterCircle.getRadius()))
 		return true;
 	return false;
+}
+
+void EnemyCarsShot(list<Car> &pCarsList, list<Circle> &pCirclesList, GLdouble timeDiff , GLdouble pFrequency) {
+	static GLdouble lTime = 0;
+	lTime += timeDiff;
+	if ( (lTime * pFrequency) >= 1) {
+		lTime = (lTime * pFrequency - 1)/pFrequency;
+		for (list<Car>::iterator it = pCarsList.begin(); it != pCarsList.end(); it++)
+			pCirclesList.push_back( CarShot(*it) );
+	}
 }
