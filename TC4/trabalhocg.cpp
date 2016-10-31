@@ -211,11 +211,12 @@ void PaintPlayerCar() {
 // Uses global variables for the inner and outer circles of the circuit
 // Convert all coordinates from the objects from SVG to the virtual world
 void ConvertCoordinates(Circle pReferenceCircle) {
+	GLfloat lMinSvgX = pReferenceCircle.getX() - pReferenceCircle.getRadius();
 	GLfloat lMaxSvgY = pReferenceCircle.getY() + pReferenceCircle.getRadius();
-	gOuterCircle.setPosition( gOuterCircle.getX(), lMaxSvgY - gOuterCircle.getY() );
-	gInnerCircle.setPosition( gInnerCircle.getX(), lMaxSvgY - gInnerCircle.getY() );
-	gStripeRect.setPosition( gStripeRect.getX(), lMaxSvgY - gStripeRect.getY() );
-	gPlayerCar.setPosition( gPlayerCar.getX(), lMaxSvgY - gPlayerCar.getY() );
+	gOuterCircle.setPosition( gOuterCircle.getX() - lMinSvgX, lMaxSvgY - gOuterCircle.getY() );
+	gInnerCircle.setPosition( gInnerCircle.getX() - lMinSvgX, lMaxSvgY - gInnerCircle.getY() );
+	gStripeRect.setPosition( gStripeRect.getX() - lMinSvgX, lMaxSvgY - gStripeRect.getY() );
+	gPlayerCar.setPosition( gPlayerCar.getX() - lMinSvgX, lMaxSvgY - gPlayerCar.getY() );
 	for (list<Circle>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
-		(*it).setPosition( (*it).getX(), lMaxSvgY - (*it).getY() );
+		(*it).setPosition( (*it).getX() - lMinSvgX, lMaxSvgY - (*it).getY() );
 }

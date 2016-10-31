@@ -2,6 +2,7 @@
 #define DRAWLIB
 #include <GL/glut.h>
 #include "classlib.h"
+#include <stdio.h>
 
 void drawColor(Object pObject);
 
@@ -16,5 +17,7 @@ void drawWheels(Car pCar);
 void drawGun(Car pCar);
 
 void drawEllipse(GLfloat radiusX, GLfloat radiusY);
+
+void drawTime(GLdouble pMilisecTime, GLsizei pWindowWidth, GLsizei pWindowHeight);
 
 #endif

@@ -5,7 +5,6 @@
 #include "drawlib.h"
 #include "enginelib.h"
 #include <list>
-#include <stdio.h>
 using namespace std;
 
 extern GLsizei gWindowWidth, gWindowHeight;

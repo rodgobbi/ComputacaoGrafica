@@ -135,3 +135,24 @@ void drawEllipse(GLfloat radiusX, GLfloat radiusY) {
 		}
 	glEnd();
 }
+
+void drawTime(GLdouble pMilisecTime, GLsizei pWindowWidth, GLsizei pWindowHeight) {
+	int sec = ((int) pMilisecTime/1000)%60;
+	int min = (((int) pMilisecTime/1000)/60)%60;
+	char timeString[6];
+	if (min < 10)
+		if (sec < 10)
+			sprintf(timeString, "0%d:0%d", min, sec);
+		else
+			sprintf(timeString, "0%d:%d", min, sec);
+	else
+		if (sec < 10)
+			sprintf(timeString, "%d:0%d", min, sec);
+		else
+			sprintf(timeString, "%d:%d", min, sec);
+	glRasterPos2f(pWindowWidth - 50, pWindowHeight - 20);
+	glColor3f(0,0,0);
+	for (int i = 0; i < 5; i++) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, timeString[i]);
+	}
+}
