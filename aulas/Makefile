@@ -15,3 +15,6 @@ pong:
 
 aula3D:
 	g++ -o main aula3D.cpp  -lGL -lGLU -lglut
+
+myglu:
+	g++ -o main myGluLookAtExample.cpp  -lGL -lGLU -lglut

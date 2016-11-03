@@ -88,8 +88,10 @@ void reshape(int w, int h) {
   glLoadIdentity();
   if (w <= h)
     gluPerspective(90, (GLfloat)h /  (GLfloat)w, 2, 15);
+    // glOrtho(-3,3,-3*(GLfloat)h/(GLfloat)w,3*(GLfloat)h/(GLfloat)w,1,15);
   else
     gluPerspective(90, (GLfloat)w /  (GLfloat)h, 2, 15);
+    // glOrtho(-3*(GLfloat)h/(GLfloat)w,3*(GLfloat)h/(GLfloat)w,-3,3,1,15);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   gluLookAt(2,2,5,0,0,0,0,1,0);
