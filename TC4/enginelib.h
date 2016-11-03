@@ -21,5 +21,6 @@ Car SteerCarWheels(Car pCar, GLdouble timeDiff , GLdouble pSpeed );
 Circle CarShot(Car pCar);
 bool PointOutOfWindow(Object pObject, Circle pOuterCircle);
 void EnemyCarsShot(list<Car> &pCarsList, list<Circle> &pCirclesList, GLdouble timeDiff , GLdouble pFrequency);
+void CheckCompletedQuarter(Car pNewCar, Car pPreviousCar, Circle pOuterCircle, bool *pCompletedQuarter);
 
 #endif

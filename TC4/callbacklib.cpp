@@ -81,8 +81,11 @@ void idle(void){
 	lNewCar = MoveCar(lNewCar, lTimeDifference, gMovementSpeed);
 
 	// True if not colliding with anything
-	if( !(CirclesColliding(lNewCar,gInnerCircle) or CirclesColliding(lNewCar,gEnemiesList) or !CircleCovered(lNewCar, gOuterCircle)) )
+	if( !(CirclesColliding(lNewCar,gInnerCircle) or CirclesColliding(lNewCar,gEnemiesList) 
+			or !CircleCovered(lNewCar, gOuterCircle)) ) {
+		CheckCompletedQuarter(lNewCar, gPlayerCar, gOuterCircle, gCompletedQuarter);
 		gPlayerCar = lNewCar;
+	}
 
 	MoveShots(gShotsList, lTimeDifference, gShotSpeed, gOuterCircle);
 
@@ -90,6 +93,8 @@ void idle(void){
 
 	EnemyCarsShot(gEnemiesList, gEnemyShotsList, lTimeDifference, gEnemyShotFrequency);
 
+	if( gCompletedQuarter[2] and gCompletedQuarter[3])
+		throw string("Birrrrrr!");
 	glutPostRedisplay();
 }
 

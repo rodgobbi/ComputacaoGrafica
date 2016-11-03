@@ -115,3 +115,50 @@ void EnemyCarsShot(list<Car> &pCarsList, list<Circle> &pCirclesList, GLdouble ti
 			pCirclesList.push_back( CarShot(*it) );
 	}
 }
+
+void CheckCompletedQuarter(Car pNewCar, Car pPreviousCar, Circle pOuterCircle, bool *pCompletedQuarter) {
+	GLfloat lCenterX = pOuterCircle.getX();
+	GLfloat lCenterY = pOuterCircle.getY();
+	if (pPreviousCar.getX() > lCenterX)	{
+	// right side, first and forth quarters
+		if (pPreviousCar.getY() > lCenterY) {
+		// First
+			if ( (pNewCar.getX() < lCenterX) and (pNewCar.getY() > lCenterY) )
+			// First quarter completed
+				pCompletedQuarter[0] = true;
+			else if ( (pNewCar.getX() > lCenterX) and (pNewCar.getY() < lCenterY) )
+			// Forth returned
+				pCompletedQuarter[3] = false;
+		}
+		else {
+		// Forth
+			if ( (pNewCar.getX() > lCenterX) and (pNewCar.getY() > lCenterY) )
+			// Forth quarter completed
+				pCompletedQuarter[3] = true and pCompletedQuarter[2];
+			else if ( (pNewCar.getX() < lCenterX) and (pNewCar.getY() < lCenterY) )
+			// Third returned
+				pCompletedQuarter[2] = false;	
+		}		
+	}
+	else {
+	// left side, second and third quarters
+		if (pPreviousCar.getY() > lCenterY) {
+		// Second
+			if ( (pNewCar.getX() < lCenterX) and (pNewCar.getY() < lCenterY) )
+			// Second quarter completed
+				pCompletedQuarter[1] = true and pCompletedQuarter[0];
+			else if ( (pNewCar.getX() > lCenterX) and (pNewCar.getY() > lCenterY) )
+			// First returned
+				pCompletedQuarter[0] = false;
+		}
+		else {
+		// Third
+			if ( (pNewCar.getX() > lCenterX) and (pNewCar.getY() < lCenterY) )
+			// Third quarter completed
+				pCompletedQuarter[2] = true and pCompletedQuarter[1];
+			else if ( (pNewCar.getX() < lCenterX) and (pNewCar.getY() > lCenterY) )
+			// Second returned
+				pCompletedQuarter[1] = false;	
+		}
+	}
+}

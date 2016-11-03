@@ -12,7 +12,7 @@ extern GLint gLastPointerX, gLastPointerY;
 extern Circle gOuterCircle, gInnerCircle;
 extern Car gPlayerCar;
 extern Rectangle gStripeRect;
-extern bool gKeyboardStatus[256];
+extern bool gKeyboardStatus[256], gCompletedQuarter[4];
 extern GLfloat gMovementSpeed, gRotationSpeed, gShotSpeed, gEnemyMovementSpeed, gEnemyRotationSpeed, gEnemyShotSpeed, gEnemyShotFrequency;
 extern list<Car> gEnemiesList;
 extern list<Circle> gShotsList, gEnemyShotsList;

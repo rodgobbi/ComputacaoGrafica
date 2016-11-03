@@ -26,7 +26,7 @@ Car gPlayerCar;
 Rectangle gStripeRect;
 list<Car> gEnemiesList;
 list<Circle> gShotsList, gEnemyShotsList;
-bool gKeyboardStatus[256];
+bool gKeyboardStatus[256], gCompletedQuarter[4];
 GLfloat gMovementSpeed = 0, gRotationSpeed = 0.1, gShotSpeed = 0, gEnemyMovementSpeed = 0, gEnemyRotationSpeed = 0.1, gEnemyShotSpeed = 0, gEnemyShotFrequency = 0;
 GLdouble gStartTime = 0;
 
@@ -39,6 +39,9 @@ int main(int argc, char** argv)
 		int i;
 		for ( i = 0; i < 256; ++i) {
 			gKeyboardStatus[i] = false;
+		}
+		for (i = 0; i < 4; ++i) {
+			gCompletedQuarter[i] = false;
 		}
 
 		string lFilePath = ExtractConfigData(string(argv[1]) + "config.xml");
