@@ -18,6 +18,8 @@ void drawGun(Car pCar);
 
 void drawEllipse(GLfloat radiusX, GLfloat radiusY);
 
-void drawTime(GLdouble pMilisecTime, GLsizei pWindowWidth, GLsizei pWindowHeight);
+void drawTime(Circle pOuterCircle, GLdouble pMilisecTime);
+
+void drawGameOver(Circle pOuterCircle, bool pWin);
 
 #endif

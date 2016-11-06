@@ -18,6 +18,7 @@ void ExtractNodeData(TiXmlNode* pNode);
 Car PaintPlayerCar(Car pCar);
 Car PaintEnemyCar(Car pCar);
 void ConvertCoordinates(Circle pReferenceCircle);
+void setCarControllers();
 
 GLsizei gWindowWidth, gWindowHeight;
 GLint gLastPointerX, gLastPointerY;
@@ -26,7 +27,8 @@ Car gPlayerCar;
 Rectangle gStripeRect;
 list<Car> gEnemiesList;
 list<Circle> gShotsList, gEnemyShotsList;
-bool gKeyboardStatus[256], gCompletedQuarter[4];
+list<Controller> gControllersList;
+bool gKeyboardStatus[256], gCompletedQuarter[4], gGameOver = false;
 GLfloat gMovementSpeed = 0, gRotationSpeed = 0.1, gShotSpeed = 0, gEnemyMovementSpeed = 0, gEnemyRotationSpeed = 0.1, gEnemyShotSpeed = 0, gEnemyShotFrequency = 0;
 GLdouble gStartTime = 0;
 
@@ -60,6 +62,8 @@ int main(int argc, char** argv)
 		glutMainLoop();
 		gEnemiesList.clear();
 		gShotsList.clear();
+		gEnemyShotsList.clear();
+		gControllersList.clear();
 		return 0;
 	}
 	catch(exception& e){
@@ -107,6 +111,8 @@ void CreateWindow(string pFilePath, GLsizei& pWindowWidth, GLsizei& pWindowHeigh
 		ExtractNodeData(lNode);
 		lNode = lNode->NextSibling();
 	}
+
+	setCarControllers();
 
 	gPlayerCar = PaintPlayerCar(gPlayerCar);
 	for (list<Car>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
@@ -238,4 +244,13 @@ void ConvertCoordinates(Circle pReferenceCircle) {
 	gPlayerCar.setPosition( gPlayerCar.getX() - lMinSvgX, lMaxSvgY - gPlayerCar.getY() );
 	for (list<Car>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
 		(*it).setPosition( (*it).getX() - lMinSvgX, lMaxSvgY - (*it).getY() );
+}
+
+// Uses global variables of lists
+void setCarControllers() {
+	Controller lController;	
+	for (list<Car>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++) {
+		lController.setCarControlled(&(*it));
+		gControllersList.push_back(	lController);
+	}
 }

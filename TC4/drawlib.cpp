@@ -136,7 +136,7 @@ void drawEllipse(GLfloat radiusX, GLfloat radiusY) {
 	glEnd();
 }
 
-void drawTime(GLdouble pMilisecTime, GLsizei pWindowWidth, GLsizei pWindowHeight) {
+void drawTime(Circle pOuterCircle, GLdouble pMilisecTime) {
 	int sec = ((int) pMilisecTime/1000)%60;
 	int min = (((int) pMilisecTime/1000)/60)%60;
 	char timeString[6];
@@ -150,9 +150,26 @@ void drawTime(GLdouble pMilisecTime, GLsizei pWindowWidth, GLsizei pWindowHeight
 			sprintf(timeString, "%d:0%d", min, sec);
 		else
 			sprintf(timeString, "%d:%d", min, sec);
-	glRasterPos2f(pWindowWidth - 50, pWindowHeight - 20);
+	glRasterPos2f(pOuterCircle.getX() + pOuterCircle.getRadius() - 50, 
+								pOuterCircle.getY() + pOuterCircle.getRadius() - 20);
 	glColor3f(0,0,0);
 	for (int i = 0; i < 5; i++) {
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, timeString[i]);
+	}
+}
+
+void drawGameOver(Circle pOuterCircle, bool pWin) {
+	glColor3f(0,0,0);
+	char lString[20];
+	if (pWin) {
+		sprintf(lString, "You win! :)");
+		glRasterPos2f(pOuterCircle.getX() - 35, pOuterCircle.getY());
+		}
+	else {
+		sprintf(lString, "You lose! :(");
+		glRasterPos2f(pOuterCircle.getX() - 40, pOuterCircle.getY());
+		}
+	for (int i = 0; lString[i]; ++i) {		
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lString[i]);
 	}
 }

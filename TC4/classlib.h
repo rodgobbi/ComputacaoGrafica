@@ -72,4 +72,13 @@ protected:
 	GLfloat gunDirection, steeringAngle, wheelStripePosition;
 };
 
+class Controller
+{
+public:
+	void setCarControlled(Car *pCarAddress);
+	Car* getCar();
+private:
+	Car* carControlled;
+};
+
 #endif

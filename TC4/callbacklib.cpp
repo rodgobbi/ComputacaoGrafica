@@ -1,6 +1,8 @@
 #include "callbacklib.h"
 
 void display(void){
+	if (gGameOver)
+		return;
 	glClear(GL_COLOR_BUFFER_BIT);
 	draw(gOuterCircle);
 	draw(gInnerCircle);
@@ -13,7 +15,10 @@ void display(void){
 		draw( *it );
 	draw(gPlayerCar);
 	if (gStartTime > 0)
-		drawTime(glutGet(GLUT_ELAPSED_TIME) - gStartTime, gWindowWidth, gWindowHeight);
+		drawTime(gOuterCircle, glutGet(GLUT_ELAPSED_TIME) - gStartTime);
+	else
+		drawTime(gOuterCircle, 0);
+	CheckGameOverAndDraw();
 	glutSwapBuffers();
 }
 
@@ -69,6 +74,9 @@ void idle(void){
 	GLdouble lCurrentTime;
 	GLdouble lTimeDifference;
 
+	if (gGameOver)
+		return;
+
 	// Elapsed time from the initiation of the game.
 	lCurrentTime = glutGet(GLUT_ELAPSED_TIME);
 	lTimeDifference = lCurrentTime - lPreviousTime; // Elapsed time from the previous frame.
@@ -93,8 +101,6 @@ void idle(void){
 
 	EnemyCarsShot(gEnemiesList, gEnemyShotsList, lTimeDifference, gEnemyShotFrequency);
 
-	if( gCompletedQuarter[2] and gCompletedQuarter[3])
-		throw string("Birrrrrr!");
 	glutPostRedisplay();
 }
 
@@ -115,4 +121,15 @@ void mouseMotion(int x, int y) {
 	gLastPointerX = lNewPointerX;
 	gLastPointerY = lNewPointerY;
 	glutPostRedisplay();
+}
+
+void CheckGameOverAndDraw() {
+	if (gCompletedQuarter[3])	{
+		gGameOver = true;
+		drawGameOver(gOuterCircle, true);
+	}
+	else if (CirclesColliding(gPlayerCar,gEnemyShotsList)) {
+		gGameOver = true;
+		drawGameOver(gOuterCircle, false);
+	}
 }
