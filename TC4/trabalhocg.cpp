@@ -227,7 +227,7 @@ Car PaintEnemyCar(Car pCar) {
 	pCar.hub.setColor("grayblue");
 	pCar.wheel.setColor("grayblue");
 	pCar.wheelStripe.setColor("black");
-	pCar.setDirection( 90 );
+	pCar.setDirection( 0 );
 	pCar.setWheelStripePosition(0.5);
 	pCar.setSteeringAngle(0);
 	return pCar;

@@ -77,6 +77,10 @@ class Controller
 public:
 	void setCarControlled(Car *pCarAddress);
 	Car* getCar();
+	GLdouble movTime;
+	bool turnLeft;
+	bool foward;
+	bool turning;
 private:
 	Car* carControlled;
 };

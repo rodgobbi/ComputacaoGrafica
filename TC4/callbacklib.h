@@ -26,5 +26,7 @@ void idle(void);
 void mouseClick(int button, int state, int x, int y);
 void mouseMotion(int x, int y);
 void CheckGameOverAndDraw();
+void MoveEnemies(GLdouble timeDiff);
+bool Colliding(Controller *pController, Car pNewCar);
 
 #endif

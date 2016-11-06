@@ -27,13 +27,7 @@ bool CircleCovered(Circle pInnerCircle, Circle pOuterCircle) {
 	GLfloat lMaximumDistance = pOuterCircle.getRadius() - pInnerCircle.getRadius();
 	return (lMaximumDistance > sqrt(lDeltaX*lDeltaX + lDeltaY*lDeltaY));
 }
-template<class tObject>
-tObject MoveObject(tObject pObject, GLdouble timeDiff , GLdouble pSpeed) {
-	GLfloat lDirection = pObject.getRadianDirection();
-	pObject.incX(pSpeed * timeDiff * cos(lDirection) );
-	pObject.incY(pSpeed * timeDiff * sin(lDirection) );
-	return pObject;
-}
+
 void MoveShots(list<Circle> &pShotsList, GLdouble timeDiff , GLdouble pSpeed, Circle pOuterCircle) {
 	list<Circle>::iterator it = pShotsList.begin();
 	while	(it != pShotsList.end()) {
