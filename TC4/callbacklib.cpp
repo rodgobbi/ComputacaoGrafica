@@ -138,68 +138,85 @@ void CheckGameOverAndDraw() {
 
 void MoveEnemies(GLdouble timeDiff) {
 	Car lNewCar;
-	for (list<Controller>::iterator it = gControllersList.begin(); it != gControllersList.end(); it++) {
-		if ( !(*it).foward) {
-			lNewCar = MoveObject( *((*it).getCar()), timeDiff, - gEnemyMovementSpeed );
-			lNewCar.incWheelStripePosition(-timeDiff * gEnemyMovementSpeed/25);
-			lNewCar.setSteeringAngle(0);
-			if (Colliding( &(*it), lNewCar ) or ((*it).movTime < 0)) {
-				(*it).foward = true;
-				(*it).turning = true;
-				(*it).movTime = 500;
-			}
-			else {
-				*((*it).getCar()) = lNewCar;
-				(*it).movTime -= timeDiff;	
+	list<Car>::iterator it2;
+	list<Controller>::iterator it = gControllersList.begin();
+	while ( it != gControllersList.end() ) {
+		if (CirclesColliding( *((*it).getCar()), gShotsList)) {
+			it2 = gEnemiesList.begin();
+			while ( it2 != gEnemiesList.end()) {
+				if ( &(*it2) == (*it).getCar()) {
+					it2 = gEnemiesList.erase(it2);
+					it = gControllersList.erase(it);
+					break;
+				}
+				else
+					it2++;
 			}
 		}
 		else {
-			if ( !(*it).turning ) {
-				lNewCar = MoveObject( *((*it).getCar()), timeDiff, gEnemyMovementSpeed );
-				lNewCar.incWheelStripePosition(timeDiff * gEnemyMovementSpeed/25);
+			if ( !(*it).foward) {
+				lNewCar = MoveObject( *((*it).getCar()), timeDiff, - gEnemyMovementSpeed );
+				lNewCar.incWheelStripePosition(-timeDiff * gEnemyMovementSpeed/25);
 				lNewCar.setSteeringAngle(0);
-				if (Colliding( &(*it), lNewCar )) {
-					(*it).foward = false;
-					(*it).movTime = 1000;
-					(*it).turnLeft = !(*it).turnLeft;
-				}
-				else if (((*it).movTime < 0)) {
+				if (Colliding( &(*it), lNewCar ) or ((*it).movTime < 0)) {
 					(*it).foward = true;
 					(*it).turning = true;
-					(*it).movTime = 200;
-				}
-				else {
-					*((*it).getCar()) = lNewCar;	
-					(*it).movTime -= timeDiff;	
-				}
-			}
-			else {
-				lNewCar = MoveObject( *((*it).getCar()), 0, 0 );
-				if ( (*it).turnLeft) {
-					lNewCar.incDirectionAngle(timeDiff * gEnemyRotationSpeed);
-					lNewCar.setSteeringAngle(timeDiff * gEnemyRotationSpeed * 10);
-				}
-				else {
-					lNewCar.incDirectionAngle(-timeDiff * gEnemyRotationSpeed);
-					lNewCar.setSteeringAngle(-timeDiff * gEnemyRotationSpeed * 10);
-				}
-				lNewCar = MoveObject( lNewCar, timeDiff, gEnemyMovementSpeed );
-				lNewCar.incWheelStripePosition(timeDiff * gEnemyMovementSpeed/25);
-				if (Colliding( &(*it), lNewCar )) {
-					(*it).foward = false;
-					(*it).movTime = 1000;
-					(*it).turnLeft = !(*it).turnLeft;
-				}
-				else if (((*it).movTime < 0)) {
-					(*it).foward = true;
-					(*it).turning = false;
 					(*it).movTime = 500;
 				}
 				else {
 					*((*it).getCar()) = lNewCar;
-					(*it).movTime -= timeDiff;		
+					(*it).movTime -= timeDiff;	
 				}
 			}
+			else {
+				if ( !(*it).turning ) {
+					lNewCar = MoveObject( *((*it).getCar()), timeDiff, gEnemyMovementSpeed );
+					lNewCar.incWheelStripePosition(timeDiff * gEnemyMovementSpeed/25);
+					lNewCar.setSteeringAngle(0);
+					if (Colliding( &(*it), lNewCar )) {
+						(*it).foward = false;
+						(*it).movTime = 1000;
+						(*it).turnLeft = !(*it).turnLeft;
+					}
+					else if (((*it).movTime < 0)) {
+						(*it).foward = true;
+						(*it).turning = true;
+						(*it).movTime = 200;
+					}
+					else {
+						*((*it).getCar()) = lNewCar;	
+						(*it).movTime -= timeDiff;	
+					}
+				}
+				else {
+					lNewCar = *((*it).getCar());
+					if ( (*it).turnLeft) {
+						lNewCar.incDirectionAngle(timeDiff * gEnemyRotationSpeed);
+						lNewCar.setSteeringAngle(timeDiff * gEnemyRotationSpeed * 10);
+					}
+					else {
+						lNewCar.incDirectionAngle(-timeDiff * gEnemyRotationSpeed);
+						lNewCar.setSteeringAngle(-timeDiff * gEnemyRotationSpeed * 10);
+					}
+					lNewCar = MoveObject( lNewCar, timeDiff, gEnemyMovementSpeed );
+					lNewCar.incWheelStripePosition(timeDiff * gEnemyMovementSpeed/25);
+					if (Colliding( &(*it), lNewCar )) {
+						(*it).foward = false;
+						(*it).movTime = 1000;
+						(*it).turnLeft = !(*it).turnLeft;
+					}
+					else if (((*it).movTime < 0)) {
+						(*it).foward = true;
+						(*it).turning = false;
+						(*it).movTime = 500;
+					}
+					else {
+						*((*it).getCar()) = lNewCar;
+						(*it).movTime -= timeDiff;		
+					}
+				}
+			}
+			it++;
 		}
 	}
 }
