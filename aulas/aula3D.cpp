@@ -15,7 +15,7 @@ void DrawObj(double size) {
   GLfloat materialColor[] = {0,0,1,1};
   GLfloat materialColorAMB[] = {1,1,0,1};
   GLfloat mat_specular[] = {1,1,1,1};
-  GLfloat mat_shininess[] = {128};
+  GLfloat mat_shininess[] = {2};
   glMaterialfv(GL_FRONT, GL_EMISSION, materialEmission );
   glMaterialfv(GL_FRONT, GL_AMBIENT, materialColor);
   glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColor);
@@ -87,11 +87,11 @@ void reshape(int w, int h) {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   if (w <= h)
-    gluPerspective(90, (GLfloat)h /  (GLfloat)w, 2, 15);
-    // glOrtho(-3,3,-3*(GLfloat)h/(GLfloat)w,3*(GLfloat)h/(GLfloat)w,1,15);
+    // gluPerspective(45, (GLfloat)h /  (GLfloat)w, 2, 15);
+    glOrtho(-3,3,-3*(GLfloat)h/(GLfloat)w,3*(GLfloat)h/(GLfloat)w,1,15);
   else
-    gluPerspective(90, (GLfloat)w /  (GLfloat)h, 2, 15);
-    // glOrtho(-3*(GLfloat)h/(GLfloat)w,3*(GLfloat)h/(GLfloat)w,-3,3,1,15);
+    // gluPerspective(45, (GLfloat)w /  (GLfloat)h, 2, 15);
+    glOrtho(-3*(GLfloat)h/(GLfloat)w,3*(GLfloat)h/(GLfloat)w,-3,3,1,15);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   gluLookAt(2,2,5,0,0,0,0,1,0);

@@ -18,3 +18,6 @@ aula3D:
 
 myglu:
 	g++ -o main myGluLookAtExample.cpp  -lGL -lGLU -lglut
+
+texture:
+	g++ -o main texture.cpp imageloader.cpp -lGL -lGLU -lglut
