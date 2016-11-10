@@ -6,10 +6,10 @@ void display(void){
   glMatrixMode(GL_MODELVIEW);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
   glLoadIdentity();
-  // gluLookAt(gOuterCircle.getX(),gOuterCircle.getY(),100,gOuterCircle.getX(),gOuterCircle.getY(),0,0,1,0);
-  gluLookAt(gOuterCircle.getX() ,gOuterCircle.getY(),100,gOuterCircle.getX(),gOuterCircle.getY(),0,0,1,0);
+  gluLookAt(gOuterCircle.getX(),gOuterCircle.getY(),100,gOuterCircle.getX(),gOuterCircle.getY(),0,0,1,0);
+  // gluLookAt(gOuterCircle.getX() ,gOuterCircle.getY() -50 ,100,gOuterCircle.getX(),gOuterCircle.getY(),0,0,1,0);
 	glPushMatrix();
-	  GLfloat light_position[] = {gOuterCircle.getX(), gOuterCircle.getY(), 100, 1};
+	  GLfloat light_position[] = {gOuterCircle.getX(), gOuterCircle.getY(), 10000, 1};
 	  if (gKeyboardStatus[(int)('n')])
 	  	glDisable(GL_LIGHTING);
 	  else {
@@ -18,7 +18,7 @@ void display(void){
 	  }
 		glTranslatef(0,0,0.1);
 		draw(gOuterCircle);
-		glTranslatef(0,0,0.1);
+		glTranslatef(0,0,1);
 		draw(gInnerCircle);
 		draw(gStripeRect);
 		for (list<Car>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)

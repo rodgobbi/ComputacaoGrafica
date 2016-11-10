@@ -133,9 +133,10 @@ void CreateWindow(string pFilePath, GLsizei& pWindowWidth, GLsizei& pWindowHeigh
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho( 	 - gOuterCircle.getRadius(), + gOuterCircle.getRadius(),
+	// gluPerspective(150, (GLfloat)pWindowHeight /  (GLfloat)pWindowWidth, 1, 1000);
+	glOrtho( 	  - gOuterCircle.getRadius(), + gOuterCircle.getRadius(),
 						  - gOuterCircle.getRadius(),  + gOuterCircle.getRadius(),
-						 -100.0,100.0);
+						 -1000.0,1000.0);
 }
 
 // Uses global variables inside de function
