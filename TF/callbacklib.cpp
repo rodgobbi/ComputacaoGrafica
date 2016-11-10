@@ -11,7 +11,7 @@ void display(void){
 	glPushMatrix();
 	  GLfloat light_position[] = {gOuterCircle.getX(), gOuterCircle.getY(), 100, 1};
 	  if (gKeyboardStatus[(int)('n')])
-	  	glDisable(GL_LIGHTING); 
+	  	glDisable(GL_LIGHTING);
 	  else {
 	    glEnable(GL_LIGHTING);
 	    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
@@ -59,7 +59,7 @@ switch (key)
 		case 'd':
 		case 'D':
 			gKeyboardStatus[(int)('d')] = true;
-			break;		
+			break;
 		case 'n':
 		case 'N':
 			gKeyboardStatus[(int)('n')] = !gKeyboardStatus[(int)('n')];
@@ -108,7 +108,7 @@ void idle(void){
 	lNewCar = MoveCar(lNewCar, lTimeDifference, gMovementSpeed);
 
 	// True if not colliding with anything
-	if( !(CirclesColliding(lNewCar,gInnerCircle) or CirclesColliding(lNewCar,gEnemiesList) 
+	if( !(CirclesColliding(lNewCar,gInnerCircle) or CirclesColliding(lNewCar,gEnemiesList)
 			or !CircleCovered(lNewCar, gOuterCircle)) ) {
 		CheckCompletedQuarter(lNewCar, gPlayerCar, gOuterCircle, gCompletedQuarter);
 		gPlayerCar = lNewCar;
@@ -184,7 +184,7 @@ void MoveEnemies(GLdouble timeDiff) {
 				}
 				else {
 					*((*it).getCar()) = lNewCar;
-					(*it).movTime -= timeDiff;	
+					(*it).movTime -= timeDiff;
 				}
 			}
 			else {
@@ -203,8 +203,8 @@ void MoveEnemies(GLdouble timeDiff) {
 						(*it).movTime = 200;
 					}
 					else {
-						*((*it).getCar()) = lNewCar;	
-						(*it).movTime -= timeDiff;	
+						*((*it).getCar()) = lNewCar;
+						(*it).movTime -= timeDiff;
 					}
 				}
 				else {
@@ -231,7 +231,7 @@ void MoveEnemies(GLdouble timeDiff) {
 					}
 					else {
 						*((*it).getCar()) = lNewCar;
-						(*it).movTime -= timeDiff;		
+						(*it).movTime -= timeDiff;
 					}
 				}
 			}
