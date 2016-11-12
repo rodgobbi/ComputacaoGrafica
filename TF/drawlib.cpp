@@ -24,7 +24,7 @@ void draw(Rectangle pRectangle) {
 		glTranslatef(lX,lY,0);
 		drawColor(pRectangle);
 		// glScalef(2*lHalfWidth, 2*lHalfHeight, 1);
-		glScalef( lHalfWidth, lHalfHeight, lHalfHeight);
+		glScalef( lHalfWidth, lHalfHeight, 1);
     // glutSolidCube(1.0);
 		glBegin(GL_POLYGON);
 			glNormal3f(0,0,1);	
@@ -51,22 +51,22 @@ void draw(Circle pCircle) {
 	GLfloat twicePi = 2.0f * M_PI;
 	
 	glPushMatrix();
-	glTranslatef(lX,lY,0);
-	drawColor(pCircle);	
-	glScalef( lRadius, lRadius, 1);
-	// glutSolidSphere(1,100,16);
-	glBegin(GL_TRIANGLE_FAN);
-		glNormal3f(0,0,1);
-		glVertex3f(0, 0, 0); // center of circle
-		for(i = 0; i <= triangleAmount;i++) { 
+		glTranslatef(lX,lY,0);
+		drawColor(pCircle);	
+		glScalef( lRadius, lRadius, 1);
+		// glutSolidSphere(1,100,16);
+		glBegin(GL_TRIANGLE_FAN);
 			glNormal3f(0,0,1);
-			glVertex3f(
-		    (1 * cos(i *  twicePi / triangleAmount)), 
-			  (1 * sin(i * twicePi / triangleAmount)),
-			  0
-			);
-		}
-	glEnd();
+			glVertex3f(0, 0, 0); // center of circle
+			for(i = 0; i <= triangleAmount;i++) { 
+				glNormal3f(0,0,1);
+				glVertex3f(
+			    (1 * cos(i *  twicePi / triangleAmount)), 
+				  (1 * sin(i * twicePi / triangleAmount)),
+				  0
+				);
+			}
+		glEnd();
 	glPopMatrix();
 }
 
@@ -93,7 +93,6 @@ void drawWheels(Car pCar) {
 	GLfloat lHubY = (pCar.body.getYLength()/2) + (pCar.hub.getYLength()/2);
 	GLfloat lWheelX = lHubX;
 	GLfloat lWheelY = lHubY + (pCar.hub.getYLength()/2) + (pCar.wheel.getYLength()/2);
-	GLfloat lWheelStripeXPosition = (pCar.getWheelStripePosition() - 0.5)*pCar.wheel.getXLength();
 
 	// front
 	pCar.hub.setXYPosition(lHubX,lHubY);
@@ -104,7 +103,6 @@ void drawWheels(Car pCar) {
 		glRotatef(pCar.getDegreeSteeringAngle(),0,0,1);
 		pCar.wheel.setXYPosition(0,0);
 		draw(pCar.wheel);
-		pCar.wheelStripe.setXYPosition(lWheelStripeXPosition,0);
 		draw(pCar.wheelStripe);
 	glPopMatrix();
 
@@ -116,20 +114,17 @@ void drawWheels(Car pCar) {
 		glRotatef(pCar.getDegreeSteeringAngle(),0,0,1);
 		pCar.wheel.setXYPosition(0,0);
 		draw(pCar.wheel);
-		pCar.wheelStripe.setXYPosition(lWheelStripeXPosition,0);
 		draw(pCar.wheelStripe);
 	glPopMatrix();
 
 	// rear
 	pCar.hub.setXYPosition(-lHubX,lHubY);
 	pCar.wheel.setXYPosition(-lWheelX,lWheelY);
-	pCar.wheelStripe.setXYPosition(-lWheelX + lWheelStripeXPosition, lWheelY);
 	draw(pCar.hub);
 	draw(pCar.wheel);
 	draw(pCar.wheelStripe);
 	pCar.hub.setXYPosition(-lHubX,-lHubY);
 	pCar.wheel.setXYPosition(-lWheelX,-lWheelY);
-	pCar.wheelStripe.setXYPosition(-lWheelX + lWheelStripeXPosition,-lWheelY);
 	draw(pCar.hub);
 	draw(pCar.wheel);
 	draw(pCar.wheelStripe);
@@ -156,6 +151,49 @@ void drawEllipse(GLfloat radiusX, GLfloat radiusY) {
 		              0 );
 		}
 	glEnd();
+}
+
+void drawCylinder(Cylinder pCylinder) {
+	if (!pCylinder.getVisible())
+		return;
+	Circle lCircle;
+	GLfloat lRadius = pCylinder.getRadius();
+	lCircle.setRadius( lRadius);
+	GLfloat lXLength = pCylinder.getXLength();
+	Rectangle lRec;
+	lRec.setXLength( lXLength);
+	lRec.setYLength( lRadius * 2 * M_PI / 36);
+	GLfloat lR = pCylinder.getR();
+	GLfloat lG = pCylinder.getG();
+	GLfloat lB = pCylinder.getB();
+	lCircle.setRGB(lR,lG,lB);
+	lRec.setRGB(lR,lG,lB);
+	glPushMatrix();
+		glPushMatrix();
+			glRotatef(90, 0, 1, 0);
+			glTranslatef(0, 0, lXLength/2);
+			draw(lCircle);	
+		glPopMatrix();
+
+		glPushMatrix();
+			glRotatef(-90, 0, 1, 0);
+			glTranslatef(0, 0, lXLength/2);
+			draw(lCircle);	
+		glPopMatrix();
+
+
+    glPushMatrix();
+      for (int i = 0; i <= 36; ++i) {
+        glRotatef(10,1,0,0);
+
+	      glPushMatrix();
+	        glTranslatef(0,0,lRadius);
+	        draw(lRec);
+	      glPopMatrix();
+      }
+		glPopMatrix();
+
+	glPopMatrix();
 }
 
 void drawTime(Circle pOuterCircle, GLdouble pMilisecTime) {
@@ -213,7 +251,7 @@ void drawGameOver(Circle pOuterCircle, bool pWin) {
 				else {
 					sprintf(lString, "You lose! :(");
 	      	glColor3f(1,0,0);
-					glRasterPos2f(0.40, 0.5);
+					glRasterPos2f(0.43, 0.5);
 					}
 				for (int i = 0; lString[i]; ++i) {		
 					glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lString[i]);

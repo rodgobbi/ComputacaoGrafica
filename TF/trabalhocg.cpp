@@ -221,7 +221,6 @@ Car PaintPlayerCar(Car pCar) {
 	pCar.wheel.setColor("grayblue");
 	pCar.wheelStripe.setColor("black");
 	pCar.setXYAngle( 90 );
-	pCar.setWheelStripePosition(0.5);
 	return pCar;
 }
 
@@ -232,7 +231,6 @@ Car PaintEnemyCar(Car pCar) {
 	pCar.wheel.setColor("grayblue");
 	pCar.wheelStripe.setColor("black");
 	pCar.setXYAngle( 0 );
-	pCar.setWheelStripePosition(0.5);
 	pCar.setSteeringAngle(0);
 	return pCar;
 }

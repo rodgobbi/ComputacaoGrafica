@@ -90,7 +90,7 @@ all: ${OUTPUT}
 #****************************************************************************
 
 #SRCS := tinyxml.cpp tinyxmlparser.cpp xmltest.cpp tinyxmlerror.cpp tinystr.cpp
-SRCS := trabalhocg.cpp tinyxml.cpp tinyxmlparser.cpp tinyxmlerror.cpp drawlib.cpp callbacklib.cpp enginelib.cpp object.cpp rectangle.cpp circle.cpp car.cpp controller.cpp
+SRCS := trabalhocg.cpp tinyxml.cpp tinyxmlparser.cpp tinyxmlerror.cpp drawlib.cpp callbacklib.cpp enginelib.cpp object.cpp rectangle.cpp circle.cpp car.cpp controller.cpp cylinder.cpp
 
 # Add on the sources for libraries
 SRCS := ${SRCS}
@@ -120,3 +120,6 @@ dist:
 
 clean:
 	-rm -f core ${OBJS} ${OUTPUT}
+
+test:
+	g++ -o trabalhocg aula3D.cpp drawlib.cpp object.cpp rectangle.cpp circle.cpp car.cpp controller.cpp cylinder.cpp -lGL -lGLU -lglut

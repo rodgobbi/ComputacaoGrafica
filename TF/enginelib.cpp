@@ -40,11 +40,9 @@ void MoveShots(list<Circle> &pShotsList, GLdouble timeDiff , GLdouble pSpeed, Ci
 }
 Car MoveCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
 	if (gKeyboardStatus[(int)('w')] and !gKeyboardStatus[(int)('s')]){
-		pCar.incWheelStripePosition(timeDiff * pSpeed/25);
 		return MoveObject(pCar, timeDiff, pSpeed);
 	}
 	else if (gKeyboardStatus[(int)('s')] and !gKeyboardStatus[(int)('w')]){
-		pCar.incWheelStripePosition(-timeDiff * pSpeed/25);
 		return MoveObject(pCar, timeDiff, -pSpeed);
 	}
 	else

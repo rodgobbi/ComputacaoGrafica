@@ -77,22 +77,34 @@ protected:
 	GLfloat ZLength;
 };
 
+class Cylinder : public Object3d 
+{
+public:
+	Cylinder();
+	void setXLength(GLfloat pW);
+	GLfloat getXLength();
+	void setRadius(GLfloat pRadius);
+	GLfloat getRadius();
+protected:
+	GLfloat XLength, radius;
+};
+
 class Car : public Circle
 {
 public:
   Rectangle body, gun, hub, wheel, wheelStripe;
 	Car();
-	void setGunXYAngle(GLfloat pAngleDirection);
+	void setGunXYAngle(GLfloat pAngle);
   GLfloat getDegreeGunXYAngle();
 	void incGunXYAngle(GLfloat pAngle);
+	void setGunXZAngle(GLfloat pAngle);
+  GLfloat getDegreeGunXZAngle();
+	void incGunXZAngle(GLfloat pAngle);
   void setRadius(GLfloat pRadius);  
 	void setSteeringAngle(GLfloat pAngle);
 	GLfloat getDegreeSteeringAngle();
-	void setWheelStripePosition(GLfloat pPercentage);
-	GLfloat getWheelStripePosition();
-	void incWheelStripePosition(GLfloat pPercentage);
 protected:
-	GLfloat gunXYAngle, steeringAngle, wheelStripePosition;
+	GLfloat gunXYAngle, gunXZAngle, steeringAngle;
 };
 
 class Controller
