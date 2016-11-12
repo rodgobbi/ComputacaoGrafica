@@ -4,7 +4,7 @@
 
 void init(void) {
   glClearColor(0,0,0,0);
-  glShadeModel(GL_FLAT);
+  glShadeModel(GL_SMOOTH);
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
   glEnable(GL_DEPTH_TEST);
@@ -22,8 +22,11 @@ void DrawObj(double size) {
   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
   glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
   glColor3f(1,0,0);
-  // glutSolidSphere(size, 100, 16);
-  glutSolidCube(size);
+  glPushMatrix();
+    glScalef(2,1,1);
+    glutSolidSphere(size, 100, 16);
+  glPopMatrix();
+  // glutSolidCube(size);
 }
 
 void DrawAxes(double size) {
