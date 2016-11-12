@@ -127,7 +127,7 @@ void CreateWindow(string pFilePath, GLsizei& pWindowWidth, GLsizei& pWindowHeigh
 	glutInitWindowPosition(0,0);
 	glutCreateWindow("TC3");
 	glClearColor(1.0,1.0,1.0,0.0);	
-  glShadeModel(GL_SMOOTH);
+  glShadeModel(	GL_FLAT);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_LIGHT0);
 
@@ -176,7 +176,7 @@ Circle ExtractCircleData(TiXmlElement* pElement) {
 	pElement->QueryIntAttribute("r",&lR);
 	lColor = pElement->Attribute("fill");
 
-	lCircle.setPosition(lX, lY);
+	lCircle.setXYPosition(lX, lY);
 	lCircle.setRadius(lR);
 	lCircle.setColor(lColor);
 	return lCircle;
@@ -191,7 +191,7 @@ Car ExtractCarData(TiXmlElement* pElement) {
 	pElement->QueryIntAttribute("r",&lR);
 	lColor = pElement->Attribute("fill");
 
-	lCar.setPosition(lX, lY);
+	lCar.setXYPosition(lX, lY);
 	lCar.setRadius(lR);
 	lCar.setColor(lColor);
 	return lCar;
@@ -207,7 +207,7 @@ Rectangle ExtractRectData(TiXmlElement* pElement) {
 	pElement->QueryIntAttribute("height",&lH);
 	lColor = pElement->Attribute("fill");
 
-	lRect.setPosition(lX + lW/2, lY + lH/2);
+	lRect.setXYPosition(lX + lW/2, lY + lH/2);
 	lRect.setWidth(lW);
 	lRect.setHeight(lH);
 	lRect.setColor(lColor);
@@ -220,7 +220,7 @@ Car PaintPlayerCar(Car pCar) {
 	pCar.hub.setColor("grayblue");
 	pCar.wheel.setColor("grayblue");
 	pCar.wheelStripe.setColor("black");
-	pCar.setDirection( 90 );
+	pCar.setXYAngle( 90 );
 	pCar.setWheelStripePosition(0.5);
 	return pCar;
 }
@@ -231,7 +231,7 @@ Car PaintEnemyCar(Car pCar) {
 	pCar.hub.setColor("grayblue");
 	pCar.wheel.setColor("grayblue");
 	pCar.wheelStripe.setColor("black");
-	pCar.setDirection( 0 );
+	pCar.setXYAngle( 0 );
 	pCar.setWheelStripePosition(0.5);
 	pCar.setSteeringAngle(0);
 	return pCar;
@@ -242,12 +242,12 @@ Car PaintEnemyCar(Car pCar) {
 void ConvertCoordinates(Circle pReferenceCircle) {
 	GLfloat lMinSvgX = pReferenceCircle.getX() - pReferenceCircle.getRadius();
 	GLfloat lMaxSvgY = pReferenceCircle.getY() + pReferenceCircle.getRadius();
-	gOuterCircle.setPosition( gOuterCircle.getX() - lMinSvgX, lMaxSvgY - gOuterCircle.getY() );
-	gInnerCircle.setPosition( gInnerCircle.getX() - lMinSvgX, lMaxSvgY - gInnerCircle.getY() );
-	gStripeRect.setPosition( gStripeRect.getX() - lMinSvgX, lMaxSvgY - gStripeRect.getY() );
-	gPlayerCar.setPosition( gPlayerCar.getX() - lMinSvgX, lMaxSvgY - gPlayerCar.getY() );
+	gOuterCircle.setXYPosition( gOuterCircle.getX() - lMinSvgX, lMaxSvgY - gOuterCircle.getY() );
+	gInnerCircle.setXYPosition( gInnerCircle.getX() - lMinSvgX, lMaxSvgY - gInnerCircle.getY() );
+	gStripeRect.setXYPosition( gStripeRect.getX() - lMinSvgX, lMaxSvgY - gStripeRect.getY() );
+	gPlayerCar.setXYPosition( gPlayerCar.getX() - lMinSvgX, lMaxSvgY - gPlayerCar.getY() );
 	for (list<Car>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
-		(*it).setPosition( (*it).getX() - lMinSvgX, lMaxSvgY - (*it).getY() );
+		(*it).setXYPosition( (*it).getX() - lMinSvgX, lMaxSvgY - (*it).getY() );
 }
 
 // Uses global variables of lists

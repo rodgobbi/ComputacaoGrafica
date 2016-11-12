@@ -6,8 +6,8 @@ Circle::Circle() {
 	X = 0;
 	Y = 0;
 	Z = 0;
-	direction = 0;
-	Zdirection = 0;
+	XYAngle = 0;
+	XZAngle = 0;
 }
 
 void Circle::setRadius(GLfloat pRadius) {

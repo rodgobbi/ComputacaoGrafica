@@ -79,7 +79,7 @@ void draw(Car pCar) {
 
 	glPushMatrix();
 		glTranslatef(lX,lY,lZ);
-	  glRotatef(pCar.getDegreeDirection(),0,0,1);
+	  glRotatef(pCar.getDegreeXYAngle(),0,0,1);
 	  drawColor(pCar.gun);
 	  drawEllipse(pCar.body.getWidth()/4, pCar.body.getHeight()/4);
 	  draw(pCar.body);
@@ -96,40 +96,40 @@ void drawWheels(Car pCar) {
 	GLfloat lWheelStripeXPosition = (pCar.getWheelStripePosition() - 0.5)*pCar.wheel.getWidth();
 
 	// front
-	pCar.hub.setPosition(lHubX,lHubY);
+	pCar.hub.setXYPosition(lHubX,lHubY);
 	draw(pCar.hub);
 
 	glPushMatrix();
 		glTranslatef(lWheelX,lWheelY,0);
 		glRotatef(pCar.getDegreeSteeringAngle(),0,0,1);
-		pCar.wheel.setPosition(0,0);
+		pCar.wheel.setXYPosition(0,0);
 		draw(pCar.wheel);
-		pCar.wheelStripe.setPosition(lWheelStripeXPosition,0);
+		pCar.wheelStripe.setXYPosition(lWheelStripeXPosition,0);
 		draw(pCar.wheelStripe);
 	glPopMatrix();
 
-	pCar.hub.setPosition(lHubX,-lHubY);
+	pCar.hub.setXYPosition(lHubX,-lHubY);
 	draw(pCar.hub);	
 
 	glPushMatrix();
 		glTranslatef(lWheelX,-lWheelY,0);
 		glRotatef(pCar.getDegreeSteeringAngle(),0,0,1);
-		pCar.wheel.setPosition(0,0);
+		pCar.wheel.setXYPosition(0,0);
 		draw(pCar.wheel);
-		pCar.wheelStripe.setPosition(lWheelStripeXPosition,0);
+		pCar.wheelStripe.setXYPosition(lWheelStripeXPosition,0);
 		draw(pCar.wheelStripe);
 	glPopMatrix();
 
 	// rear
-	pCar.hub.setPosition(-lHubX,lHubY);
-	pCar.wheel.setPosition(-lWheelX,lWheelY);
-	pCar.wheelStripe.setPosition(-lWheelX + lWheelStripeXPosition, lWheelY);
+	pCar.hub.setXYPosition(-lHubX,lHubY);
+	pCar.wheel.setXYPosition(-lWheelX,lWheelY);
+	pCar.wheelStripe.setXYPosition(-lWheelX + lWheelStripeXPosition, lWheelY);
 	draw(pCar.hub);
 	draw(pCar.wheel);
 	draw(pCar.wheelStripe);
-	pCar.hub.setPosition(-lHubX,-lHubY);
-	pCar.wheel.setPosition(-lWheelX,-lWheelY);
-	pCar.wheelStripe.setPosition(-lWheelX + lWheelStripeXPosition,-lWheelY);
+	pCar.hub.setXYPosition(-lHubX,-lHubY);
+	pCar.wheel.setXYPosition(-lWheelX,-lWheelY);
+	pCar.wheelStripe.setXYPosition(-lWheelX + lWheelStripeXPosition,-lWheelY);
 	draw(pCar.hub);
 	draw(pCar.wheel);
 	draw(pCar.wheelStripe);
@@ -204,14 +204,15 @@ void drawGameOver(Circle pOuterCircle, bool pWin) {
 		  glPushAttrib(GL_ENABLE_BIT);
 			  glDisable(GL_LIGHTING);
 			  glDisable(GL_TEXTURE_2D);
-	      glColor3f(0,1,0);
 				char lString[20];
 				if (pWin) {
 					sprintf(lString, "You win! :)");
+	      	glColor3f(0,1,0);
 					glRasterPos2f(0.45, 0.5);
 					}
 				else {
 					sprintf(lString, "You lose! :(");
+	      	glColor3f(1,0,0);
 					glRasterPos2f(0.40, 0.5);
 					}
 				for (int i = 0; lString[i]; ++i) {		

@@ -23,7 +23,7 @@ void CheckCompletedQuarter(Car pNewCar, Car pPreviousCar, Circle pOuterCircle, b
 
 template<class tObject>
 tObject MoveObject(tObject pObject, GLdouble timeDiff , GLdouble pSpeed) {
-	GLfloat lDirection = pObject.getRadianDirection();
+	GLfloat lDirection = pObject.getRadianXYAngle();
 	pObject.incX(pSpeed * timeDiff * cos(lDirection) );
 	pObject.incY(pSpeed * timeDiff * sin(lDirection) );
 	return pObject;

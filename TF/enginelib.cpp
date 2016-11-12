@@ -54,15 +54,15 @@ Car MoveCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
 Car RotateCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
 	if (gKeyboardStatus[(int)('w')] and !gKeyboardStatus[(int)('s')]) {
 		if (gKeyboardStatus[(int)('a')] and !gKeyboardStatus[(int)('d')])
-			pCar.incDirectionAngle(pSpeed * timeDiff);
+			pCar.incXYAngle(pSpeed * timeDiff);
 		else if (gKeyboardStatus[(int)('d')] and !gKeyboardStatus[(int)('a')])
-			pCar.incDirectionAngle(-pSpeed * timeDiff);
+			pCar.incXYAngle(-pSpeed * timeDiff);
 	}
 	else if (gKeyboardStatus[(int)('s')] and !gKeyboardStatus[(int)('w')]) {
 		if (gKeyboardStatus[(int)('a')] and !gKeyboardStatus[(int)('d')])
-			pCar.incDirectionAngle(-pSpeed * timeDiff);
+			pCar.incXYAngle(-pSpeed * timeDiff);
 		else if (gKeyboardStatus[(int)('d')] and !gKeyboardStatus[(int)('a')])
-			pCar.incDirectionAngle(pSpeed * timeDiff);
+			pCar.incXYAngle(pSpeed * timeDiff);
 	}
 
 	return pCar;
@@ -81,10 +81,10 @@ Circle CarShot(Car pCar) {
 	Circle lShot;
 	lShot.setRadius(3);
 	lShot.setRGB(1,1,0);
-	lShot.setPosition(pCar.getX(),pCar.getY());
-	lShot.setDirection(pCar.getDegreeDirection());
+	lShot.setXYPosition(pCar.getX(),pCar.getY());
+	lShot.setXYAngle(pCar.getDegreeXYAngle());
 	lShot = MoveObject(lShot, 1, pCar.body.getWidth()/2);
-	lShot.incDirectionAngle(pCar.getDegreeGunDirection());
+	lShot.incXYAngle(pCar.getDegreeGunDirection());
 	lShot = MoveObject(lShot, 1, pCar.gun.getWidth());
 	return lShot;
 }

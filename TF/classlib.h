@@ -11,7 +11,7 @@ class Object
 public:
 	void setRGB(GLfloat pR, GLfloat pG, GLfloat pB);
 	void setColor(string pColor);
-	void setPosition(GLfloat pX, GLfloat pY);
+	void setXYPosition(GLfloat pX, GLfloat pY);
 	void incX(GLfloat pX);
 	void incY(GLfloat pY);
 	GLfloat getX();
@@ -21,27 +21,27 @@ public:
 	GLfloat getB();
 	void setVisible(bool pVisible);
 	bool getVisible();
-	void setDirection(GLfloat pAngleDirection);
-	GLfloat getRadianDirection();
-  GLfloat getDegreeDirection();
-	void incDirectionAngle(GLfloat pAngle);
+	void setXYAngle(GLfloat pAngle);
+	GLfloat getRadianXYAngle();
+  GLfloat getDegreeXYAngle();
+	void incXYAngle(GLfloat pAngle);
 protected:
-	GLfloat R, G, B, X, Y, direction;
+	GLfloat R, G, B, X, Y, XYAngle;
 	bool visible;
 };
 
 class Object3d : public Object
 {
 public:
-	void setPositionZ(GLfloat pX, GLfloat pY, GLfloat pZ);
+	void setXYZPosition(GLfloat pX, GLfloat pY, GLfloat pZ);
 	void incZ(GLfloat pZ);
 	GLfloat getZ();
-	void setZDirection(GLfloat pAngleZDirection);
-	GLfloat getRadianZDirection();
-  GLfloat getDegreeZDirection();
-	void incZDirectionAngle(GLfloat pAngle);
+	void setXZAngle(GLfloat pAngle);
+	GLfloat getRadianXZAngle();
+  GLfloat getDegreeXZAngle();
+	void incXZAngle(GLfloat pAngle);
 protected:
-	GLfloat Z, Zdirection;
+	GLfloat Z, XZAngle;
 };
 
 class Circle : public Object3d
@@ -55,7 +55,7 @@ protected:
 	GLfloat radius;
 };
 
-class Rectangle : public Object
+class Rectangle : public Object3d
 {
 public:
 	Rectangle();	

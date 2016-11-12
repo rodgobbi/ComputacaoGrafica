@@ -4,6 +4,9 @@ Rectangle::Rectangle() {
 	visible = true;
 	X = 0;
 	Y = 0;
+	Z = 0;
+	XYAngle = 0;
+	XZAngle = 0;
 }
 
 void Rectangle::setWidth(GLsizei pW) {

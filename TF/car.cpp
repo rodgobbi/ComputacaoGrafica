@@ -5,8 +5,8 @@ Car::Car() {
 	X = 0;
 	Y = 0;
 	Z = 0;
-	direction = 0;
-	Zdirection = 0;
+	XYAngle = 0;
+	XZAngle = 0;
 }
 void Car::setGunDirection(GLfloat pAngleDirection) {
 	if (pAngleDirection > 45)

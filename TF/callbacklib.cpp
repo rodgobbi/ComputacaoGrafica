@@ -210,11 +210,11 @@ void MoveEnemies(GLdouble timeDiff) {
 				else {
 					lNewCar = *((*it).getCar());
 					if ( (*it).turnLeft) {
-						lNewCar.incDirectionAngle(timeDiff * gEnemyRotationSpeed);
+						lNewCar.incXYAngle(timeDiff * gEnemyRotationSpeed);
 						lNewCar.setSteeringAngle(timeDiff * gEnemyRotationSpeed * 10);
 					}
 					else {
-						lNewCar.incDirectionAngle(-timeDiff * gEnemyRotationSpeed);
+						lNewCar.incXYAngle(-timeDiff * gEnemyRotationSpeed);
 						lNewCar.setSteeringAngle(-timeDiff * gEnemyRotationSpeed * 10);
 					}
 					lNewCar = MoveObject( lNewCar, timeDiff, gEnemyMovementSpeed );

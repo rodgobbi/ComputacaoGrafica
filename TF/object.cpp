@@ -25,7 +25,7 @@ void Object::setColor(string pColor) {
 		this->setRGB(0,0.2,0);
 }
 
-void Object::setPosition(GLfloat pX, GLfloat pY){
+void Object::setXYPosition(GLfloat pX, GLfloat pY){
 	X = pX;
 	Y = pY;
 }
@@ -56,21 +56,21 @@ void Object::setVisible(bool pVisible) {
 bool Object::getVisible() {
 	return visible;
 }
-void Object::setDirection(GLfloat pAngleDirection) {
-	direction = fmod(pAngleDirection, 360.0);
+void Object::setXYAngle(GLfloat pAngle) {
+	XYAngle = fmod(pAngle, 360.0);
 }
-GLfloat Object::getRadianDirection() {
-	return direction * M_PI / 180;
+GLfloat Object::getRadianXYAngle() {
+	return XYAngle * M_PI / 180;
 }
-GLfloat Object::getDegreeDirection() {
-	return direction;
+GLfloat Object::getDegreeXYAngle() {
+	return XYAngle;
 }
-void Object::incDirectionAngle(GLfloat pAngle) {
-	direction = fmod((direction + pAngle), 360.0);
+void Object::incXYAngle(GLfloat pAngle) {
+	XYAngle = fmod((XYAngle + pAngle), 360.0);
 }
 
 
-void Object3d::setPositionZ(GLfloat pX, GLfloat pY, GLfloat pZ){
+void Object3d::setXYZPosition(GLfloat pX, GLfloat pY, GLfloat pZ){
 	X = pX;
 	Y = pY;
 	Z = pZ;
@@ -81,15 +81,15 @@ void Object3d::incZ(GLfloat pZ) {
 GLfloat Object3d::getZ() {
 	return Z;
 }
-void Object3d::setZDirection(GLfloat pAngleZDirection) {
-	Zdirection = fmod(pAngleZDirection, 360.0);
+void Object3d::setXZAngle(GLfloat pAngle) {
+	XZAngle = fmod(pAngle, 360.0);
 }
-GLfloat Object3d::getRadianZDirection() {
-	return Zdirection * M_PI / 180;
+GLfloat Object3d::getRadianXZAngle() {
+	return XZAngle * M_PI / 180;
 }
-GLfloat Object3d::getDegreeZDirection() {
-	return Zdirection;
+GLfloat Object3d::getDegreeXZAngle() {
+	return XZAngle;
 }
-void Object3d::incZDirectionAngle(GLfloat pAngle) {
-	Zdirection = fmod((Zdirection + pAngle), 360.0);
+void Object3d::incXZAngle(GLfloat pAngle) {
+	XZAngle = fmod((XZAngle + pAngle), 360.0);
 }
