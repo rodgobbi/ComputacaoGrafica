@@ -138,7 +138,7 @@ void mouseClick(int button, int state, int x, int y){
 void mouseMotion(int x, int y) {
 	GLint lNewPointerX = x;
 	GLint lNewPointerY = gWindowHeight - y;
-	gPlayerCar.incGunDirectionAngle( gLastPointerX - lNewPointerX);
+	gPlayerCar.incGunXYAngle( gLastPointerX - lNewPointerX);
 	gLastPointerX = lNewPointerX;
 	gLastPointerY = lNewPointerY;
 	glutPostRedisplay();

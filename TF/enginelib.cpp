@@ -83,9 +83,9 @@ Circle CarShot(Car pCar) {
 	lShot.setRGB(1,1,0);
 	lShot.setXYPosition(pCar.getX(),pCar.getY());
 	lShot.setXYAngle(pCar.getDegreeXYAngle());
-	lShot = MoveObject(lShot, 1, pCar.body.getWidth()/2);
-	lShot.incXYAngle(pCar.getDegreeGunDirection());
-	lShot = MoveObject(lShot, 1, pCar.gun.getWidth());
+	lShot = MoveObject(lShot, 1, pCar.body.getXLength()/2);
+	lShot.incXYAngle(pCar.getDegreeGunXYAngle());
+	lShot = MoveObject(lShot, 1, pCar.gun.getXLength());
 	return lShot;
 }
 bool PointOutOfWindow(Object pObject, Circle pOuterCircle) {

@@ -16,8 +16,8 @@ void drawColor(Object pObject) {
 void draw(Rectangle pRectangle) {
 	if (!pRectangle.getVisible())
 		return;
-	GLfloat lHalfWidth = (GLfloat) pRectangle.getWidth()/(2);
-	GLfloat lHalfHeight = (GLfloat) pRectangle.getHeight()/(2);
+	GLfloat lHalfWidth = (GLfloat) pRectangle.getXLength()/(2);
+	GLfloat lHalfHeight = (GLfloat) pRectangle.getYLength()/(2);
 	GLfloat lX = (GLfloat) pRectangle.getX();
 	GLfloat lY = (GLfloat) pRectangle.getY();
 	glPushMatrix();
@@ -53,7 +53,7 @@ void draw(Circle pCircle) {
 	glPushMatrix();
 	glTranslatef(lX,lY,0);
 	drawColor(pCircle);	
-	// glScalef( lRadius, lRadius, 1);
+	glScalef( lRadius, lRadius, 1);
 	// glutSolidSphere(1,100,16);
 	glBegin(GL_TRIANGLE_FAN);
 		glNormal3f(0,0,1);
@@ -61,8 +61,8 @@ void draw(Circle pCircle) {
 		for(i = 0; i <= triangleAmount;i++) { 
 			glNormal3f(0,0,1);
 			glVertex3f(
-		    (lRadius * cos(i *  twicePi / triangleAmount)), 
-			  (lRadius * sin(i * twicePi / triangleAmount)),
+		    (1 * cos(i *  twicePi / triangleAmount)), 
+			  (1 * sin(i * twicePi / triangleAmount)),
 			  0
 			);
 		}
@@ -81,7 +81,7 @@ void draw(Car pCar) {
 		glTranslatef(lX,lY,lZ);
 	  glRotatef(pCar.getDegreeXYAngle(),0,0,1);
 	  drawColor(pCar.gun);
-	  drawEllipse(pCar.body.getWidth()/4, pCar.body.getHeight()/4);
+	  drawEllipse(pCar.body.getXLength()/4, pCar.body.getYLength()/4);
 	  draw(pCar.body);
 	  drawWheels(pCar);
 	  drawGun(pCar);
@@ -89,11 +89,11 @@ void draw(Car pCar) {
 }
 
 void drawWheels(Car pCar) {
-	GLfloat lHubX = (pCar.body.getWidth()/2)*0.7;
-	GLfloat lHubY = (pCar.body.getHeight()/2) + (pCar.hub.getHeight()/2);
+	GLfloat lHubX = (pCar.body.getXLength()/2)*0.7;
+	GLfloat lHubY = (pCar.body.getYLength()/2) + (pCar.hub.getYLength()/2);
 	GLfloat lWheelX = lHubX;
-	GLfloat lWheelY = lHubY + (pCar.hub.getHeight()/2) + (pCar.wheel.getHeight()/2);
-	GLfloat lWheelStripeXPosition = (pCar.getWheelStripePosition() - 0.5)*pCar.wheel.getWidth();
+	GLfloat lWheelY = lHubY + (pCar.hub.getYLength()/2) + (pCar.wheel.getYLength()/2);
+	GLfloat lWheelStripeXPosition = (pCar.getWheelStripePosition() - 0.5)*pCar.wheel.getXLength();
 
 	// front
 	pCar.hub.setXYPosition(lHubX,lHubY);
@@ -137,9 +137,9 @@ void drawWheels(Car pCar) {
 
 void drawGun(Car pCar) {
 	glPushMatrix();
-		glTranslatef(pCar.body.getWidth()/2,0,0);
-	  glRotatef(pCar.getDegreeGunDirection(),0,0,1);
-		glTranslatef(pCar.gun.getWidth()/2,0,0);
+		glTranslatef(pCar.body.getXLength()/2,0,0);
+	  glRotatef(pCar.getDegreeGunXYAngle(),0,0,1);
+		glTranslatef(pCar.gun.getXLength()/2,0,0);
 		draw(pCar.gun);
 	glPopMatrix();
 }

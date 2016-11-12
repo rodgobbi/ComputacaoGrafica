@@ -59,13 +59,22 @@ class Rectangle : public Object3d
 {
 public:
 	Rectangle();	
-	void setWidth(GLsizei pW);
-	void setHeight(GLsizei pH);
-	GLsizei getWidth();
-	GLsizei getHeight();
+	void setXLength(GLfloat pW);
+	void setYLength(GLfloat pH);
+	GLfloat getXLength();
+	GLfloat getYLength();
 	// bool pointIsInside(GLint pX, GLint pY);
 protected:
-	GLsizei width, height;
+	GLfloat XLength, YLength;
+};
+
+class Rectangle3d : public Rectangle {
+public:
+	Rectangle3d();	
+	void setZLength(GLfloat pW);
+	GLfloat getZLength();
+protected:
+	GLfloat ZLength;
 };
 
 class Car : public Circle
@@ -73,9 +82,9 @@ class Car : public Circle
 public:
   Rectangle body, gun, hub, wheel, wheelStripe;
 	Car();
-	void setGunDirection(GLfloat pAngleDirection);
-  GLfloat getDegreeGunDirection();
-	void incGunDirectionAngle(GLfloat pAngle);
+	void setGunXYAngle(GLfloat pAngleDirection);
+  GLfloat getDegreeGunXYAngle();
+	void incGunXYAngle(GLfloat pAngle);
   void setRadius(GLfloat pRadius);  
 	void setSteeringAngle(GLfloat pAngle);
 	GLfloat getDegreeSteeringAngle();
@@ -83,7 +92,7 @@ public:
 	GLfloat getWheelStripePosition();
 	void incWheelStripePosition(GLfloat pPercentage);
 protected:
-	GLfloat gunDirection, steeringAngle, wheelStripePosition;
+	GLfloat gunXYAngle, steeringAngle, wheelStripePosition;
 };
 
 class Controller

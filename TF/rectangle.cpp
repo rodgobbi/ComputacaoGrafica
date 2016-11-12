@@ -9,18 +9,35 @@ Rectangle::Rectangle() {
 	XZAngle = 0;
 }
 
-void Rectangle::setWidth(GLsizei pW) {
-	width = pW;
+void Rectangle::setXLength(GLfloat pW) {
+	XLength = pW;
 }
 
-GLsizei Rectangle::getWidth() {
-	return width;
+GLfloat Rectangle::getXLength() {
+	return XLength;
 }
 
-void Rectangle::setHeight(GLsizei pH) {
-	height = pH;
+void Rectangle::setYLength(GLfloat pH) {
+	YLength = pH;
 }
 
-GLsizei Rectangle::getHeight() {
-	return height;
+GLfloat Rectangle::getYLength() {
+	return YLength;
+}
+
+Rectangle3d::Rectangle3d() {
+	visible = true;
+	X = 0;
+	Y = 0;
+	Z = 0;
+	XYAngle = 0;
+	XZAngle = 0;
+}
+
+void Rectangle3d::setZLength(GLfloat pW) {
+	ZLength = pW;
+}
+
+GLfloat Rectangle3d::getZLength() {
+	return ZLength;
 }

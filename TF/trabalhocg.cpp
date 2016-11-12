@@ -208,8 +208,8 @@ Rectangle ExtractRectData(TiXmlElement* pElement) {
 	lColor = pElement->Attribute("fill");
 
 	lRect.setXYPosition(lX + lW/2, lY + lH/2);
-	lRect.setWidth(lW);
-	lRect.setHeight(lH);
+	lRect.setXLength(lW);
+	lRect.setYLength(lH);
 	lRect.setColor(lColor);
 	return lRect;
 }

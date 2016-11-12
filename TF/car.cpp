@@ -8,37 +8,37 @@ Car::Car() {
 	XYAngle = 0;
 	XZAngle = 0;
 }
-void Car::setGunDirection(GLfloat pAngleDirection) {
+void Car::setGunXYAngle(GLfloat pAngleDirection) {
 	if (pAngleDirection > 45)
-		gunDirection = 45;
+		gunXYAngle = 45;
 	else if (pAngleDirection < -45)
-		gunDirection = -45;
+		gunXYAngle = -45;
 	else
-		gunDirection = pAngleDirection;
+		gunXYAngle = pAngleDirection;
 }
-GLfloat Car::getDegreeGunDirection() {
-	return gunDirection;
+GLfloat Car::getDegreeGunXYAngle() {
+	return gunXYAngle;
 }
-void Car::incGunDirectionAngle(GLfloat pAngle) {
-	if ((gunDirection + pAngle) > 45)
-		gunDirection = 45;
-	else if ((gunDirection + pAngle) < -45)
-		gunDirection = -45;
+void Car::incGunXYAngle(GLfloat pAngle) {
+	if ((gunXYAngle + pAngle) > 45)
+		gunXYAngle = 45;
+	else if ((gunXYAngle + pAngle) < -45)
+		gunXYAngle = -45;
 	else
-		gunDirection += pAngle;
+		gunXYAngle += pAngle;
 }
 void Car::setRadius(GLfloat pRadius) {
 	radius = pRadius;
-	body.setWidth(pRadius*1.4);
-	body.setHeight(pRadius/1.8);
-	hub.setWidth(pRadius/10);
-	hub.setHeight(pRadius/4);
-	wheel.setWidth(pRadius*0.4);
-	wheel.setHeight(pRadius/4);
-	wheelStripe.setWidth(pRadius*0.05);
-	wheelStripe.setHeight(pRadius/4);
-	gun.setWidth(pRadius*0.3);
-	gun.setHeight(pRadius/10);
+	body.setXLength(pRadius*1.4);
+	body.setYLength(pRadius/1.8);
+	hub.setXLength(pRadius/10);
+	hub.setYLength(pRadius/4);
+	wheel.setXLength(pRadius*0.4);
+	wheel.setYLength(pRadius/4);
+	wheelStripe.setXLength(pRadius*0.05);
+	wheelStripe.setYLength(pRadius/4);
+	gun.setXLength(pRadius*0.3);
+	gun.setYLength(pRadius/10);
 }
 void Car::setSteeringAngle(GLfloat pAngle) {
 	if (pAngle > 45)
