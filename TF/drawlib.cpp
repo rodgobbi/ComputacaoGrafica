@@ -39,6 +39,23 @@ void draw(Rectangle pRectangle) {
 	glPopMatrix();
 }
 
+void drawRectangle3d(Rectangle3d pRectangle) {
+	if (!pRectangle.getVisible())
+		return;
+	GLfloat lXLength = (GLfloat) pRectangle.getXLength();
+	GLfloat lYLength = (GLfloat) pRectangle.getYLength();
+	GLfloat lZLength = (GLfloat) pRectangle.getZLength();
+	GLfloat lX = (GLfloat) pRectangle.getX();
+	GLfloat lY = (GLfloat) pRectangle.getY();
+	GLfloat lZ = (GLfloat) pRectangle.getZ();
+	glPushMatrix();
+		glTranslatef(lX,lY,lZ);
+		drawColor(pRectangle);
+		glScalef( lXLength, lYLength, lZLength);
+    glutSolidCube(1.0);
+	glPopMatrix();
+}
+
 void draw(Circle pCircle) {
 	if (!pCircle.getVisible())
 		return;
@@ -54,7 +71,6 @@ void draw(Circle pCircle) {
 		glTranslatef(lX,lY,0);
 		drawColor(pCircle);	
 		glScalef( lRadius, lRadius, 1);
-		// glutSolidSphere(1,100,16);
 		glBegin(GL_TRIANGLE_FAN);
 			glNormal3f(0,0,1);
 			glVertex3f(0, 0, 0); // center of circle
@@ -70,64 +86,113 @@ void draw(Circle pCircle) {
 	glPopMatrix();
 }
 
+void drawFlatSphere(Circle pCircle) {
+	if (!pCircle.getVisible())
+		return;
+	GLfloat lX = (GLfloat) pCircle.getX();
+	GLfloat lY = (GLfloat) pCircle.getY();
+	GLfloat lRadius = (GLfloat) pCircle.getRadius();
+	
+	glPushMatrix();
+		glTranslatef(lX,lY,0);
+		drawColor(pCircle);	
+		glScalef( lRadius, lRadius, 1);
+		glutSolidSphere(1,100,100);
+	glPopMatrix();
+}
+
 void draw(Car pCar) {
 	if (!pCar.getVisible())
 		return;	
 	GLfloat lX = (GLfloat) pCar.getX();
 	GLfloat lY = (GLfloat) pCar.getY();
-	GLfloat lZ = (GLfloat) pCar.getRadius()/2;
+	GLfloat lZ = (GLfloat) pCar.getZ();
+	GLfloat lZLength = pCar.getZLength();
 
 	glPushMatrix();
 		glTranslatef(lX,lY,lZ);
+		glTranslatef(0,0,lZLength);
 	  glRotatef(pCar.getDegreeXYAngle(),0,0,1);
 	  drawColor(pCar.gun);
-	  drawEllipse(pCar.body.getXLength()/4, pCar.body.getYLength()/4);
-	  draw(pCar.body);
-	  drawWheels(pCar);
+		glPushMatrix();
+			glTranslatef(0, 0, pCar.body.getZLength()/2 );
+	  	drawEllipse3d(pCar.body.getXLength()/4, pCar.body.getYLength()/4);
+		glPopMatrix();
+	  drawRectangle3d(pCar.body);
+	  glPushMatrix();
+	  	glTranslatef(0, 0, -pCar.body.getZLength()/4.5);
+	  	drawWheels(pCar);
+	  glPopMatrix();
 	  drawGun(pCar);
 	glPopMatrix();
 }
 
 void drawWheels(Car pCar) {
 	GLfloat lHubX = (pCar.body.getXLength()/2)*0.7;
-	GLfloat lHubY = (pCar.body.getYLength()/2) + (pCar.hub.getYLength()/2);
+	GLfloat lHubY = (pCar.body.getYLength()/2) + (pCar.hub.getXLength()/2);
 	GLfloat lWheelX = lHubX;
-	GLfloat lWheelY = lHubY + (pCar.hub.getYLength()/2) + (pCar.wheel.getYLength()/2);
+	GLfloat lWheelY = lHubY + (pCar.hub.getXLength()/2) + (pCar.wheel.getXLength()/2);
 
 	// front
-	pCar.hub.setXYPosition(lHubX,lHubY);
-	draw(pCar.hub);
+
+	glPushMatrix();
+		glTranslatef(lHubX,lHubY,0);
+		glRotatef(90,0,0,1);
+		pCar.hub.setXYPosition(0,0);
+		drawCylinder(pCar.hub);
+	glPopMatrix();
 
 	glPushMatrix();
 		glTranslatef(lWheelX,lWheelY,0);
+		glRotatef(90,0,0,1);
 		glRotatef(pCar.getDegreeSteeringAngle(),0,0,1);
 		pCar.wheel.setXYPosition(0,0);
-		draw(pCar.wheel);
-		draw(pCar.wheelStripe);
+		drawCylinder(pCar.wheel);
 	glPopMatrix();
 
-	pCar.hub.setXYPosition(lHubX,-lHubY);
-	draw(pCar.hub);	
+	glPushMatrix();
+		glTranslatef(lHubX,-lHubY,0);
+		glRotatef(90,0,0,1);
+		pCar.hub.setXYPosition(0,0);
+		drawCylinder(pCar.hub);
+	glPopMatrix();
 
 	glPushMatrix();
 		glTranslatef(lWheelX,-lWheelY,0);
+		glRotatef(90,0,0,1);
 		glRotatef(pCar.getDegreeSteeringAngle(),0,0,1);
 		pCar.wheel.setXYPosition(0,0);
-		draw(pCar.wheel);
-		draw(pCar.wheelStripe);
+		drawCylinder(pCar.wheel);
 	glPopMatrix();
 
 	// rear
-	pCar.hub.setXYPosition(-lHubX,lHubY);
-	pCar.wheel.setXYPosition(-lWheelX,lWheelY);
-	draw(pCar.hub);
-	draw(pCar.wheel);
-	draw(pCar.wheelStripe);
-	pCar.hub.setXYPosition(-lHubX,-lHubY);
-	pCar.wheel.setXYPosition(-lWheelX,-lWheelY);
-	draw(pCar.hub);
-	draw(pCar.wheel);
-	draw(pCar.wheelStripe);
+	glPushMatrix();
+		glTranslatef(-lHubX,lHubY,0);
+		glRotatef(90,0,0,1);
+		pCar.hub.setXYPosition(0,0);
+		drawCylinder(pCar.hub);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(-lWheelX,lWheelY,0);
+		glRotatef(90,0,0,1);
+		pCar.wheel.setXYPosition(0,0);
+		drawCylinder(pCar.wheel);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(-lHubX,-lHubY,0);
+		glRotatef(90,0,0,1);
+		pCar.hub.setXYPosition(0,0);
+		drawCylinder(pCar.hub);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(-lWheelX,-lWheelY,0);
+		glRotatef(90,0,0,1);
+		pCar.wheel.setXYPosition(0,0);
+		drawCylinder(pCar.wheel);
+	glPopMatrix();
 }
 
 void drawGun(Car pCar) {
@@ -135,7 +200,8 @@ void drawGun(Car pCar) {
 		glTranslatef(pCar.body.getXLength()/2,0,0);
 	  glRotatef(pCar.getDegreeGunXYAngle(),0,0,1);
 		glTranslatef(pCar.gun.getXLength()/2,0,0);
-		draw(pCar.gun);
+		pCar.gun.setXYPosition(0,0);
+		drawCylinder(pCar.gun);
 	glPopMatrix();
 }
 
@@ -151,6 +217,13 @@ void drawEllipse(GLfloat radiusX, GLfloat radiusY) {
 		              0 );
 		}
 	glEnd();
+}
+
+void drawEllipse3d(GLfloat radiusX, GLfloat radiusY) {	
+	glPushMatrix();
+		glScalef( radiusX, radiusY, radiusY);
+    glutSolidSphere(1, 100, 16);
+	glPopMatrix();
 }
 
 void drawCylinder(Cylinder pCylinder) {

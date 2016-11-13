@@ -27,14 +27,15 @@ void DrawObj(double size) {
   int triangleAmount = 100; //# of triangles used to draw circle
   static int  angle = 0;
   angle++;
-  Cylinder c;
-  c.setXLength(1);
+
+  Car c;
   c.setRadius(1);
-  c.setRGB(1,0,0);
-  glPushMatrix();
-    glRotatef(angle,1,0,0);
-    drawCylinder(c);
-  glPopMatrix();
+
+  c.gun.setColor("darkmoss");
+  c.body.setColor("moss");
+  c.hub.setColor("grayblue");
+  c.wheel.setColor("grayblue");
+  draw(c);
 return;
   GLfloat twicePi = 2.0f * M_PI;
   glColor3f(1,0,0);
@@ -146,7 +147,7 @@ void DrawAxes(double size) {
 void display(void) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-  GLfloat light_position[] = {-3,5,2,1};
+  GLfloat light_position[] = {3,5,2,1};
   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
   DrawAxes(1.5);
@@ -165,14 +166,14 @@ void reshape(int w, int h) {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   if (w <= h)
-    // gluPerspective(45, (GLfloat)h /  (GLfloat)w, 2, 15);
-    glOrtho(-3,3,-3*(GLfloat)h/(GLfloat)w,3*(GLfloat)h/(GLfloat)w,1,15);
+    gluPerspective(45, (GLfloat)h /  (GLfloat)w, 2, 15);
+    // glOrtho(-3,3,-3*(GLfloat)h/(GLfloat)w,3*(GLfloat)h/(GLfloat)w,1,15);
   else
-    // gluPerspective(45, (GLfloat)w /  (GLfloat)h, 2, 15);
-    glOrtho(-3*(GLfloat)h/(GLfloat)w,3*(GLfloat)h/(GLfloat)w,-3,3,1,15);
+    gluPerspective(45, (GLfloat)w /  (GLfloat)h, 2, 15);
+    // glOrtho(-3*(GLfloat)h/(GLfloat)w,3*(GLfloat)h/(GLfloat)w,-3,3,1,15);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(4,2,5,0,0,0,0,1,0);
+  gluLookAt(4,2,2,0,0,0,0,0,1);
 }
 
 int main(int argc, char** argv)

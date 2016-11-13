@@ -154,3 +154,56 @@ void CheckCompletedQuarter(Car pNewCar, Car pPreviousCar, Circle pOuterCircle, b
 		}
 	}
 }
+
+void TurnOnCarLight(Car pPlayerCar) {
+  glEnable(GL_LIGHTING);
+  glDisable(GL_LIGHT0);
+  glDisable(GL_LIGHT1);
+	GLfloat lightPosition[] = {0 , 0, 0, 1};
+	GLfloat lightDirection[] = {1 , 0, 0};
+	GLfloat lightAngle[] = {45};
+	GLfloat lX = (GLfloat) pPlayerCar.getX();
+	GLfloat lY = (GLfloat) pPlayerCar.getY();
+	GLfloat lZ = (GLfloat) pPlayerCar.getZ();
+	GLfloat lZLength = pPlayerCar.getZLength();
+
+	glPushMatrix();
+		glTranslatef(lX,lY,lZ);
+		glTranslatef(0,0,lZLength);
+	  glRotatef(pPlayerCar.getDegreeXYAngle(),0,0,1);
+	  glTranslatef(pPlayerCar.body.getXLength()/2, 0, 0);
+		glPushMatrix();
+	  	glTranslatef(0, pPlayerCar.body.getYLength()/2, 0);
+		  glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+		  glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, lightDirection);
+		  glLightfv(GL_LIGHT0, GL_SPOT_CUTOFF, lightAngle);
+  		glEnable(GL_LIGHT0);
+		glPopMatrix();
+		glPushMatrix();
+	  	glTranslatef(0, -pPlayerCar.body.getYLength()/2, 0);
+		  glLightfv(GL_LIGHT1, GL_POSITION, lightPosition);
+		  glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, lightDirection);
+		  glLightfv(GL_LIGHT1, GL_SPOT_CUTOFF, lightAngle);
+  		glEnable(GL_LIGHT1);
+		glPopMatrix();
+	glPopMatrix();
+}
+
+void TurnOnTrackLight(Circle pOuterCircle) {
+  glEnable(GL_LIGHTING);
+  glDisable(GL_LIGHT0);
+  glDisable(GL_LIGHT1);
+
+
+	GLfloat lightPosition[] = {0, 0, 0, 1};
+	GLfloat lightDirection[] = {0 , 0, -1};
+	GLfloat lightAngle[] = {180};
+
+	glPushMatrix();
+		glTranslatef(pOuterCircle.getX(),pOuterCircle.getY(),100);
+	  glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+	  glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, lightDirection);
+	  glLightfv(GL_LIGHT0, GL_SPOT_CUTOFF, lightAngle);
+	  glEnable(GL_LIGHT0);
+	glPopMatrix();
+}

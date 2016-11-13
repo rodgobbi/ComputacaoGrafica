@@ -48,16 +48,16 @@ void Car::incGunXZAngle(GLfloat pAngle) {
 }
 void Car::setRadius(GLfloat pRadius) {
 	radius = pRadius;
+	ZLength = pRadius/3;
 	body.setXLength(pRadius*1.4);
-	body.setYLength(pRadius/1.8);
-	hub.setXLength(pRadius/10);
-	hub.setYLength(pRadius/4);
-	wheel.setXLength(pRadius*0.4);
-	wheel.setYLength(pRadius/4);
-	wheelStripe.setXLength(pRadius*0.05);
-	wheelStripe.setYLength(pRadius/4);
+	body.setYLength(pRadius/1.4);
+	body.setZLength(pRadius/3);
+	hub.setXLength(pRadius/6);
+	hub.setRadius(pRadius/16);
+	wheel.setXLength(pRadius/4);
+	wheel.setRadius(pRadius/2 - pRadius/3.2);
 	gun.setXLength(pRadius*0.3);
-	gun.setYLength(pRadius/10);
+	gun.setRadius(pRadius/20);
 }
 void Car::setSteeringAngle(GLfloat pAngle) {
 	if (pAngle > 45)
@@ -69,4 +69,12 @@ void Car::setSteeringAngle(GLfloat pAngle) {
 }
 GLfloat Car::getDegreeSteeringAngle() {
 	return steeringAngle;
+}
+
+void Car::setZLength(GLfloat pW) {
+	ZLength = pW;
+}
+
+GLfloat Car::getZLength() {
+	return ZLength;
 }

@@ -8,7 +8,11 @@ void drawColor(Object pObject);
 
 void draw(Rectangle pRectangle);
 
+void drawRectangle3d(Rectangle3d pRectangle);
+
 void draw(Circle pCircle);
+
+void drawFlatSphere(Circle pCircle);
 
 void draw(Car pCar);
 
@@ -17,6 +21,8 @@ void drawWheels(Car pCar);
 void drawGun(Car pCar);
 
 void drawEllipse(GLfloat radiusX, GLfloat radiusY);
+
+void drawEllipse3d(GLfloat radiusX, GLfloat radiusY);
 
 void drawCylinder(Cylinder pCylinder);
 

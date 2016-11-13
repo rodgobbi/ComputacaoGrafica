@@ -92,7 +92,8 @@ protected:
 class Car : public Circle
 {
 public:
-  Rectangle body, gun, hub, wheel, wheelStripe;
+  Rectangle3d body;
+  Cylinder gun, hub, wheel;
 	Car();
 	void setGunXYAngle(GLfloat pAngle);
   GLfloat getDegreeGunXYAngle();
@@ -103,8 +104,10 @@ public:
   void setRadius(GLfloat pRadius);  
 	void setSteeringAngle(GLfloat pAngle);
 	GLfloat getDegreeSteeringAngle();
+	void setZLength(GLfloat pW);
+	GLfloat getZLength();
 protected:
-	GLfloat gunXYAngle, gunXZAngle, steeringAngle;
+	GLfloat gunXYAngle, gunXZAngle, steeringAngle, ZLength;
 };
 
 class Controller

@@ -6,20 +6,19 @@ void display(void){
   glMatrixMode(GL_MODELVIEW);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
   glLoadIdentity();
-  gluLookAt(gOuterCircle.getX(),gOuterCircle.getY(),100,gOuterCircle.getX(),gOuterCircle.getY(),0,0,1,0);
-  // gluLookAt(gOuterCircle.getX() ,gOuterCircle.getY() -50 ,100,gOuterCircle.getX(),gOuterCircle.getY(),0,0,1,0);
+  // gluLookAt(gOuterCircle.getX(),gOuterCircle.getY(),100,gOuterCircle.getX(),gOuterCircle.getY(),0,0,1,0);
+  gluLookAt(gPlayerCar.getX(),gPlayerCar.getY() -100,100,gPlayerCar.getX(),gPlayerCar.getY(),0,0,0,1);
 	glPushMatrix();
-	  GLfloat light_position[] = {gOuterCircle.getX(), gOuterCircle.getY(), 10000, 1};
+	  // GLfloat light_position[] = {0, 0, 100, 1};
 	  if (gKeyboardStatus[(int)('n')])
-	  	glDisable(GL_LIGHTING);
+	  	TurnOnCarLight(gPlayerCar);
 	  else {
-	    glEnable(GL_LIGHTING);
-	    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	    TurnOnTrackLight(gOuterCircle);
 	  }
 		glTranslatef(0,0,0.1);
-		draw(gOuterCircle);
+		drawFlatSphere(gOuterCircle);
 		glTranslatef(0,0,1);
-		draw(gInnerCircle);
+		drawFlatSphere(gInnerCircle);
 		draw(gStripeRect);
 		for (list<Car>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
 			draw( *it );
@@ -36,6 +35,8 @@ void display(void){
 	glPopMatrix();
 	glutSwapBuffers();
 }
+
+
 
 void keyPress(unsigned char key, int x, int y){
 switch (key)
