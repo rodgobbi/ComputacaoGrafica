@@ -101,6 +101,22 @@ void drawFlatSphere(Circle pCircle) {
 	glPopMatrix();
 }
 
+void drawSphere(Circle pCircle) {
+	if (!pCircle.getVisible())
+		return;
+	GLfloat lX = (GLfloat) pCircle.getX();
+	GLfloat lY = (GLfloat) pCircle.getY();
+	GLfloat lZ = (GLfloat) pCircle.getZ();
+	GLfloat lRadius = (GLfloat) pCircle.getRadius();
+	
+	glPushMatrix();
+		glTranslatef(lX,lY,lZ);
+		drawColor(pCircle);	
+		glScalef( lRadius, lRadius, lRadius);
+		glutSolidSphere(1,16,16);
+	glPopMatrix();
+}
+
 void draw(Car pCar) {
 	if (!pCar.getVisible())
 		return;	
@@ -199,6 +215,7 @@ void drawGun(Car pCar) {
 	glPushMatrix();
 		glTranslatef(pCar.body.getXLength()/2,0,0);
 	  glRotatef(pCar.getDegreeGunXYAngle(),0,0,1);
+	  glRotatef(-pCar.getDegreeGunXZAngle(),0,1,0);
 		glTranslatef(pCar.gun.getXLength()/2,0,0);
 		pCar.gun.setXYPosition(0,0);
 		drawCylinder(pCar.gun);

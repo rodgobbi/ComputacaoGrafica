@@ -14,6 +14,8 @@ void draw(Circle pCircle);
 
 void drawFlatSphere(Circle pCircle);
 
+void drawSphere(Circle pCircle);
+
 void draw(Car pCar);
 
 void drawWheels(Car pCar);

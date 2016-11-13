@@ -23,9 +23,9 @@ void display(void){
 		for (list<Car>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
 			draw( *it );
 		for (list<Circle>::iterator it = gShotsList.begin(); it != gShotsList.end(); it++)
-			draw( *it );
+			drawSphere( *it );
 		for (list<Circle>::iterator it = gEnemyShotsList.begin(); it != gEnemyShotsList.end(); it++)
-			draw( *it );
+			drawSphere( *it );
 		draw(gPlayerCar);
 		if (gStartTime > 0)
 			drawTime(gOuterCircle, glutGet(GLUT_ELAPSED_TIME) - gStartTime);
@@ -140,6 +140,7 @@ void mouseMotion(int x, int y) {
 	GLint lNewPointerX = x;
 	GLint lNewPointerY = gWindowHeight - y;
 	gPlayerCar.incGunXYAngle( gLastPointerX - lNewPointerX);
+	gPlayerCar.incGunXZAngle( lNewPointerY - gLastPointerY);
 	gLastPointerX = lNewPointerX;
 	gLastPointerY = lNewPointerY;
 	glutPostRedisplay();
@@ -150,7 +151,7 @@ void CheckGameOverAndDraw() {
 		gGameOver = true;
 		drawGameOver(gOuterCircle, true);
 	}
-	else if (CirclesColliding(gPlayerCar,gEnemyShotsList)) {
+	else if (ShotsColliding(gPlayerCar,gEnemyShotsList)) {
 		gGameOver = true;
 		drawGameOver(gOuterCircle, false);
 	}
@@ -161,7 +162,7 @@ void MoveEnemies(GLdouble timeDiff) {
 	list<Car>::iterator it2;
 	list<Controller>::iterator it = gControllersList.begin();
 	while ( it != gControllersList.end() ) {
-		if (CirclesColliding( *((*it).getCar()), gShotsList)) {
+		if (ShotsColliding( *((*it).getCar()), gShotsList)) {
 			it2 = gEnemiesList.begin();
 			while ( it2 != gEnemiesList.end()) {
 				if ( &(*it2) == (*it).getCar()) {

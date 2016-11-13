@@ -12,6 +12,9 @@ bool CirclesColliding (Circle pCircle1, Circle pCircle2);
 bool CirclesColliding (Circle pCircle1, list<Circle> &pCirclesList);
 bool CirclesColliding (Circle pCircle1, list<Car> &pCarsList);
 bool CircleCovered(Circle pInnerCircle, Circle pOuterCircle);
+bool ShotsColliding (Circle pCircle1, list<Car> &pCarsList);
+bool ShotsColliding (Car pCar, list<Circle> &pCirclesList);
+bool CarHit (Circle pShot, Car pCar);
 void MoveShots(list<Circle> &pShotsList, GLdouble timeDiff , GLdouble pSpeed, Circle pOuterCircle);
 Car MoveCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed );
 Car RotateCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed );
@@ -25,9 +28,11 @@ void TurnOnTrackLight(Circle pOuterCircle);
 
 template<class tObject>
 tObject MoveObject(tObject pObject, GLdouble timeDiff , GLdouble pSpeed) {
-	GLfloat lDirection = pObject.getRadianXYAngle();
-	pObject.incX(pSpeed * timeDiff * cos(lDirection) );
-	pObject.incY(pSpeed * timeDiff * sin(lDirection) );
+	GLfloat lXYAngle = pObject.getRadianXYAngle();
+	GLfloat lXZAngle = pObject.getRadianXZAngle();
+	pObject.incX(pSpeed * timeDiff * cos(lXYAngle) * cos(lXZAngle) );
+	pObject.incY(pSpeed * timeDiff * sin(lXYAngle) * cos(lXZAngle) );
+	pObject.incZ(pSpeed * timeDiff * sin(lXZAngle) );
 	return pObject;
 }
 

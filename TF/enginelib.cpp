@@ -21,6 +21,29 @@ bool CirclesColliding (Circle pCircle1, list<Car> &pCarsList) {
 	return false;
 }
 
+bool ShotsColliding (Circle pCircle1, list<Car> &pCarsList) {
+	for (list<Car>::iterator it = pCarsList.begin(); it != pCarsList.end(); it++)
+		if ( CarHit ( pCircle1, *it) )
+			return true;
+	return false;
+}
+
+bool ShotsColliding (Car pCar, list<Circle> &pCirclesList) {
+	for (list<Circle>::iterator it = pCirclesList.begin(); it != pCirclesList.end(); it++)
+		if ( CarHit ( *it, pCar) )
+			return true;
+	return false;
+}
+
+bool CarHit (Circle pShot, Car pCar) {
+	GLfloat lDeltaX = pShot.getX() - pCar.getX();
+	GLfloat lDeltaY = pShot.getY() - pCar.getY();
+	GLfloat lXYRadiusSum = pShot.getRadius() + pCar.getRadius();
+	bool lSameHeight = (pShot.getZ() <= (pCar.getZ() + pCar.getRadius()*0.7) ) 
+											and (pShot.getZ() >= ( pCar.getZ() ) );
+	return (lXYRadiusSum > sqrt(lDeltaX*lDeltaX + lDeltaY*lDeltaY)) and lSameHeight;
+}
+
 bool CircleCovered(Circle pInnerCircle, Circle pOuterCircle) {
 	GLfloat lDeltaX = pInnerCircle.getX() - pOuterCircle.getX();
 	GLfloat lDeltaY = pInnerCircle.getY() - pOuterCircle.getY();
@@ -79,10 +102,11 @@ Circle CarShot(Car pCar) {
 	Circle lShot;
 	lShot.setRadius(3);
 	lShot.setRGB(1,1,0);
-	lShot.setXYPosition(pCar.getX(),pCar.getY());
+	lShot.setXYZPosition(pCar.getX(),pCar.getY(), pCar.getZLength());
 	lShot.setXYAngle(pCar.getDegreeXYAngle());
 	lShot = MoveObject(lShot, 1, pCar.body.getXLength()/2);
 	lShot.incXYAngle(pCar.getDegreeGunXYAngle());
+	lShot.incXZAngle(pCar.getDegreeGunXZAngle());
 	lShot = MoveObject(lShot, 1, pCar.gun.getXLength());
 	return lShot;
 }
