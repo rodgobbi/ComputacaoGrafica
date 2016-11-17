@@ -24,8 +24,8 @@ void display(void){
 		glPushMatrix();
 			glTranslatef(0,0,1);
 			draw(gInnerCircle);
+			draw(gStripeRect);
 		glPopMatrix();
-		draw(gStripeRect);
 		for (list<Car>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
 			draw( *it );
 		for (list<Circle>::iterator it = gShotsList.begin(); it != gShotsList.end(); it++)
@@ -300,7 +300,7 @@ void ChooseCamera() {
 		setCockpitCamera(gPlayerCar);
 	}
 	else if (gKeyboardStatus[(int)('2')] == true) {
-		//
+		setGunCamera(gPlayerCar);
 	}
 	else {
 		setThirdPersonCamera(gPlayerCar, gCameraXYAngle, gCameraXZAngle);
