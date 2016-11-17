@@ -7,6 +7,7 @@ Car::Car() {
 	Z = 0;
 	XYAngle = 0;
 	XZAngle = 0;
+	wheelRotation = 0;
 }
 void Car::setGunXYAngle(GLfloat pAngle) {
 	if (pAngle > 45)
@@ -77,4 +78,12 @@ void Car::setZLength(GLfloat pW) {
 
 GLfloat Car::getZLength() {
 	return ZLength;
+}
+
+void Car::incWheelRotation( GLfloat pAngle) {
+	wheelRotation = fmod((wheelRotation + pAngle), 360.0);
+}
+
+GLfloat Car::getDegreeWheelRotation() {
+	return wheelRotation;
 }

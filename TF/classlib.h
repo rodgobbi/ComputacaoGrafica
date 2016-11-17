@@ -106,8 +106,10 @@ public:
 	GLfloat getDegreeSteeringAngle();
 	void setZLength(GLfloat pW);
 	GLfloat getZLength();
+	void incWheelRotation( GLfloat pAngle);
+	GLfloat getDegreeWheelRotation();
 protected:
-	GLfloat gunXYAngle, gunXZAngle, steeringAngle, ZLength;
+	GLfloat gunXYAngle, gunXZAngle, steeringAngle, ZLength, wheelRotation;
 };
 
 class Controller

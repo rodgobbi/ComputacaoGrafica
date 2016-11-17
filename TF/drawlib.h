@@ -36,6 +36,6 @@ void setThirdPersonCamera(Car pPlayerCar, GLfloat pXYDegreeAngle, GLfloat pXZDeg
 
 void setCockpitCamera(Car pPlayerCar);
 
-void setGunCamera(Car pPlayerCar);
+void setGunCamera(Car pPlayerCar, bool pInverted);
 
 #endif

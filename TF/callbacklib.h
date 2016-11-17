@@ -31,5 +31,6 @@ void CheckGameOverAndDraw();
 void MoveEnemies(GLdouble timeDiff);
 bool Colliding(Controller *pController, Car pNewCar);
 void ChooseCamera();
+void ChooseLighting();
 
 #endif

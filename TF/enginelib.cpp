@@ -63,10 +63,14 @@ void MoveShots(list<Circle> &pShotsList, GLdouble timeDiff , GLdouble pSpeed, Ci
 }
 Car MoveCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
 	if (gKeyboardStatus[(int)('w')] and !gKeyboardStatus[(int)('s')]){
-		return MoveObject(pCar, timeDiff, pSpeed);
+		pCar = MoveObject(pCar, timeDiff, pSpeed);
+		pCar.incWheelRotation(timeDiff * pSpeed);
+		return pCar;
 	}
 	else if (gKeyboardStatus[(int)('s')] and !gKeyboardStatus[(int)('w')]){
-		return MoveObject(pCar, timeDiff, -pSpeed);
+		pCar = MoveObject(pCar, timeDiff, -pSpeed);
+		pCar.incWheelRotation( -timeDiff * pSpeed);
+		return pCar;
 	}
 	else
 		return pCar;
@@ -182,7 +186,6 @@ void CheckCompletedQuarter(Car pNewCar, Car pPreviousCar, Circle pOuterCircle, b
 void TurnOnCarLight(Car pPlayerCar) {
   glEnable(GL_LIGHTING);
   glDisable(GL_LIGHT0);
-  glDisable(GL_LIGHT1);
 	GLfloat lightPosition[] = {0 , 0, 0, 1};
 	GLfloat lightDirection[] = {1 , 0, 0};
 	GLfloat lightAngle[] = {45};
@@ -197,18 +200,10 @@ void TurnOnCarLight(Car pPlayerCar) {
 	  glRotatef(pPlayerCar.getDegreeXYAngle(),0,0,1);
 	  glTranslatef(pPlayerCar.body.getXLength()/2, 0, 0);
 		glPushMatrix();
-	  	glTranslatef(0, pPlayerCar.body.getYLength()/2, 0);
 		  glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 		  glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, lightDirection);
 		  glLightfv(GL_LIGHT0, GL_SPOT_CUTOFF, lightAngle);
   		glEnable(GL_LIGHT0);
-		glPopMatrix();
-		glPushMatrix();
-	  	glTranslatef(0, -pPlayerCar.body.getYLength()/2, 0);
-		  glLightfv(GL_LIGHT1, GL_POSITION, lightPosition);
-		  glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, lightDirection);
-		  glLightfv(GL_LIGHT1, GL_SPOT_CUTOFF, lightAngle);
-  		glEnable(GL_LIGHT1);
 		glPopMatrix();
 	glPopMatrix();
 }
@@ -216,7 +211,6 @@ void TurnOnCarLight(Car pPlayerCar) {
 void TurnOnTrackLight(Circle pOuterCircle) {
   glEnable(GL_LIGHTING);
   glDisable(GL_LIGHT0);
-  glDisable(GL_LIGHT1);
 
 
 	GLfloat lightPosition[] = {0, 0, 0, 1};

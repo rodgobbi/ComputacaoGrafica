@@ -4,22 +4,13 @@ void display(void){
 	if (gGameOver)
 		return;
   glMatrixMode(GL_MODELVIEW);
+	glDisable(GL_LIGHTING);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
   glLoadIdentity();
 	ChooseCamera();
 	glPushMatrix();
-	  // GLfloat light_position[] = {0, 0, 100, 1};
+		ChooseLighting();
 
-		if (gKeyboardStatus[(int)('n')])
-			TurnOnCarLight(gPlayerCar);
-		else {
-			TurnOnTrackLight(gOuterCircle);
-		}
-	  if (gKeyboardStatus[(int)('l')])
-	  	glDisable(GL_LIGHTING);
-	  else {
-	    glEnable(GL_LIGHTING);
-	  }
 		drawFlatSphere(gOuterCircle);
 		glPushMatrix();
 			glTranslatef(0,0,1);
@@ -72,6 +63,10 @@ switch (key)
 		case 'l':
 		case 'L':
 			gKeyboardStatus[(int)('l')] = !gKeyboardStatus[(int)('l')];
+			break;
+		case 'g':
+		case 'G':
+			gKeyboardStatus[(int)('g')] = !gKeyboardStatus[(int)('g')];
 			break;
 		case '1':
 		case '!':
@@ -219,6 +214,7 @@ void MoveEnemies(GLdouble timeDiff) {
 		else {
 			if ( !(*it).foward) {
 				lNewCar = MoveObject( *((*it).getCar()), timeDiff, - gEnemyMovementSpeed );
+				lNewCar.incWheelRotation( -timeDiff * gEnemyMovementSpeed);
 				lNewCar.setSteeringAngle(0);
 				if (Colliding( &(*it), lNewCar ) or ((*it).movTime < 0)) {
 					(*it).foward = true;
@@ -233,6 +229,7 @@ void MoveEnemies(GLdouble timeDiff) {
 			else {
 				if ( !(*it).turning ) {
 					lNewCar = MoveObject( *((*it).getCar()), timeDiff, gEnemyMovementSpeed );
+				lNewCar.incWheelRotation( timeDiff * gEnemyMovementSpeed);
 					lNewCar.setSteeringAngle(0);
 					if (Colliding( &(*it), lNewCar )) {
 						(*it).foward = false;
@@ -260,6 +257,7 @@ void MoveEnemies(GLdouble timeDiff) {
 						lNewCar.setSteeringAngle(-timeDiff * gEnemyRotationSpeed * 10);
 					}
 					lNewCar = MoveObject( lNewCar, timeDiff, gEnemyMovementSpeed );
+					lNewCar.incWheelRotation( timeDiff * gEnemyMovementSpeed);
 					if (Colliding( &(*it), lNewCar )) {
 						(*it).foward = false;
 						(*it).movTime = 1000;
@@ -300,9 +298,18 @@ void ChooseCamera() {
 		setCockpitCamera(gPlayerCar);
 	}
 	else if (gKeyboardStatus[(int)('2')] == true) {
-		setGunCamera(gPlayerCar);
+		setGunCamera(gPlayerCar, gKeyboardStatus[(int)('g')]);
 	}
 	else {
 		setThirdPersonCamera(gPlayerCar, gCameraXYAngle, gCameraXZAngle);
+	}
+}
+
+void ChooseLighting() {
+	if (!gKeyboardStatus[(int)('l')]) {
+		if (gKeyboardStatus[(int)('n')])
+			TurnOnCarLight(gPlayerCar);
+		else 
+			TurnOnTrackLight(gOuterCircle);
 	}
 }

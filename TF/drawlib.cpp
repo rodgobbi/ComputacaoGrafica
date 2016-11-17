@@ -148,7 +148,7 @@ void drawWheels(Car pCar) {
 	GLfloat lHubY = (pCar.body.getYLength()/2) + (pCar.hub.getXLength()/2);
 	GLfloat lWheelX = lHubX;
 	GLfloat lWheelY = lHubY + (pCar.hub.getXLength()/2) + (pCar.wheel.getXLength()/2);
-
+	GLfloat lWheelRotation = pCar.getDegreeWheelRotation();
 	// front
 
 	glPushMatrix();
@@ -162,6 +162,7 @@ void drawWheels(Car pCar) {
 		glTranslatef(lWheelX,lWheelY,0);
 		glRotatef(90,0,0,1);
 		glRotatef(pCar.getDegreeSteeringAngle(),0,0,1);
+		glRotatef(lWheelRotation, 1, 0, 0);
 		pCar.wheel.setXYPosition(0,0);
 		drawCylinder(pCar.wheel);
 	glPopMatrix();
@@ -177,6 +178,7 @@ void drawWheels(Car pCar) {
 		glTranslatef(lWheelX,-lWheelY,0);
 		glRotatef(90,0,0,1);
 		glRotatef(pCar.getDegreeSteeringAngle(),0,0,1);
+		glRotatef(lWheelRotation, 1, 0, 0);
 		pCar.wheel.setXYPosition(0,0);
 		drawCylinder(pCar.wheel);
 	glPopMatrix();
@@ -192,6 +194,7 @@ void drawWheels(Car pCar) {
 	glPushMatrix();
 		glTranslatef(-lWheelX,lWheelY,0);
 		glRotatef(90,0,0,1);
+		glRotatef(lWheelRotation, 1, 0, 0);
 		pCar.wheel.setXYPosition(0,0);
 		drawCylinder(pCar.wheel);
 	glPopMatrix();
@@ -206,6 +209,7 @@ void drawWheels(Car pCar) {
 	glPushMatrix();
 		glTranslatef(-lWheelX,-lWheelY,0);
 		glRotatef(90,0,0,1);
+		glRotatef(lWheelRotation, 1, 0, 0);
 		pCar.wheel.setXYPosition(0,0);
 		drawCylinder(pCar.wheel);
 	glPopMatrix();
@@ -371,16 +375,23 @@ void setCockpitCamera(Car pPlayerCar) {
 
 }
 
-void setGunCamera(Car pPlayerCar) {
+void setGunCamera(Car pPlayerCar, bool pInverted) {
 	GLfloat lXYAngle = (pPlayerCar.getDegreeXYAngle() ) * M_PI / 180;
 	GLfloat lXZAngle = (pPlayerCar.getDegreeXZAngle() ) * M_PI / 180;
-	GLfloat lXPosition = pPlayerCar.getX() + pPlayerCar.body.getXLength() * cos(lXYAngle) * cos(lXZAngle);
-	GLfloat lYPosition = pPlayerCar.getY() + pPlayerCar.body.getXLength() * sin(lXYAngle) * cos(lXZAngle);
-	lXYAngle += pPlayerCar.getDegreeGunXYAngle() * M_PI / 180;
-	lXZAngle += pPlayerCar.getDegreeGunXZAngle() * M_PI / 180;
-	lXPosition +=  pPlayerCar.gun.getXLength() * cos(lXYAngle) * cos(lXZAngle);
-	lYPosition +=  pPlayerCar.gun.getXLength() * sin(lXYAngle) * cos(lXZAngle);
-	GLfloat lZPosition = pPlayerCar.getZLength() + pPlayerCar.gun.getXLength() * sin(lXZAngle);
-	gluLookAt(lXPosition, lYPosition, lZPosition,
+	GLfloat lXPosition = pPlayerCar.getX() + pPlayerCar.body.getXLength() * cos(lXYAngle) * cos(lXZAngle) / 2;
+	GLfloat lYPosition = pPlayerCar.getY() + pPlayerCar.body.getXLength() * sin(lXYAngle) * cos(lXZAngle) / 2;
+	lXYAngle = lXYAngle + pPlayerCar.getDegreeGunXYAngle() * M_PI / 180;
+	lXZAngle = lXZAngle + pPlayerCar.getDegreeGunXZAngle() * M_PI / 180;
+	lXPosition = lXPosition + pPlayerCar.gun.getXLength() * cos(lXYAngle) * cos(lXZAngle);
+	lYPosition = lYPosition + pPlayerCar.gun.getXLength() * sin(lXYAngle) * cos(lXZAngle);
+	GLfloat lZPosition = pPlayerCar.getZ() + pPlayerCar.getZLength() + pPlayerCar.gun.getXLength() * sin(lXZAngle);
+	if (!pInverted)
+		gluLookAt(lXPosition, lYPosition, lZPosition,
 						lXPosition + cos(lXYAngle) * cos(lXZAngle), lYPosition + sin(lXYAngle) * cos(lXZAngle), lZPosition + sin(lXZAngle),0,0,1);
+	else
+		gluLookAt(lXPosition + pPlayerCar.getRadius() * cos(lXYAngle) * cos(lXZAngle), 
+							lYPosition + pPlayerCar.getRadius() * sin(lXYAngle) * cos(lXZAngle), 
+							lZPosition + pPlayerCar.getRadius() * sin(lXZAngle),
+						lXPosition , lYPosition , lZPosition ,0,0,1);
+	
 }
