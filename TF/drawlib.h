@@ -32,4 +32,10 @@ void drawTime(Circle pOuterCircle, GLdouble pMilisecTime);
 
 void drawGameOver(Circle pOuterCircle, bool pWin);
 
+void setThirdPersonCamera(Car pPlayerCar, GLfloat pXYDegreeAngle, GLfloat pXZDegreeAngle);
+
+void setCockpitCamera(Car pPlayerCar);
+
+void setGunCamera(Car pPlayerCar);
+
 #endif

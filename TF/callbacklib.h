@@ -30,6 +30,6 @@ void mouseClick(int button, int state, int x, int y);
 void CheckGameOverAndDraw();
 void MoveEnemies(GLdouble timeDiff);
 bool Colliding(Controller *pController, Car pNewCar);
-void setCamera();
+void ChooseCamera();
 
 #endif

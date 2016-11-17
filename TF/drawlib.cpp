@@ -27,15 +27,15 @@ void draw(Rectangle pRectangle) {
 		glScalef( lHalfWidth, lHalfHeight, 1);
     // glutSolidCube(1.0);
 		glBegin(GL_POLYGON);
-			glNormal3f(0,0,1);	
+			glNormal3f(0,0,1);
 			glVertex3f( -1, -1,0.0);
-			glNormal3f(0,0,1);	    
+			glNormal3f(0,0,1);
 			glVertex3f(  1, -1,0.0);
-			glNormal3f(0,0,1);	    
-			glVertex3f(  1,  1,0.0); 
-			glNormal3f(0,0,1); 	  
+			glNormal3f(0,0,1);
+			glVertex3f(  1,  1,0.0);
+			glNormal3f(0,0,1);
 			glVertex3f( -1,  1,0.0);
-		glEnd(); 
+		glEnd();
 	glPopMatrix();
 }
 
@@ -64,20 +64,20 @@ void draw(Circle pCircle) {
 	GLfloat lRadius = (GLfloat) pCircle.getRadius();
 	int i;
 	int triangleAmount = 100; //# of triangles used to draw circle
-	
+
 	GLfloat twicePi = 2.0f * M_PI;
-	
+
 	glPushMatrix();
 		glTranslatef(lX,lY,0);
-		drawColor(pCircle);	
+		drawColor(pCircle);
 		glScalef( lRadius, lRadius, 1);
 		glBegin(GL_TRIANGLE_FAN);
 			glNormal3f(0,0,1);
 			glVertex3f(0, 0, 0); // center of circle
-			for(i = 0; i <= triangleAmount;i++) { 
+			for(i = 0; i <= triangleAmount;i++) {
 				glNormal3f(0,0,1);
 				glVertex3f(
-			    (1 * cos(i *  twicePi / triangleAmount)), 
+			    (1 * cos(i *  twicePi / triangleAmount)),
 				  (1 * sin(i * twicePi / triangleAmount)),
 				  0
 				);
@@ -92,10 +92,10 @@ void drawFlatSphere(Circle pCircle) {
 	GLfloat lX = (GLfloat) pCircle.getX();
 	GLfloat lY = (GLfloat) pCircle.getY();
 	GLfloat lRadius = (GLfloat) pCircle.getRadius();
-	
+
 	glPushMatrix();
 		glTranslatef(lX,lY,0);
-		drawColor(pCircle);	
+		drawColor(pCircle);
 		glScalef( lRadius, lRadius, 1);
 		glutSolidSphere(1,100,100);
 	glPopMatrix();
@@ -108,10 +108,10 @@ void drawSphere(Circle pCircle) {
 	GLfloat lY = (GLfloat) pCircle.getY();
 	GLfloat lZ = (GLfloat) pCircle.getZ();
 	GLfloat lRadius = (GLfloat) pCircle.getRadius();
-	
+
 	glPushMatrix();
 		glTranslatef(lX,lY,lZ);
-		drawColor(pCircle);	
+		drawColor(pCircle);
 		glScalef( lRadius, lRadius, lRadius);
 		glutSolidSphere(1,16,16);
 	glPopMatrix();
@@ -119,7 +119,7 @@ void drawSphere(Circle pCircle) {
 
 void draw(Car pCar) {
 	if (!pCar.getVisible())
-		return;	
+		return;
 	GLfloat lX = (GLfloat) pCar.getX();
 	GLfloat lY = (GLfloat) pCar.getY();
 	GLfloat lZ = (GLfloat) pCar.getZ();
@@ -225,8 +225,8 @@ void drawGun(Car pCar) {
 void drawEllipse(GLfloat radiusX, GLfloat radiusY) {
 	int i;
 
-	glBegin(GL_TRIANGLE_FAN);		
-		glVertex3f(0, 0, 0); 	
+	glBegin(GL_TRIANGLE_FAN);
+		glVertex3f(0, 0, 0);
 		for(i=0;i<360;i++) {
 		  GLfloat rad = i*M_PI/180;
 		  glVertex3f(cos(rad)*radiusX,
@@ -236,7 +236,7 @@ void drawEllipse(GLfloat radiusX, GLfloat radiusY) {
 	glEnd();
 }
 
-void drawEllipse3d(GLfloat radiusX, GLfloat radiusY) {	
+void drawEllipse3d(GLfloat radiusX, GLfloat radiusY) {
 	glPushMatrix();
 		glScalef( radiusX, radiusY, radiusY);
     glutSolidSphere(1, 100, 16);
@@ -262,13 +262,13 @@ void drawCylinder(Cylinder pCylinder) {
 		glPushMatrix();
 			glRotatef(90, 0, 1, 0);
 			glTranslatef(0, 0, lXLength/2);
-			draw(lCircle);	
+			draw(lCircle);
 		glPopMatrix();
 
 		glPushMatrix();
 			glRotatef(-90, 0, 1, 0);
 			glTranslatef(0, 0, lXLength/2);
-			draw(lCircle);	
+			draw(lCircle);
 		glPopMatrix();
 
 
@@ -293,7 +293,7 @@ void drawTime(Circle pOuterCircle, GLdouble pMilisecTime) {
 		glMatrixMode (GL_PROJECTION);
 	  glPushMatrix();
 	    glLoadIdentity ();
-	    glOrtho (0, 1, 0, 1, -1, 1);  
+	    glOrtho (0, 1, 0, 1, -1, 1);
 			glPushAttrib(GL_ENABLE_BIT);
 			  glDisable(GL_LIGHTING);
 			  glDisable(GL_TEXTURE_2D);
@@ -315,7 +315,7 @@ void drawTime(Circle pOuterCircle, GLdouble pMilisecTime) {
 				for (int i = 0; i < 5; i++) {
 					glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, timeString[i]);
 				}
-			glPopAttrib(); 
+			glPopAttrib();
 	  glPopMatrix();
 	  glMatrixMode (GL_MODELVIEW);
   glPopMatrix();
@@ -328,7 +328,7 @@ void drawGameOver(Circle pOuterCircle, bool pWin) {
 		glMatrixMode (GL_PROJECTION);
 	  glPushMatrix();
 	    glLoadIdentity ();
-	    glOrtho (0, 1, 0, 1, -1, 1);  
+	    glOrtho (0, 1, 0, 1, -1, 1);
 		  glPushAttrib(GL_ENABLE_BIT);
 			  glDisable(GL_LIGHTING);
 			  glDisable(GL_TEXTURE_2D);
@@ -343,11 +343,35 @@ void drawGameOver(Circle pOuterCircle, bool pWin) {
 	      	glColor3f(1,0,0);
 					glRasterPos2f(0.43, 0.5);
 					}
-				for (int i = 0; lString[i]; ++i) {		
+				for (int i = 0; lString[i]; ++i) {
 					glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lString[i]);
 				}
-		  glPopAttrib();  
+		  glPopAttrib();
 	  glPopMatrix();
 	  glMatrixMode (GL_MODELVIEW);
   glPopMatrix();
+}
+
+void setThirdPersonCamera(Car pPlayerCar, GLfloat pXYDegreeAngle, GLfloat pXZDegreeAngle) {
+	GLfloat lXYAngle = M_PI * pXYDegreeAngle / 180;
+	GLfloat lXZAngle = M_PI * pXZDegreeAngle / 180;
+	GLfloat lRadius = pPlayerCar.getRadius();
+	gluLookAt(pPlayerCar.getX() + lRadius * 5 * cos(lXYAngle) * cos(lXZAngle),
+						pPlayerCar.getY() + lRadius * 5 * sin(lXYAngle) * cos(lXZAngle),
+						lRadius * 5 * sin(lXZAngle),
+						pPlayerCar.getX(),pPlayerCar.getY(),0,0,0,1);
+}
+
+void setCockpitCamera(Car pPlayerCar) {
+	GLfloat lXYAngle = (pPlayerCar.getDegreeXYAngle() ) * M_PI / 180;
+	GLfloat lXZAngle = (pPlayerCar.getDegreeXZAngle() ) * M_PI / 180;
+	GLfloat lZPosition = pPlayerCar.getRadius() * 0.7 + pPlayerCar.getZ();
+	gluLookAt(pPlayerCar.getX(), pPlayerCar.getY(), lZPosition,
+						pPlayerCar.getX() + cos(lXYAngle) * cos(lXZAngle), pPlayerCar.getY() + sin(lXYAngle) * cos(lXZAngle), lZPosition + sin(lXZAngle),0,0,1);
+
+}
+
+void setGunCamera(Car pPlayerCar) {
+	GLfloat lXYAngle = (pPlayerCar.getDegreeXYAngle() + pPlayerCar.getDegreeGunXYAngle()) * M_PI / 180;
+	GLfloat lXZAngle = (pPlayerCar.getDegreeXZAngle() + pPlayerCar.getDegreeGunXZAngle()) * M_PI / 180;
 }

@@ -39,7 +39,7 @@ bool CarHit (Circle pShot, Car pCar) {
 	GLfloat lDeltaX = pShot.getX() - pCar.getX();
 	GLfloat lDeltaY = pShot.getY() - pCar.getY();
 	GLfloat lXYRadiusSum = pShot.getRadius() + pCar.getRadius();
-	bool lSameHeight = (pShot.getZ() <= (pCar.getZ() + pCar.getRadius()*0.7) ) 
+	bool lSameHeight = (pShot.getZ() <= (pCar.getZ() + pCar.getRadius()*0.7) )
 											and (pShot.getZ() >= ( pCar.getZ() ) );
 	return (lXYRadiusSum > sqrt(lDeltaX*lDeltaX + lDeltaY*lDeltaY)) and lSameHeight;
 }
@@ -58,7 +58,7 @@ void MoveShots(list<Circle> &pShotsList, GLdouble timeDiff , GLdouble pSpeed, Ci
 		if ( PointOutOfWindow(*it, pOuterCircle) )
 			it = pShotsList.erase(it);
 		else
-			it++;	
+			it++;
 	}
 }
 Car MoveCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
@@ -90,9 +90,9 @@ Car RotateCar(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
 }
 Car SteerCarWheels(Car pCar, GLdouble timeDiff , GLdouble pSpeed ) {
 	if (gKeyboardStatus[(int)('a')] and !gKeyboardStatus[(int)('d')])
-		pCar.setSteeringAngle(pSpeed * timeDiff * 10);
+		pCar.setSteeringAngle(45);
 	else if (gKeyboardStatus[(int)('d')] and !gKeyboardStatus[(int)('a')])
-		pCar.setSteeringAngle(-pSpeed * timeDiff * 10);
+		pCar.setSteeringAngle(-45);
 	else
 		pCar.setSteeringAngle(0);
 
@@ -153,8 +153,8 @@ void CheckCompletedQuarter(Car pNewCar, Car pPreviousCar, Circle pOuterCircle, b
 				pCompletedQuarter[3] = true and pCompletedQuarter[2];
 			else if ( (pNewCar.getX() < lCenterX) and (pNewCar.getY() < lCenterY) )
 			// Third returned
-				pCompletedQuarter[2] = false;	
-		}		
+				pCompletedQuarter[2] = false;
+		}
 	}
 	else {
 	// left side, second and third quarters
@@ -174,7 +174,7 @@ void CheckCompletedQuarter(Car pNewCar, Car pPreviousCar, Circle pOuterCircle, b
 				pCompletedQuarter[2] = true and pCompletedQuarter[1];
 			else if ( (pNewCar.getX() < lCenterX) and (pNewCar.getY() > lCenterY) )
 			// Second returned
-				pCompletedQuarter[1] = false;	
+				pCompletedQuarter[1] = false;
 		}
 	}
 }

@@ -43,6 +43,7 @@ int main(int argc, char** argv)
 		for ( i = 0; i < 256; ++i) {
 			gKeyboardStatus[i] = false;
 		}
+		gKeyboardStatus[(int)'3'] = true;
 		for (i = 0; i < 4; ++i) {
 			gCompletedQuarter[i] = false;
 		}

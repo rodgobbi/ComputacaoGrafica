@@ -6,18 +6,25 @@ void display(void){
   glMatrixMode(GL_MODELVIEW);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
   glLoadIdentity();
-	setCamera();
+	ChooseCamera();
 	glPushMatrix();
 	  // GLfloat light_position[] = {0, 0, 100, 1};
-	  if (gKeyboardStatus[(int)('n')])
-	  	TurnOnCarLight(gPlayerCar);
+
+		if (gKeyboardStatus[(int)('n')])
+			TurnOnCarLight(gPlayerCar);
+		else {
+			TurnOnTrackLight(gOuterCircle);
+		}
+	  if (gKeyboardStatus[(int)('l')])
+	  	glDisable(GL_LIGHTING);
 	  else {
-	    TurnOnTrackLight(gOuterCircle);
+	    glEnable(GL_LIGHTING);
 	  }
-		glTranslatef(0,0,0.1);
 		drawFlatSphere(gOuterCircle);
-		glTranslatef(0,0,1);
-		drawFlatSphere(gInnerCircle);
+		glPushMatrix();
+			glTranslatef(0,0,1);
+			draw(gInnerCircle);
+		glPopMatrix();
 		draw(gStripeRect);
 		for (list<Car>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)
 			draw( *it );
@@ -33,16 +40,6 @@ void display(void){
 		CheckGameOverAndDraw();
 	glPopMatrix();
 	glutSwapBuffers();
-}
-
-void setCamera() {
-	// gluLookAt(gOuterCircle.getX(),gOuterCircle.getY(),100,gOuterCircle.getX(),gOuterCircle.getY(),0,0,1,0);
-	GLfloat lXYAngle = M_PI * gCameraXYAngle / 180;
-	GLfloat lXZAngle = M_PI * gCameraXZAngle / 180;
-	gluLookAt(gPlayerCar.getX() + gPlayerCar.getRadius() * 5 * cos(lXYAngle) * cos(lXZAngle),
-						gPlayerCar.getY() + gPlayerCar.getRadius() * 5 * sin(lXYAngle) * cos(lXZAngle),
-						 + gPlayerCar.getRadius() * 5 * sin(lXZAngle),
-						gPlayerCar.getX(),gPlayerCar.getY(),0,0,0,1);
 }
 
 void keyPress(unsigned char key, int x, int y){
@@ -71,6 +68,28 @@ switch (key)
 		case 'n':
 		case 'N':
 			gKeyboardStatus[(int)('n')] = !gKeyboardStatus[(int)('n')];
+			break;
+		case 'l':
+		case 'L':
+			gKeyboardStatus[(int)('l')] = !gKeyboardStatus[(int)('l')];
+			break;
+		case '1':
+		case '!':
+			gKeyboardStatus[(int)('1')] = true;
+			gKeyboardStatus[(int)('2')] = false;
+			gKeyboardStatus[(int)('3')] = false;
+			break;
+		case '2':
+		case '@':
+			gKeyboardStatus[(int)('1')] = false;
+			gKeyboardStatus[(int)('2')] = true;
+			gKeyboardStatus[(int)('3')] = false;
+			break;
+		case '3':
+		case '#':
+			gKeyboardStatus[(int)('1')] = false;
+			gKeyboardStatus[(int)('2')] = false;
+			gKeyboardStatus[(int)('3')] = true;
 			break;
 	}
 }
@@ -153,8 +172,12 @@ void mouseMotion(int x, int y) {
 	GLint lNewPointerX = x;
 	GLint lNewPointerY = gWindowHeight - y;
 	if (gRightClickDown) {
-		gCameraXYAngle +=  lNewPointerX - gLastPointerX;
-		gCameraXZAngle += lNewPointerY - gLastPointerY;
+		gCameraXYAngle -=  lNewPointerX - gLastPointerX;
+		gCameraXZAngle -= lNewPointerY - gLastPointerY;
+		if (gCameraXZAngle < 5)
+			gCameraXZAngle = 5;
+		else if (gCameraXZAngle > 89)
+			gCameraXZAngle = 89;
 	}
 	else {
 		gPlayerCar.incGunXYAngle( gLastPointerX - lNewPointerX);
@@ -270,4 +293,16 @@ bool Colliding(Controller *pController, Car pNewCar) {
 	if ( CirclesColliding(pNewCar, gPlayerCar))
 		return true;
 	return false;
+}
+
+void ChooseCamera() {
+	if (gKeyboardStatus[(int)('1')] == true) {
+		setCockpitCamera(gPlayerCar);
+	}
+	else if (gKeyboardStatus[(int)('2')] == true) {
+		//
+	}
+	else {
+		setThirdPersonCamera(gPlayerCar, gCameraXYAngle, gCameraXZAngle);
+	}
 }

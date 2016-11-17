@@ -60,10 +60,10 @@ void Car::setRadius(GLfloat pRadius) {
 	gun.setRadius(pRadius/20);
 }
 void Car::setSteeringAngle(GLfloat pAngle) {
-	if (pAngle > 45)
-		steeringAngle = 45;
-	else if (pAngle < -45)
-		steeringAngle = -45;
+	if (pAngle > 20)
+		steeringAngle = 20;
+	else if (pAngle < -20)
+		steeringAngle = -20;
 	else
 		steeringAngle = pAngle;
 }
