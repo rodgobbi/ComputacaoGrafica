@@ -28,8 +28,9 @@ Rectangle gStripeRect;
 list<Car> gEnemiesList;
 list<Circle> gShotsList, gEnemyShotsList;
 list<Controller> gControllersList;
-bool gKeyboardStatus[256], gCompletedQuarter[4], gGameOver = false;
+bool gKeyboardStatus[256], gCompletedQuarter[4], gGameOver = false, gRightClickDown = false;
 GLfloat gMovementSpeed = 0, gRotationSpeed = 0.1, gShotSpeed = 0, gEnemyMovementSpeed = 0, gEnemyRotationSpeed = 0.1, gEnemyShotSpeed = 0, gEnemyShotFrequency = 0;
+GLfloat gCameraXYAngle = -90, gCameraXZAngle = 45;
 GLdouble gStartTime = 0;
 
 int main(int argc, char** argv)
@@ -58,6 +59,7 @@ int main(int argc, char** argv)
 		glutKeyboardUpFunc(keyUp);
 		glutIdleFunc(idle);
 		glutMouseFunc(mouseClick);
+		glutMotionFunc(mouseMotion);
 		glutPassiveMotionFunc(mouseMotion);
 		glutMainLoop();
 		gEnemiesList.clear();
@@ -126,7 +128,7 @@ void CreateWindow(string pFilePath, GLsizei& pWindowWidth, GLsizei& pWindowHeigh
 	glutInitWindowSize(pWindowWidth,pWindowHeight);
 	glutInitWindowPosition(0,0);
 	glutCreateWindow("TC3");
-	glClearColor(1.0,1.0,1.0,0.0);	
+	glClearColor(1.0,1.0,1.0,0.0);
   glShadeModel(	GL_FLAT);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_LIGHT0);
@@ -248,7 +250,7 @@ void ConvertCoordinates(Circle pReferenceCircle) {
 
 // Uses global variables of lists
 void setCarControllers() {
-	Controller lController;	
+	Controller lController;
 	for (list<Car>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++) {
 		lController.setCarControlled(&(*it));
 		gControllersList.push_back(	lController);

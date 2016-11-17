@@ -6,8 +6,7 @@ void display(void){
   glMatrixMode(GL_MODELVIEW);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
   glLoadIdentity();
-  // gluLookAt(gOuterCircle.getX(),gOuterCircle.getY(),100,gOuterCircle.getX(),gOuterCircle.getY(),0,0,1,0);
-  gluLookAt(gPlayerCar.getX(),gPlayerCar.getY() -100,100,gPlayerCar.getX(),gPlayerCar.getY(),0,0,0,1);
+	setCamera();
 	glPushMatrix();
 	  // GLfloat light_position[] = {0, 0, 100, 1};
 	  if (gKeyboardStatus[(int)('n')])
@@ -36,7 +35,15 @@ void display(void){
 	glutSwapBuffers();
 }
 
-
+void setCamera() {
+	// gluLookAt(gOuterCircle.getX(),gOuterCircle.getY(),100,gOuterCircle.getX(),gOuterCircle.getY(),0,0,1,0);
+	GLfloat lXYAngle = M_PI * gCameraXYAngle / 180;
+	GLfloat lXZAngle = M_PI * gCameraXZAngle / 180;
+	gluLookAt(gPlayerCar.getX() + gPlayerCar.getRadius() * 5 * cos(lXYAngle) * cos(lXZAngle),
+						gPlayerCar.getY() + gPlayerCar.getRadius() * 5 * sin(lXYAngle) * cos(lXZAngle),
+						 + gPlayerCar.getRadius() * 5 * sin(lXZAngle),
+						gPlayerCar.getX(),gPlayerCar.getY(),0,0,0,1);
+}
 
 void keyPress(unsigned char key, int x, int y){
 switch (key)
@@ -132,6 +139,12 @@ void mouseClick(int button, int state, int x, int y){
 			gShotsList.push_back( CarShot(gPlayerCar) );
 		}
 	}
+	else if (( button == GLUT_RIGHT_BUTTON) ) {
+			if (state == GLUT_DOWN)
+				gRightClickDown = true;
+			else if (state == GLUT_UP)
+				gRightClickDown = false;
+		}
 
 	glutPostRedisplay();
 }
@@ -139,8 +152,14 @@ void mouseClick(int button, int state, int x, int y){
 void mouseMotion(int x, int y) {
 	GLint lNewPointerX = x;
 	GLint lNewPointerY = gWindowHeight - y;
-	gPlayerCar.incGunXYAngle( gLastPointerX - lNewPointerX);
-	gPlayerCar.incGunXZAngle( lNewPointerY - gLastPointerY);
+	if (gRightClickDown) {
+		gCameraXYAngle +=  lNewPointerX - gLastPointerX;
+		gCameraXZAngle += lNewPointerY - gLastPointerY;
+	}
+	else {
+		gPlayerCar.incGunXYAngle( gLastPointerX - lNewPointerX);
+		gPlayerCar.incGunXZAngle( lNewPointerY - gLastPointerY);
+	}
 	gLastPointerX = lNewPointerX;
 	gLastPointerY = lNewPointerY;
 	glutPostRedisplay();

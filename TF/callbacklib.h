@@ -12,8 +12,9 @@ extern GLint gLastPointerX, gLastPointerY;
 extern Circle gOuterCircle, gInnerCircle;
 extern Car gPlayerCar;
 extern Rectangle gStripeRect;
-extern bool gKeyboardStatus[256], gCompletedQuarter[4], gGameOver;
+extern bool gKeyboardStatus[256], gCompletedQuarter[4], gGameOver, gRightClickDown;
 extern GLfloat gMovementSpeed, gRotationSpeed, gShotSpeed, gEnemyMovementSpeed, gEnemyRotationSpeed, gEnemyShotSpeed, gEnemyShotFrequency;
+extern GLfloat gCameraXYAngle, gCameraXZAngle;
 extern list<Car> gEnemiesList;
 extern list<Circle> gShotsList, gEnemyShotsList;
 extern list<Controller> gControllersList;
@@ -25,8 +26,10 @@ void keyUp(unsigned char key, int x, int y);
 void idle(void);
 void mouseClick(int button, int state, int x, int y);
 void mouseMotion(int x, int y);
+void mouseClick(int button, int state, int x, int y);
 void CheckGameOverAndDraw();
 void MoveEnemies(GLdouble timeDiff);
 bool Colliding(Controller *pController, Car pNewCar);
+void setCamera();
 
 #endif
