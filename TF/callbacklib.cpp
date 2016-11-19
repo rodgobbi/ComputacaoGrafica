@@ -12,9 +12,10 @@ void display(void){
 		ChooseLighting();
 
 		drawFlatSphere(gOuterCircle);
+		drawOuterWall(gOuterCircle, gPlayerCar);
+		drawInnerWall(gInnerCircle, gPlayerCar);
 		glPushMatrix();
 			glTranslatef(0,0,1);
-			draw(gInnerCircle);
 			draw(gStripeRect);
 		glPopMatrix();
 		for (list<Car>::iterator it = gEnemiesList.begin(); it != gEnemiesList.end(); it++)

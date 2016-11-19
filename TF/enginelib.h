@@ -23,8 +23,6 @@ Circle CarShot(Car pCar);
 bool PointOutOfWindow(Object pObject, Circle pOuterCircle);
 void EnemyCarsShot(list<Car> &pCarsList, list<Circle> &pCirclesList, GLdouble timeDiff , GLdouble pFrequency);
 void CheckCompletedQuarter(Car pNewCar, Car pPreviousCar, Circle pOuterCircle, bool *pCompletedQuarter);
-void TurnOnCarLight(Car pPlayerCar);
-void TurnOnTrackLight(Circle pOuterCircle);
 
 template<class tObject>
 tObject MoveObject(tObject pObject, GLdouble timeDiff , GLdouble pSpeed) {

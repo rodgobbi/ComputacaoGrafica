@@ -39,7 +39,7 @@ bool CarHit (Circle pShot, Car pCar) {
 	GLfloat lDeltaX = pShot.getX() - pCar.getX();
 	GLfloat lDeltaY = pShot.getY() - pCar.getY();
 	GLfloat lXYRadiusSum = pShot.getRadius() + pCar.getRadius();
-	bool lSameHeight = (pShot.getZ() <= (pCar.getZ() + pCar.getRadius()*0.7) )
+	bool lSameHeight = (pShot.getZ() <= (pCar.getZ() + pCar.getRadius()*0.75) )
 											and (pShot.getZ() >= ( pCar.getZ() ) );
 	return (lXYRadiusSum > sqrt(lDeltaX*lDeltaX + lDeltaY*lDeltaY)) and lSameHeight;
 }
@@ -183,45 +183,3 @@ void CheckCompletedQuarter(Car pNewCar, Car pPreviousCar, Circle pOuterCircle, b
 	}
 }
 
-void TurnOnCarLight(Car pPlayerCar) {
-  glEnable(GL_LIGHTING);
-  glDisable(GL_LIGHT0);
-	GLfloat lightPosition[] = {0 , 0, 0, 1};
-	GLfloat lightDirection[] = {1 , 0, 0};
-	GLfloat lightAngle[] = {45};
-	GLfloat lX = (GLfloat) pPlayerCar.getX();
-	GLfloat lY = (GLfloat) pPlayerCar.getY();
-	GLfloat lZ = (GLfloat) pPlayerCar.getZ();
-	GLfloat lZLength = pPlayerCar.getZLength();
-
-	glPushMatrix();
-		glTranslatef(lX,lY,lZ);
-		glTranslatef(0,0,lZLength);
-	  glRotatef(pPlayerCar.getDegreeXYAngle(),0,0,1);
-	  glTranslatef(pPlayerCar.body.getXLength()/2, 0, 0);
-		glPushMatrix();
-		  glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
-		  glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, lightDirection);
-		  glLightfv(GL_LIGHT0, GL_SPOT_CUTOFF, lightAngle);
-  		glEnable(GL_LIGHT0);
-		glPopMatrix();
-	glPopMatrix();
-}
-
-void TurnOnTrackLight(Circle pOuterCircle) {
-  glEnable(GL_LIGHTING);
-  glDisable(GL_LIGHT0);
-
-
-	GLfloat lightPosition[] = {0, 0, 0, 1};
-	GLfloat lightDirection[] = {0 , 0, -1};
-	GLfloat lightAngle[] = {180};
-
-	glPushMatrix();
-		glTranslatef(pOuterCircle.getX(),pOuterCircle.getY(),100);
-	  glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
-	  glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, lightDirection);
-	  glLightfv(GL_LIGHT0, GL_SPOT_CUTOFF, lightAngle);
-	  glEnable(GL_LIGHT0);
-	glPopMatrix();
-}

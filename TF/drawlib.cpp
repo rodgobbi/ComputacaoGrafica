@@ -63,7 +63,7 @@ void draw(Circle pCircle) {
 	GLfloat lY = (GLfloat) pCircle.getY();
 	GLfloat lRadius = (GLfloat) pCircle.getRadius();
 	int i;
-	int triangleAmount = 100; //# of triangles used to draw circle
+	int triangleAmount = 50; //# of triangles used to draw circle
 
 	GLfloat twicePi = 2.0f * M_PI;
 
@@ -394,4 +394,111 @@ void setGunCamera(Car pPlayerCar, bool pInverted) {
 							lZPosition + pPlayerCar.getRadius() * sin(lXZAngle),
 						lXPosition , lYPosition , lZPosition ,0,0,1);
 	
+}
+
+void drawInnerWall(Circle pInnerCircle, Car pPlayerCar) {
+	if (!pInnerCircle.getVisible())
+		return;
+	Cylinder lCylinder;
+	lCylinder.setRadius( pInnerCircle.getRadius());
+	lCylinder.setXLength( pPlayerCar.getRadius() * 3); // Car height = 0.75 radius
+	// lCylinder.setRGB( pInnerCircle.getR(), pInnerCircle.getG(), pInnerCircle.getB());
+	lCylinder.setRGB( 0.1, 0.1, 0.1);
+	glPushMatrix();
+		glTranslatef(pInnerCircle.getX(),pInnerCircle.getY(),pInnerCircle.getZ());
+		glRotatef(-90, 0, 1, 0);
+		glTranslatef(lCylinder.getXLength()/2, 0, 0);
+		drawCylinder(lCylinder);
+	glPopMatrix();
+}
+
+void drawOuterWall(Circle pOuterCircle, Car pPlayerCar) {
+	if (!pOuterCircle.getVisible())
+		return;
+	GLfloat lRadius = pOuterCircle.getRadius();
+	GLfloat lXLength = pPlayerCar.getRadius() * 3;
+	Rectangle lRec;
+	lRec.setXLength( lXLength);
+	lRec.setYLength( lRadius * 2 * M_PI / 360);
+	GLfloat lR = 0.2;
+	GLfloat lG = 0.2;
+	GLfloat lB = 0.2;
+	lRec.setRGB(lR,lG,lB);
+	glPushMatrix();
+		glTranslatef(pOuterCircle.getX(),pOuterCircle.getY(),pOuterCircle.getZ());
+		glRotatef(-90, 0, 1, 0);
+		glTranslatef(lRec.getXLength()/2, 0, 0);
+    glPushMatrix();
+      for (int i = 0; i <= 360; ++i) {
+        glRotatef(1,1,0,0);
+
+	      glPushMatrix();
+	        glTranslatef(0,0,lRadius);
+        	glRotatef(180,1,0,0);
+	        draw(lRec);
+	      glPopMatrix();
+      }
+		glPopMatrix();
+
+	glPopMatrix();
+}
+
+void TurnOnCarLight(Car pPlayerCar) {
+  glEnable(GL_LIGHTING);
+  glDisable(GL_LIGHT0);
+  glDisable(GL_LIGHT1);
+	GLfloat light[] = {1 , 1, 1, 1};
+	GLfloat lightPosition[] = {0 , 0, 0, 1};
+	GLfloat lightDirection[] = {1 , 0, 0};
+	GLfloat lightAngle[] = {45};
+	GLfloat lX = (GLfloat) pPlayerCar.getX();
+	GLfloat lY = (GLfloat) pPlayerCar.getY();
+	GLfloat lZ = (GLfloat) pPlayerCar.getZ();
+	GLfloat lZLength = pPlayerCar.getZLength();
+
+	glPushMatrix();
+		glTranslatef(lX,lY,lZ);
+		glTranslatef(0,0,lZLength);
+	  glRotatef(pPlayerCar.getDegreeXYAngle(),0,0,1);
+	  glTranslatef(pPlayerCar.body.getXLength()/2, 0, 0);
+ 		glPushMatrix();
+ 	  	glTranslatef(0, pPlayerCar.body.getYLength()/2, 0);
+		  glLightfv(GL_LIGHT0, GL_SPECULAR, light);
+		  glLightfv(GL_LIGHT0, GL_DIFFUSE, light);
+ 		  glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+ 		  glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, lightDirection);
+ 		  glLightfv(GL_LIGHT0, GL_SPOT_CUTOFF, lightAngle);
+   		glEnable(GL_LIGHT0);
+ 		glPopMatrix();
+		glPushMatrix();
+ 	  	glTranslatef(0, -pPlayerCar.body.getYLength()/2, 0);
+		  glLightfv(GL_LIGHT1, GL_SPECULAR, light);
+		  glLightfv(GL_LIGHT1, GL_DIFFUSE, light);
+		  glLightfv(GL_LIGHT1, GL_POSITION, lightPosition);
+		  glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, lightDirection);
+		  glLightfv(GL_LIGHT1, GL_SPOT_CUTOFF, lightAngle);
+  		glEnable(GL_LIGHT1);
+		glPopMatrix();
+	glPopMatrix();
+}
+
+void TurnOnTrackLight(Circle pOuterCircle) {
+  glEnable(GL_LIGHTING);
+  glDisable(GL_LIGHT0);
+  glDisable(GL_LIGHT1);
+
+	GLfloat light[] = {1 , 1, 1, 1};
+	GLfloat lightPosition[] = {0, 0, 0, 1};
+	GLfloat lightDirection[] = {0 , 0, -1};
+	GLfloat lightAngle[] = {180};
+
+	glPushMatrix();
+		glTranslatef(pOuterCircle.getX(),pOuterCircle.getY(),100);
+	  glLightfv(GL_LIGHT0, GL_SPECULAR, light);
+	  glLightfv(GL_LIGHT0, GL_DIFFUSE, light);
+	  glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+	  glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, lightDirection);
+	  glLightfv(GL_LIGHT0, GL_SPOT_CUTOFF, lightAngle);
+	  glEnable(GL_LIGHT0);
+	glPopMatrix();
 }
