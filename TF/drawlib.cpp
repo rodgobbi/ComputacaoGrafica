@@ -518,10 +518,40 @@ void drawMap(Circle pOuterCircle, Circle pInnerCircle, Circle pPlayerCar, list<C
 			  draw( (Circle) pPlayerCar);
 				for (list<Car>::iterator it = pCarsList.begin(); it != pCarsList.end(); it++)
 					draw( (Circle) *it);
-			  draw(pInnerCircle);
-			  draw(pOuterCircle);
+				pInnerCircle.setRGB(1,0,1);
+				pOuterCircle.setRGB(1,0,1);
+			  drawCircleLine(pInnerCircle);
+			  drawCircleLine(pOuterCircle);
 			glPopAttrib();
 	  glPopMatrix();
 	  glMatrixMode (GL_MODELVIEW);
   glPopMatrix();
+}
+
+void drawCircleLine( Circle pCircle) {
+	if (!pCircle.getVisible())
+		return;
+	GLfloat lX = (GLfloat) pCircle.getX();
+	GLfloat lY = (GLfloat) pCircle.getY();
+	GLfloat lRadius = (GLfloat) pCircle.getRadius();
+	int i;
+	int triangleAmount = 50; //# of triangles used to draw circle
+
+	GLfloat twicePi = 2.0f * M_PI;
+
+	glPushMatrix();
+		glTranslatef(lX,lY,0);
+		drawColor(pCircle);
+		glScalef( lRadius, lRadius, 1);
+		glBegin(GL_LINE_LOOP);
+			for(i = 0; i <= triangleAmount;i++) {
+				glNormal3f(0,0,1);
+				glVertex3f(
+			    (1 * cos(i *  twicePi / triangleAmount)),
+				  (1 * sin(i * twicePi / triangleAmount)),
+				  0
+				);
+			}
+		glEnd();
+	glPopMatrix();
 }

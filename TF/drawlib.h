@@ -28,4 +28,5 @@ void drawOuterWall(Circle pOuterCircle, Car pPlayerCar);
 void TurnOnCarLight(Car pPlayerCar);
 void TurnOnTrackLight(Circle pOuterCircle);
 void drawMap(Circle pOuterCircle, Circle pInnerCircle, Circle pPlayerCar, list<Car> &pCarsList);
+void drawCircleLine( Circle pCircle);
 #endif
