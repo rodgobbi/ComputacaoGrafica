@@ -97,7 +97,7 @@ void drawFlatSphere(Circle pCircle) {
 		glTranslatef(lX,lY,0);
 		drawColor(pCircle);
 		glScalef( lRadius, lRadius, 1);
-		glutSolidSphere(1,100,100);
+		glutSolidSphere(1,300,300);
 	glPopMatrix();
 }
 
@@ -314,7 +314,7 @@ void drawTime(Circle pOuterCircle, GLdouble pMilisecTime) {
 						sprintf(timeString, "%d:0%d", min, sec);
 					else
 						sprintf(timeString, "%d:%d", min, sec);
-				glColor3f(0,0,0);
+				glColor3f(0,1,0);
 				glRasterPos2f(0.9, 0.95);
 				for (int i = 0; i < 5; i++) {
 					glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, timeString[i]);
@@ -501,4 +501,27 @@ void TurnOnTrackLight(Circle pOuterCircle) {
 	  glLightfv(GL_LIGHT0, GL_SPOT_CUTOFF, lightAngle);
 	  glEnable(GL_LIGHT0);
 	glPopMatrix();
+}
+
+void drawMap(Circle pOuterCircle, Circle pInnerCircle, Circle pPlayerCar, list<Car> &pCarsList) {
+  glMatrixMode (GL_MODELVIEW);
+  glPushMatrix();
+	  glLoadIdentity();
+		glMatrixMode (GL_PROJECTION);
+	  glPushMatrix();
+	    glLoadIdentity ();
+	    glOrtho (-pOuterCircle.getRadius() * 6, pOuterCircle.getX() + pOuterCircle.getRadius(), 
+	    					0, pOuterCircle.getRadius() * 8, -1, 1);
+			glPushAttrib(GL_ENABLE_BIT);
+			  glDisable(GL_LIGHTING);
+			  glDisable(GL_TEXTURE_2D);
+			  draw( (Circle) pPlayerCar);
+				for (list<Car>::iterator it = pCarsList.begin(); it != pCarsList.end(); it++)
+					draw( (Circle) *it);
+			  draw(pInnerCircle);
+			  draw(pOuterCircle);
+			glPopAttrib();
+	  glPopMatrix();
+	  glMatrixMode (GL_MODELVIEW);
+  glPopMatrix();
 }

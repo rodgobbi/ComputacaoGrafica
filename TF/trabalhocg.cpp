@@ -123,8 +123,8 @@ void CreateWindow(string pFilePath, GLsizei& pWindowWidth, GLsizei& pWindowHeigh
 
 	ConvertCoordinates(gOuterCircle);
 
-	pWindowWidth = (GLsizei) gOuterCircle.getRadius() * 2;
-	pWindowHeight = (GLsizei) gOuterCircle.getRadius() * 2;
+	pWindowWidth = 500;
+	pWindowHeight = 500;
 
 	glutInitWindowSize(pWindowWidth,pWindowHeight);
 	glutInitWindowPosition(0,0);
@@ -132,7 +132,7 @@ void CreateWindow(string pFilePath, GLsizei& pWindowWidth, GLsizei& pWindowHeigh
 	glClearColor(1.0,1.0,1.0,0.0);
   glShadeModel(	GL_FLAT);
   glEnable(GL_DEPTH_TEST);
-  glEnable(GL_LIGHT0);
+  glEnable(GL_CULL_FACE);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

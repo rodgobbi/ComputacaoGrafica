@@ -3,6 +3,8 @@
 #include <GL/glut.h>
 #include "classlib.h"
 #include <stdio.h>
+#include <list>
+using namespace std;
 
 void drawColor(Object pObject);
 void draw(Rectangle pRectangle);
@@ -25,4 +27,5 @@ void drawInnerWall(Circle pInnerCircle, Car pPlayerCar);
 void drawOuterWall(Circle pOuterCircle, Car pPlayerCar);
 void TurnOnCarLight(Car pPlayerCar);
 void TurnOnTrackLight(Circle pOuterCircle);
+void drawMap(Circle pOuterCircle, Circle pInnerCircle, Circle pPlayerCar, list<Car> &pCarsList);
 #endif

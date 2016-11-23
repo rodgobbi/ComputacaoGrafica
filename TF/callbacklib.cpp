@@ -25,6 +25,7 @@ void display(void){
 		for (list<Circle>::iterator it = gEnemyShotsList.begin(); it != gEnemyShotsList.end(); it++)
 			drawSphere( *it );
 		draw(gPlayerCar);
+		drawMap(gOuterCircle, gInnerCircle, gPlayerCar, gEnemiesList);
 		if (gStartTime > 0)
 			drawTime(gOuterCircle, glutGet(GLUT_ELAPSED_TIME) - gStartTime);
 		else
